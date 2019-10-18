@@ -61,4 +61,5 @@
 */.next
 
 # intellij settings
-*/.idea
+*/.idea/
+*/target/
