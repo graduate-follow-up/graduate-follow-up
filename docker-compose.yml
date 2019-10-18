@@ -6,71 +6,33 @@
 version: "3"
 services:
 
-  # NodeJs Server      
-  appnode:
-    container_name: appNode
-    hostname: appNode
+
+  # Play Server      
+  service_user:
     build:
-      context: ./appNode/
-      dockerfile: Dockerfile_node
+      context: ./service_user/
     volumes:
-      - './appNode:/appNode'
+      - './service_user:/server'
     depends_on:
-      - "mongo"
+      - "service_user_db"
     ports:
-      - '3002:3002'
-    networks:
-      - default
-
-  # React Application
-  appreact:
-    container_name: appReact
-    hostname: appReact
-    build:
-      context: ./appReact/
-      dockerfile: Dockerfile_react
-    volumes:
-      - './appReact:/appReact'
-    ports:
-      - '3000:3000'
-    networks:
-      - default
-
+      - '9000:9000'
+    #networks:
+    #  - service_user
 
   # Mongo Database
-  mongo:
-    container_name: mongo
-    hostname: mongo
+  service_user_db:
     build:
-      context: ./mongo/
-      dockerfile: Dockerfile_mongo
+      context: ./service_user/db/
     ports:
       - '27017:27017'
-    volumes:
-      - './mongo/db:/data/db'
-    networks:
-      - default
+    #networks:
+    #  - service_user
 
         
   # PlayFramework 
   # TODO
- 
-  # Firefox Application
-  firefox:
-    container_name: firefox
-    hostname: firefox
-    build:
-      context: ./firefox/
-      dockerfile: Dockerfile_firefox
-    depends_on:
-      - "appreact"
-      - "appnode"
-    volumes:
-      - '/tmp/.X11-unix:/tmp/.X11-unix'
-    environment:
-      - DISPLAY=$DISPLAY
-    networks:
-      - default
 
-networks:
-    default:
+
+#networks:
+#    service_user:
