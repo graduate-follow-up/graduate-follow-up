@@ -8,8 +8,6 @@ WORKDIR /data
 # Define mountable directories.
 VOLUME ["/data/db"]
 
-# Define working directory.
-
 
 CMD ["mongod","--port","27017","--bind_ip","0.0.0.0"]
 
