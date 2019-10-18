@@ -6,7 +6,7 @@ WORKDIR /data
 
 
 # Define mountable directories.
-VOLUME ["/data/db"]
+#VOLUME ["/data/db"]
 
 # Define working directory.
 
