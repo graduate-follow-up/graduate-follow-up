@@ -7,7 +7,7 @@ version: "3"
 services:
 
 
-  # Play Server      
+  # Service user   
   service_user:
     build:
       context: ./service_user/
@@ -24,8 +24,6 @@ services:
   service_user_db:
     build:
       context: ./service_user/db/
-    ports:
-      - '27017:27017'
     #networks:
     #  - service_user
 
