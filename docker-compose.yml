@@ -8,15 +8,15 @@ services:
 
 
   # Service user   
-  service_user:
-    build:
-      context: ./service_user/
-    volumes:
-      - './service_user:/server'
-    depends_on:
-      - "service_user_db"
-    ports:
-      - '9000:9000'
+  #service_user:
+  #  build:
+  #    context: ./service_user/
+  #  volumes:
+  #    - './service_user:/server'
+  #  depends_on:
+  #    - "service_user_db"
+  #  ports:
+  #    - '9000:9000'
     #networks:
     #  - service_user
 
