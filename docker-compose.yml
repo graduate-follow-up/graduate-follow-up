@@ -12,3 +12,9 @@ services:
         - ./assets/:/www/assets/
       ports:
         - 80:80
+    server_node:
+      build:  ./service_user/server/
+      ports: 
+        - 8081:8080
+
+      
