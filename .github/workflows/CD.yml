@@ -1,0 +1,30 @@
+name: Continuous Deployment
+
+on: 
+  push:
+    branches: 
+      - dev
+
+jobs:
+  deployment:
+    runs-on: ubuntu-18.04
+    steps:
+    - name: Checkout
+      uses: actions/checkout@f6ce2af
+      with:
+        ref: ${{ github.ref }}
+
+    - name: Build docker-compose
+      run: docker-compose build
+
+    - name: Run deploy script
+      uses: maddox/actions/ssh@064c408
+      with:
+        args: "cd ~/graduate-follow-up/
+          && git fetch 
+          && git checkout ${{ github.sha }}
+          && ./deploy.sh"
+      env:
+        PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+        HOST: ${{ secrets.HOST }}
+        USER: ${{ secrets.USER }}

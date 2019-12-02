@@ -5,32 +5,10 @@
 
 version: "3"
 services:
-
-
-  # Service user   
-  service_user:
-    build:
-      context: ./service_user/
-    volumes:
-      - './service_user:/server'
-    depends_on:
-      - "service_user_db"
-    ports:
-      - '9000:9000'
-    #networks:
-    #  - service_user
-
-  # Mongo Database
-  service_user_db:
-    build:
-      context: ./service_user/db/
-    #networks:
-    #  - service_user
-
-        
-  # PlayFramework 
-  # TODO
-
-
-#networks:
-#    service_user:
+    proxy:
+      image: nginx:1.17.4-alpine
+      volumes:
+        - ./proxy/default.conf:/etc/nginx/conf.d/default.conf
+        - ./assets/:/www/assets/
+      ports:
+        - 80:80
