@@ -7,30 +7,19 @@ version: "3"
 services:
 
 
-  # Service user   
-  #service_user:
-  #  build:
-  #    context: ./service_user/
-  #  volumes:
-  #    - './service_user:/server'
-  #  depends_on:
-  #    - "service_user_db"
-  #  ports:
-  #    - '9000:9000'
-    #networks:
-    #  - service_user
-
   # Mongo Database
   service_user_db:
     build:
       context: ./service_user/db/
-    #networks:
-    #  - service_user
-
-        
-  # PlayFramework 
-  # TODO
 
 
-#networks:
-#    service_user:
+  # Service Front   
+  front_login:
+    hostname: localhost
+    build:
+      context: ./front-login1/
+    volumes:
+      - './front-login1:/angular'
+    ports:
+      - '4200:80'
+
