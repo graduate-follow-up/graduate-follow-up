@@ -28,14 +28,24 @@ services:
       - service_alumni_database_configdb:/data/configdb
 
   # Service Front   
-  front_login:
+  front_login1:
     hostname: localhost
     build:
       context: ./front-login1/
     volumes:
       - './front-login1:/angular'
     ports:
-      - '4200:80'
+      - '4202:80'
+
+  front_login2:
+    hostname: localhost
+    build:
+      context: ./front-login1/
+    volumes:
+      - './front-login1:/angular'
+    ports:
+      - '4201:80'
+
 
 volumes:
   service_user_database_db:
