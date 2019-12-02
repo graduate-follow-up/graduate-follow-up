@@ -1,5 +1,6 @@
 version: "3.7"
 services:
+
   proxy:
     image: nginx:1.17.4-alpine
     volumes:
@@ -7,21 +8,35 @@ services:
       - ./assets/:/www/assets/
     ports:
       - 80:80
+
   service_user_node:
     build:  ./service_user/server/
     ports: 
       - 8081:8080
-#Mongo database
+
+  #Mongo database
   service_user_database:
     image: mongo:4.2.1
     volumes:
       - service_user_database_db:/data/db
       - service_user_database_configdb:/data/configdb
+
   service_alumni_database:
     image: mongo:4.2.1
     volumes:
       - service_alumni_database_db:/data/db
       - service_alumni_database_configdb:/data/configdb
+
+  # Service Front   
+  front_login:
+    hostname: localhost
+    build:
+      context: ./front-login1/
+    volumes:
+      - './front-login1:/angular'
+    ports:
+      - '4200:80'
+
 volumes:
   service_user_database_db:
   service_user_database_configdb:
