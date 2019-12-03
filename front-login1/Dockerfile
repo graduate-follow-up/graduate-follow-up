@@ -9,13 +9,8 @@ RUN npm install
 
 COPY . .
 
-RUN npm run build
-
-#EXPOSE 4200
-
-
-#CMD [ "npm" , "build"]
-# , "--host 0.0.0.0"
+ARG BASE_HREF
+RUN npm run build -- --prod --base-href $BASE_HREF
 
 # Stage 2
 FROM nginx:1.13.12-alpine

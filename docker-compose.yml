@@ -35,10 +35,8 @@ services:
     hostname: localhost
     build:
       context: ./front-login1/
-    volumes:
-      - './front-login1:/angular'
-    ports:
-      - '4200:80'
+      args:
+        BASE_HREF: /hello/
 
 volumes:
   service_user_database_db:
