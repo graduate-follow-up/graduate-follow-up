@@ -2,12 +2,15 @@ version: "3.7"
 services:
 
   proxy:
-    image: nginx:1.17.4-alpine
     volumes:
-      - ./proxy/default.conf:/etc/nginx/conf.d/default.conf
       - ./assets/:/www/assets/
     ports:
-      - 80:80
+        - ${PROXY_PORT:-80}:80
+    build:
+      context: ./proxy/
+      args:
+        PROXY_HOST: ${PROXY_HOST:-localhost}
+        PROXY_PORT: ${PROXY_PORT:-80}
 
   service_user_node:
     build:  ./service_user/server/

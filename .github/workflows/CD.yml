@@ -26,5 +26,7 @@ jobs:
           && ./deploy.sh"
       env:
         PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
-        HOST: ${{ secrets.HOST }}
+        PROXY_HOST: ${{ secrets.PROXY_HOST }}
+        PROXY_PORT: ${{ secrets.PROXY_PORT }}
+        HOST: ${{ secrets.MACHINE_HOST }}
         USER: ${{ secrets.USER }}
