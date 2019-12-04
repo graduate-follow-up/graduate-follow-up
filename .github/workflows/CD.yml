@@ -28,5 +28,6 @@ jobs:
         PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
         PROXY_HOST: ${{ secrets.PROXY_HOST }}
         PROXY_PORT: ${{ secrets.PROXY_PORT }}
+        PROXY_URL: ${{ secrets.PROXY_URL }}
         HOST: ${{ secrets.MACHINE_HOST }}
         USER: ${{ secrets.USER }}
