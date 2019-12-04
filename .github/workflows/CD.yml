@@ -28,7 +28,6 @@ jobs:
           && git fetch 
           && git checkout ${{ github.sha }}
           &&
-            PROXY_HOST=${{ secrets.PROXY_HOST }} \
             PROXY_PORT=${{ secrets.PROXY_PORT }} \
             PROXY_URL=${{ secrets.PROXY_URL }} \
             ./deploy.sh"
