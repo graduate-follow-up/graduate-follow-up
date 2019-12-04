@@ -8,4 +8,4 @@ ARG PROXY_HOST
 ARG PROXY_URL
 
 RUN sed -i "s/{{PROXY_HOST}}/$PROXY_HOST/" default.conf
-RUN sed -i "s/{{PROXY_URL}}/$PROXY_URL/" default.conf
+RUN sed -i "s,{{PROXY_URL}},$PROXY_URL," default.conf
