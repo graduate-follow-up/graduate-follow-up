@@ -4,12 +4,14 @@ services:
   proxy:
     volumes:
       - ./assets/:/www/assets/
-    ports:
-        - ${PROXY_PORT:-127.0.0.1:80}:80
     build:
       context: ./proxy/
       args:
         PROXY_URL: ${PROXY_URL:-http://localhost}
+    ports:
+        - ${PROXY_PORT:-127.0.0.1:80}:80
+    networks:
+      - proxy
 
   service_user_node:
     build:  ./service_user/server/
@@ -23,11 +25,25 @@ services:
       - service_user_database_db:/data/db
       - service_user_database_configdb:/data/configdb
 
-  service_alumni_database:
-    image: mongo:4.2.1
+  service_alumni:
+    build:  ./service-alumni/
+    networks:
+      - proxy
+      - internal_alumni
+    depends_on:
+      - database_alumni
+
+  database_alumni:
+    build:  ./database-mongodb/
+    environment:
+      - IMPORT_DB=alumnis
+      - IMPORT_COLLECTION=alumnis
     volumes:
-      - service_alumni_database_db:/data/db
-      - service_alumni_database_configdb:/data/configdb
+      - ./service-alumni/database/alumnis.json:/tmp/data.json
+      - database_alumni_db:/data/db
+      - database_alumni_configdb:/data/configdb
+    networks:
+      - internal_alumni
 
   # Service Front   
   front_login:
@@ -36,9 +52,15 @@ services:
       context: ./front-login1/
       args:
         BASE_HREF: /hello/
+    networks:
+      - proxy
 
 volumes:
   service_user_database_db:
   service_user_database_configdb:
-  service_alumni_database_db:
-  service_alumni_database_configdb:
+  database_alumni_db:
+  database_alumni_configdb:
+
+networks:
+  proxy:
+  internal_alumni:
