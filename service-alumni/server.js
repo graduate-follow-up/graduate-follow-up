@@ -3,17 +3,21 @@ const express = require('express');
 const MongoClient = require('mongodb').MongoClient;
 
 // Constants
-const MONGODB_URI = 'mongodb://database-alumni:27017';
-const PORT = 8080;
+const MONGODB_URI = 'mongodb://database_alumni:27017/alumnis';
+const DATABASE_NAME = 'alumnis';
+const COLLECTION_NAME = 'alumnis';
+
+const PORT = 3000;
 
 // App
 const app = express();
-var mongodb;
+var collection;
 
-MongoClient.connect(MONGODB_URI, function(err, database) {
+MongoClient.connect(MONGODB_URI, {useUnifiedTopology: true}, function(err, client) {
   if(err) throw err;
  
-  mongodb = database;
+  let db = client.db(DATABASE_NAME);
+  collection = db.collection(COLLECTION_NAME);
 
   app.listen(PORT);
   console.log(`Listening on port ${PORT}`);
@@ -21,4 +25,14 @@ MongoClient.connect(MONGODB_URI, function(err, database) {
 
 app.get('/', (req, res) => {
   res.send('Hello world\n');
+});
+
+app.get('/list', (req, res) => {
+  collection.find({}).toArray(function(err, docs) {
+    if(err) {
+      res.send(err);
+    } else {
+      res.send(docs);
+    }
+  });
 });
