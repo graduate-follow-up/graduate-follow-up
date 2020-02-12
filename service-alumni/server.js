@@ -1,5 +1,6 @@
 'use strict';
 const express = require('express');
+const bodyParser = require('body-parser');
 const MongoClient = require('mongodb').MongoClient;
 
 // Constants
@@ -11,6 +12,8 @@ const PORT = 3000;
 
 // App
 const app = express();
+app.use(bodyParser.json());
+
 var collection;
 
 MongoClient.connect(MONGODB_URI, {useUnifiedTopology: true}, function(err, client) {
@@ -23,16 +26,68 @@ MongoClient.connect(MONGODB_URI, {useUnifiedTopology: true}, function(err, clien
   console.log(`Listening on port ${PORT}`);
 });
 
-app.get('/', (req, res) => {
-  res.send('Hello world\n');
+// TODO remove
+app.get('/toto', (req, res) => {
+  res.send(JSON.stringify(req.headers));
 });
 
-app.get('/list', (req, res) => {
+app.get('/', (req, res) => {
+  // TODO check permissions
   collection.find({}).toArray(function(err, docs) {
     if(err) {
-      res.send(err);
+      res.status(500).send(err);
     } else {
       res.send(docs);
+    }
+  });
+});
+
+app.post('/', (req, res) => {
+  app.put('/:alumniId', (req, res) => {
+    // TODO check permissions
+  
+    // TODO verify update content
+    let update = req.body;
+  
+    collection.updateOne({_id: req.params.alumniId}, update, (err) => {
+      if(err) {
+        // If not found, return 404
+        res.status(400).send(err);
+      } else {
+        res.status(204).send(err ? 1 : 0);
+      }
+    });
+  });
+  // TODO implement CREATE
+  // req.params.alumniId
+  res.status(501).send("Not implemented");
+})
+
+app.put('/:alumniId', (req, res) => {
+  // TODO check permissions
+
+  // TODO verify update content
+  let update = req.body;
+
+  collection.updateOne({_id: req.params.alumniId}, update, (err) => {
+    if(err) {
+      // If not found, return 404
+      res.status(400).send(err);
+    } else {
+      res.status(204).send(err ? 1 : 0);
+    }
+  });
+});
+
+app.delete('/:alumniId', (req, res) => {
+  // TODO check permissions
+  console.log(req.params);
+  collection.deleteOne({"_id": req.params.alumniId}, (err) => {
+    if(err) {
+      res.status(500).send(err);
+    } else {
+      // Send a 404 if no document were deleted
+      res.sendStatus(res.deletedCount > 0 ? 204 : 404);
     }
   });
 });
