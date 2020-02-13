@@ -12,6 +12,9 @@ services:
         - ${PROXY_PORT:-127.0.0.1:80}:80
     networks:
       - proxy
+    depends_on:
+      - service_alumni
+      - front_login
 
   service_user_node:
     build:  ./service_user/server/
