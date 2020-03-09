@@ -14,6 +14,17 @@ const PORT = 3000;
 const app = express();
 app.use(bodyParser.json());
 
+/***************/
+/*** Swagger ***/
+/***************/
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./swagger.json');
+ 
+//app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use('/api-docs', swaggerUi.serve);
+app.get('/api-docs', swaggerUi.setup(swaggerDocument));
+/***************/
+
 var collection;
 
 MongoClient.connect(MONGODB_URI, {useUnifiedTopology: true}, function(err, client) {
