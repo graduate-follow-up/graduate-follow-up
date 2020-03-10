@@ -1,0 +1,29 @@
+Notez aussi qu’il faudra me le remettre sur un dépôt Git que je puisse y jeter un œil avant notre prochaine rencontre.
+
+Tic, tac, tic, tac. La date de remise, dernier carat est le 29 NOVEMBRE 2019 à 23h59.
+ 
+
+L’ENONCE
+
+Vous avez à développer une application pour mars prochain crawlant les profils des anciens élèves de l’EISTI en vue d’effectuer des statistiques sur leurs avenirs. En respect de la loi RGPD, vous devrez respecter quelques consignes complémentaires.
+
+Nota : Je vous rappelle que ce qui nous intéresse, c’est la manipulation du Framework et donc de la partie front. Utilisez un serveur ou des données de test en JSON, comme vous voulez. Seul l’accès à ces données sera apprécié.
+
+ 
+
+FONCTIONNALITES ATTENDUES
+
+Une page permettant à un ancien élève d’indiquer les données qu’il autorise à être scannées par l’école.
+
+L’affichage de la règle RGPD
+
+Une gestion des données qui permet l’anonymisation
+
+Une page listant les anciens élèves
+
+Une page pour assister à des statistiques communes affichant des graphes des données scannées (restez sur des exemples à ce stade, ça n’a pas d’importance. Par contre, il vous faudra intégrer un plugin externe… ^^ 😉 ).
+
+La gestion des droits d’administration des anciens élèves (supprimer, éditer)
+
+La gestion des droits pour l’affichage de ces élèves en fonction des options (là, vous connaissez mieux que moi ce qu’il faudrait faire).
+
