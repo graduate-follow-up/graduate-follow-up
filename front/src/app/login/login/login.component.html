@@ -1,4 +1,4 @@
-<p><br><br>
+<!--p><br><br>
   Information :
   <br><br>
 
@@ -13,9 +13,9 @@
   En tant que User, on a accès aux stats et à soi<br> Exemple : <br>
   login : Jeremy Bernard<br>
   mot de passe : Jeremy Bernard<br>
-</p>
+</p-->
 
-<form [formGroup]="checkoutForm" (ngSubmit)="login(checkoutForm.value)">
+<!--form [formGroup]="checkoutForm" (ngSubmit)="login(checkoutForm.value)">
   <div class="field">
     <div class="ui left icon input">
       <i class="user icon"></i>
@@ -30,6 +30,39 @@
   </div>
   <button class="ui fluid large teal submit button" type="submit">Login</button>
 
-</form>
-
+</form-->
+<div class="ui one column stackable center aligned page grid">
+  <div class="column twelve wide">
+    <div class="ui middle aligned center aligned grid">
+      <div class="column">
+        <h2 class="ui teal primary header">
+          <div class="content" style="color: dodgerblue">
+            Log-in to your account
+          </div>
+        </h2>
+        <form [formGroup]="checkoutForm" (ngSubmit)="login(checkoutForm.value)" class="ui large form">
+          <div class="ui stacked segment">
+            <div class="field">
+              <div class="ui left icon input">
+                <i class="user icon"></i>
+                <input id="login" type="text" formControlName="login" placeholder="Login">
+              </div>
+            </div>
+            <div class="field">
+              <div class="ui left icon input">
+                <i class="lock icon"></i>
+                <input id="password" type="password" formControlName="password" placeholder="Password">
+              </div>
+            </div>
+            <button class="ui fluid large teal primary submit button" type="submit">Login</button>
+          </div>
+          <div class="ui error message"></div>
+        </form>
+        <div class="ui message">
+          New to us? <a href="#">Sign Up</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 <span>{{ msg }}</span>

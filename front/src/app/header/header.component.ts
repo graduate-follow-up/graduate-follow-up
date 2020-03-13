@@ -1,7 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {Router} from '@angular/router';
-import {DataUserService} from '../service/dataUser.service';
-import {ConnectionService} from '../login/services/connection.service';
+import {DeviceDetectorService} from 'ngx-device-detector';
+import { MatMenuModule} from '@angular/material/menu';
+
+
+interface AfterViewInit {
+  ngAfterViewInit(): void;
+}
+
 
 @Component({
   selector: 'app-header',
@@ -10,10 +16,18 @@ import {ConnectionService} from '../login/services/connection.service';
 })
 export class HeaderComponent implements OnInit {
 
-  constructor(private router: Router, private connectionService: ConnectionService) { }
+  constructor(private router: Router,
+              private deviceService: DeviceDetectorService) { }
+
 
   ngOnInit() {
+    //this.test.nativeElement.style.color = 'blue';
   }
+
+  /*ngAfterViewInit(): void {
+    console.log( 'AAAAAAAAAAAAAAAAAa :' + this.test.nativeElement.textContent);
+  }*/
+
 
   logout() {
     localStorage.removeItem('login');
