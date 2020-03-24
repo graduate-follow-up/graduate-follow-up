@@ -1,23 +1,21 @@
-<!--script src="header.component.js"></script-->
 
-<!--div class="ui secondary menu" style="margin-bottom: 10px">
+<div class="ui fixed inverted menu">
  <img src="assets/logo.png" style="width: 10%">
   <a *ngIf="this.connectionService.isConnected" class="active item" routerLink="">Home</a>
   <a *ngIf="this.connectionService.isConnected" class="item" routerLink="stats">Stats</a>
   <a class="item" routerLink="RGPD">RGPD</a>
 
-
-  <!-- Manage connection ->
+  <!-- Manage connection -->
   <div class="right menu" *ngIf="this.connectionService.isConnected">
     <a class="ui item" (click)="this.connectionService.logout()">Logout</a>
   </div>
   <div class="right menu" *ngIf="!this.connectionService.isConnected">
     <a class="ui item" (click)="login()">Login</a>
   </div>
+</div>
 
-</div-->
-
-<div class="ui grid">
+<!-- TEST avec la version mobile desktop -->
+<!--div class="ui grid">
 
   <div class="computer only row">
     <div class="column">
@@ -42,8 +40,15 @@
       </div>
     </div>
   </div>
-</div>
+</div-->
 
+<!--div class="ui fixed inverted menu" style="padding-left: 5% !important; padding-right: 5%!important; background: #305082 !important;">
+<div class="container">
+  <a class="header item">
+    <img src="src/assets/logo.png">
+    header
+  </a>
+  <a class="item" href="">link</a>
+  <a class="item" href="">link</a>
 
-
-
+</div-->

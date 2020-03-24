@@ -1,7 +1,7 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {DeviceDetectorService} from 'ngx-device-detector';
-import { MatMenuModule} from '@angular/material/menu';
+import {ConnectionService} from '../login/services/connection.service';
 
 
 interface AfterViewInit {
@@ -17,6 +17,7 @@ interface AfterViewInit {
 export class HeaderComponent implements OnInit {
 
   constructor(private router: Router,
+              private connectionService: ConnectionService,
               private deviceService: DeviceDetectorService) { }
 
 
