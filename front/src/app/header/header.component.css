@@ -1,14 +1,13 @@
 :host {
   display: block;
 }
+
 .ui.fixed.inverted.menu {
   margin-left: 5%;
   margin-right: 7% ;
   width :90% !important;
   background: #305082;
 }
-
-
 
 .menu {
   background-color: pink;
