@@ -10,9 +10,11 @@ export class AlumnusService {
 
   constructor(private httpClient: HttpClient) {}
 
+ // private serviceAlumnus = 'api/heroes';
+
   getAlumnus(): Alumnus[] {
-    // return this.httpClient.get('url...');
-    return MockAlumnus; }
+    //return this.httpClient.get('url...');
+   return MockAlumnus; }
 
   getAlumnusIndex(id: number): number {
     return this.getAlumnus().findIndex(e => e.id === id); }
