@@ -80,3 +80,7 @@
 */.project
 */RUNNING_PID
 */.settings
+
+# Other
+
+*/.DS_Store
