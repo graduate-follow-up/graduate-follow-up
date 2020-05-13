@@ -30,10 +30,10 @@ services:
   database_user:
     build: ./database-mongodb/
     environment:
-      - IMPORT_DB=utilisateurs
-      - IMPORT_COLLECTION=utilisateurs
+      - IMPORT_DB=users
+      - IMPORT_COLLECTION=users
     volumes:
-      - ./service-user/database/user.json:/tmp/data.json
+      - ./service-user/database/users.json:/tmp/data.json
       - database_user_db:/data/db
       - database_user_configdb:/data/configdb
     networks:

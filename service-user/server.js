@@ -4,9 +4,9 @@ const bodyParser = require('body-parser');
 const { MongoClient } = require('mongodb');
 
 // Constants
-const MONGODB_URI = 'mongodb://database_user:27017/utilisateurs';
-const DATABASE_NAME = 'utilisateurs';
-const COLLECTION_NAME = 'utilisateurs';
+const MONGODB_URI = 'mongodb://database_user:27017/users';
+const DATABASE_NAME = 'users';
+const COLLECTION_NAME = 'users';
 
 const PORT = 3000;
 
@@ -58,7 +58,6 @@ app.post('/', (req, res) => {
 
   collection.insertOne(document, (err, resMongo) => {
     if(err) {
-      // If not found, return 404 ????
       res.status(500).send(err);
     } else {
       res.status(200).send(resMongo.insertedId);
