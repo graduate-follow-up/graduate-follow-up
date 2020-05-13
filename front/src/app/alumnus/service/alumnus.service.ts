@@ -13,6 +13,7 @@ export class AlumnusService {
   private ulrAlumnus = 'localhost/alumnis';
   private alumnusData: Alumnus[];
 
+<<<<<<< HEAD
   constructor(private http: HttpClient) {}
 
   private getAlumnusObservable(): Observable<Alumnus[]> {
@@ -22,6 +23,13 @@ export class AlumnusService {
    getAlumnus(): Alumnus[] {
     this.getAlumnusObservable().subscribe(alumnus => this.alumnusData = alumnus);
     return this.alumnusData; }
+=======
+ // private serviceAlumnus = 'api/heroes';
+
+  getAlumnus(): Alumnus[] {
+    //return this.httpClient.get('url...');
+   return MockAlumnus; }
+>>>>>>> 315fb0cdf9f1e2ecd2f3e299ce01388bdcbc8924
 
   getAlumnusIndex(id: number): number {
     return this.getAlumnus().findIndex(e => e.id === id); }
