@@ -127,3 +127,7 @@ speed-measure-plugin*.json
 */.project
 */RUNNING_PID
 */.settings
+
+# Other
+.DS_Store
+.idea/

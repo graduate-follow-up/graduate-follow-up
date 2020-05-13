@@ -13,20 +13,31 @@ services:
     networks:
       - proxy
     depends_on:
+      - service_user
       - service_alumni
       - front_login
 
-  service_user_node:
-    build:  ./service_user/server/
-    ports: 
-      - 8081:8080
-
   #Mongo database
-  service_user_database:
-    image: mongo:4.2.1
+
+  service_user:
+    build: ./service-user/
+    networks:
+      - proxy
+      - internal_user
+    depends_on:
+      - database_user
+
+  database_user:
+    build: ./database-mongodb/
+    environment:
+      - IMPORT_DB=users
+      - IMPORT_COLLECTION=users
     volumes:
-      - service_user_database_db:/data/db
-      - service_user_database_configdb:/data/configdb
+      - ./service-user/database/users.json:/tmp/data.json
+      - database_user_db:/data/db
+      - database_user_configdb:/data/configdb
+    networks:
+      - internal_user
 
   service_alumni:
     build:  ./service-alumni/
@@ -59,11 +70,12 @@ services:
       - proxy
 
 volumes:
-  service_user_database_db:
-  service_user_database_configdb:
+  database_user_db:
+  database_user_configdb:
   database_alumni_db:
   database_alumni_configdb:
 
 networks:
   proxy:
   internal_alumni:
+  internal_user:
