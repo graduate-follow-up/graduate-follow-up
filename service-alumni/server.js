@@ -69,18 +69,6 @@ MongoClient.connect(MONGODB_URI, {useUnifiedTopology: true}, function(err, clien
   console.log(`Listening on port ${PORT}`);
 });
 
-// TODO remove
-app.get('/toto/:alumniId', (req, res) => {
-  collection.find({"_id": req.params.alumniId}, (err, docs) => {
-    if(err) {
-      res.status(500).send(err);
-    } else {
-      // Send a 404 if no document were deleted
-      res.send(docs);
-    }
-  });
-  
-});
 
 app.get('/', (req, res) => {
   // TODO check permissions
@@ -89,6 +77,20 @@ app.get('/', (req, res) => {
       res.status(500).send(err);
     } else {
       res.send(docs);
+    }
+  });
+});
+
+app.get('/:alumniId', (req, res) => {
+  collection.find({_id: req.params.alumniId}).toArray(function (err, docs) {
+    if(err) {
+      res.status(500).send(err);
+    } else {
+      if(docs){
+        res.status(200).send(docs[0]);
+      }else{
+        res.status(404)
+      }
     }
   });
 });
