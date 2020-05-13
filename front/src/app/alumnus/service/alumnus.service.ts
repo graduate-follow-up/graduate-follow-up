@@ -2,17 +2,26 @@ import {Injectable} from '@angular/core';
 import {Alumnus} from '../../model/Alumnus';
 import {MockAlumnus} from '../../Database/mock-alumnus';
 import {HttpClient} from '@angular/common/http';
+import {catchError} from 'rxjs/operators';
+import {Observable} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AlumnusService {
 
-  constructor(private httpClient: HttpClient) {}
+  private ulrAlumnus = 'localhost/alumnis';
+  private alumnusData: Alumnus[];
 
-  getAlumnus(): Alumnus[] {
-    // return this.httpClient.get('url...');
-    return MockAlumnus; }
+  constructor(private http: HttpClient) {}
+
+  private getAlumnusObservable(): Observable<Alumnus[]> {
+    return this.http.get<Alumnus[]>(this.ulrAlumnus);
+  }
+
+   getAlumnus(): Alumnus[] {
+    this.getAlumnusObservable().subscribe(alumnus => this.alumnusData = alumnus);
+    return this.alumnusData; }
 
   getAlumnusIndex(id: number): number {
     return this.getAlumnus().findIndex(e => e.id === id); }
