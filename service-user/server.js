@@ -1,7 +1,7 @@
 'use strict';
 const express = require('express');
 const bodyParser = require('body-parser');
-const MongoClient = require('mongodb').MongoClient;
+const { MongoClient } = require('mongodb');
 
 // Constants
 const MONGODB_URI = 'mongodb://database_user:27017/utilisateurs';
@@ -23,13 +23,21 @@ MongoClient.connect(MONGODB_URI, {useUnifiedTopology: true}, function(err, clien
   collection = db.collection(COLLECTION_NAME);
 
   app.listen(PORT);
-  console.log(`Listening on port ${PORT} and collection name = ${COLLECTION_NAME}`);
+  console.log(`Listening on port ${PORT}`);
 });
 
 
 // TODO remove
-app.get('/toto', (req, res) => {
-  res.send(JSON.stringify(req.headers));
+app.get('/toto/:alumniId', (req, res) => {
+  collection.find({"_id": req.params.alumniId}, (err, docs) => {
+    if(err) {
+      res.status(500).send(err);
+    } else {
+      // Send a 404 if no document were deleted
+      res.send(docs);
+    }
+  });
+
 });
 
 app.get('/', (req, res) => {
@@ -44,51 +52,53 @@ app.get('/', (req, res) => {
 });
 
 app.post('/', (req, res) => {
-  app.put('/:userId', (req, res) => {
-    // TODO check permissions
+  // TODO check permissions
+  // TODO verify document format
+  let document = req.body;
 
-    // TODO verify update content
-    let update = req.body;
-
-    collection.updateOne({_id: req.params.userId}, update, (err) => {
-      if(err) {
-        // If not found, return 404
-        res.status(400).send(err);
-      } else {
-        res.status(204).send(err ? 1 : 0);
-      }
-    });
+  collection.insertOne(document, (err, resMongo) => {
+    if(err) {
+      // If not found, return 404
+      res.status(500).send(err);
+    } else {
+      res.status(200).send(resMongo.insertedId);
+    }
   });
   // TODO implement CREATE
-  // req.params.userId
+  // req.params.alumniId
   res.status(501).send("Not implemented");
 })
+
 
 app.put('/:userId', (req, res) => {
   // TODO check permissions
 
   // TODO verify update content
-  let update = req.body;
+  var userId = req.params.userId;
+  let update = {$set : req.body};
 
-  collection.updateOne({_id: req.params.userId}, update, (err) => {
+  collection.updateOne({_id: userId}, update, (err,resMongo) => {
     if(err) {
-      // If not found, return 404
       res.status(400).send(err);
     } else {
-      res.status(204).send(err ? 1 : 0);
+      switch (resMongo.matchedCount) {
+        case 0:
+          res.status(404).send("No matching element found.");
+        case 1:
+          res.status(204).send('Element successfully updated');
+      }
     }
   });
 });
 
-app.delete('/:userId', (req, res) => {
-  // TODO check permissions
-  console.log(req.params);
-  collection.deleteOne({"_id": req.params.userId}, (err) => {
+
+  app.delete('/:userId', (req, res) => {
+  collection.deleteOne({"_id": req.params.userId}, (err, resMongo) => {
     if(err) {
       res.status(500).send(err);
     } else {
       // Send a 404 if no document were deleted
-      res.sendStatus(res.deletedCount > 0 ? 204 : 404);
+      res.sendStatus(resMongo.deletedCount > 0 ? 204 : 404);
     }
   });
 });
