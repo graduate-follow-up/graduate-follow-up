@@ -86,10 +86,10 @@ app.get('/:alumniId', (req, res) => {
     if(err) {
       res.status(500).send(err);
     } else {
-      if(docs){
-        res.status(200).send(docs[0]);
+      if(docs.length === 0 ){
+        res.status(404).send("Not found.");
       }else{
-        res.status(404)
+        res.status(200).send(docs[0]);
       }
     }
   });
