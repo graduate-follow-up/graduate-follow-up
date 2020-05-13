@@ -1,8 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Alumnus} from '../../model/Alumnus';
-import {MockAlumnus} from '../../Database/mock-alumnus';
 import {HttpClient} from '@angular/common/http';
-import {catchError} from 'rxjs/operators';
 import {Observable} from 'rxjs';
 
 @Injectable({
@@ -10,10 +8,9 @@ import {Observable} from 'rxjs';
 })
 export class AlumnusService {
 
-  private ulrAlumnus = 'localhost/alumnis';
+  private ulrAlumnus = 'http://127.0.0.1/alumnis';
   private alumnusData: Alumnus[];
 
-<<<<<<< HEAD
   constructor(private http: HttpClient) {}
 
   private getAlumnusObservable(): Observable<Alumnus[]> {
@@ -23,13 +20,7 @@ export class AlumnusService {
    getAlumnus(): Alumnus[] {
     this.getAlumnusObservable().subscribe(alumnus => this.alumnusData = alumnus);
     return this.alumnusData; }
-=======
- // private serviceAlumnus = 'api/heroes';
 
-  getAlumnus(): Alumnus[] {
-    //return this.httpClient.get('url...');
-   return MockAlumnus; }
->>>>>>> 315fb0cdf9f1e2ecd2f3e299ce01388bdcbc8924
 
   getAlumnusIndex(id: number): number {
     return this.getAlumnus().findIndex(e => e.id === id); }

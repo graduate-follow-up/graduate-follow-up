@@ -1,11 +1,15 @@
-import {Name} from './Name';
-
 export class Alumnus {
   id: number;
-  name: Name;
-  company: string;
+  firstName: string;
+  name: string;
   email: string;
-  phone: string;
-  graduateYear: number;
+  entreprise: string;
+  job: string;
+  pays: string;
+  city: string;
   option: string;
+  campus: string;
+  promotion: number;
+  salaire: number;
+  phone: string;
 }
