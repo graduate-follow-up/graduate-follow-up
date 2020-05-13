@@ -72,14 +72,21 @@ app.put('/:alumniId', (req, res) => {
   // TODO check permissions
 
   // TODO verify update content
-  let update = req.body;
+  let alumniId = req.params.alumniId;
+  let update = {$set : req.body};
 
-  collection.replaceOne({_id: req.params.alumniId}, update, (err) => {
+  collection.replaceOne({_id: alumniId}, update, (err,resMongo) => {
     if(err) {
-      // If not found, return 404
       res.status(400).send(err);
     } else {
-      res.status(204).send(err ? 1 : 0);
+      switch (resMongo.matchedCount) {
+        case 0:
+          res.status(404).send("No matching element found.");
+          break;
+        case 1:
+          res.status(204).send('Element successfully updated');
+          break;
+      }
     }
   });
 });
