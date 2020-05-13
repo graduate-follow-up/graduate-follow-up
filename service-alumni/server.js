@@ -57,15 +57,12 @@ app.post('/', (req, res) => {
 
   collection.insertOne(document, (err, resMongo) => {
     if(err) {
-      // If not found, return 404
+      // If not found, return 404 ????
       res.status(500).send(err);
     } else {
       res.status(200).send(resMongo.insertedId);
     }
   });
-  // TODO implement CREATE
-  // req.params.alumniId
-  res.status(501).send("Not implemented");
 })
 
 app.put('/:alumniId', (req, res) => {
