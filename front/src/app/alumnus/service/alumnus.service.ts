@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Alumnus} from '../../model/Alumnus';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs';
 
 @Injectable({
@@ -8,10 +8,18 @@ import {Observable} from 'rxjs';
 })
 export class AlumnusService {
 
-  private ulrAlumnus = 'http://127.0.0.1/alumnis';
+  private ulrAlumnus = 'https://127.0.0.1/alumnis/';
   private alumnusData: Alumnus[];
 
   constructor(private http: HttpClient) {}
+
+  /*
+  const httpOptions = {
+    headers: new HttpHeaders({
+      'Access-Control-Allow-Origin':'*',
+    })
+  };*/
+
 
   private getAlumnusObservable(): Observable<Alumnus[]> {
     return this.http.get<Alumnus[]>(this.ulrAlumnus);
