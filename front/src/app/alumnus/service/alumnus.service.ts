@@ -8,7 +8,7 @@ import {Observable} from 'rxjs';
 })
 export class AlumnusService {
 
-  private ulrAlumnus = 'https://127.0.0.1/alumnis/';
+  private ulrAlumnus = 'http://proxy/alumnis/';
   private alumnusData: Alumnus[];
 
   constructor(private http: HttpClient) {}
