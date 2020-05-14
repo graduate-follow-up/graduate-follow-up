@@ -2,6 +2,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const { MongoClient } = require('mongodb');
+const ObjectId = require('mongodb').ObjectID;
 
 // Constants
 const MONGODB_URI = 'mongodb://database_alumni:27017/alumnis';
@@ -82,7 +83,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/:alumniId', (req, res) => {
-  collection.find({_id: req.params.alumniId}).toArray(function (err, docs) {
+  collection.find({_id: ObjectId(req.params.alumniId)}).toArray(function (err, docs) {
     if(err) {
       res.status(500).send(err);
     } else {
@@ -112,11 +113,9 @@ app.post('/', (req, res) => {
 app.put('/:alumniId', (req, res) => {
   // TODO check permissions
 
-  // TODO verify update content
-  let alumniId = req.params.alumniId;
   let update = {$set : req.body};
 
-  collection.replaceOne({_id: alumniId}, update, (err,resMongo) => {
+  collection.replaceOne({_id: ObjectId(req.params.alumniId)}, update, (err,resMongo) => {
     if(err) {
       res.status(400).send(err);
     } else {
@@ -133,7 +132,7 @@ app.put('/:alumniId', (req, res) => {
 });
 
 app.delete('/:alumniId', (req, res) => {
-  collection.deleteOne({"_id": req.params.alumniId}, (err, resMongo) => {
+  collection.deleteOne({"_id": ObjectId(req.params.alumniId)}, (err, resMongo) => {
     if(err) {
       res.status(500).send(err);
     } else {
