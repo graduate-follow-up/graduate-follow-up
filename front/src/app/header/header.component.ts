@@ -17,7 +17,7 @@ interface AfterViewInit {
 export class HeaderComponent implements OnInit {
 
   constructor(private router: Router,
-              private connectionService: ConnectionService,
+              public connectionService: ConnectionService,
               private deviceService: DeviceDetectorService) { }
 
 
