@@ -12,10 +12,6 @@ services:
         - ${PROXY_PORT:-127.0.0.1:80}:80
     networks:
       - proxy
-    depends_on:
-      - service_user
-      - service_alumni
-      - front_login
 
   #Mongo database
 
