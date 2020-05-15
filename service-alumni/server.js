@@ -1,8 +1,9 @@
 'use strict';
 const express = require('express');
 const bodyParser = require('body-parser');
-const { MongoClient } = require('mongodb');
-const ObjectId = require('mongodb').ObjectID;
+const { MongoClient, ObjectId } = require('mongodb');
+
+
 
 // Constants
 const MONGODB_URI = 'mongodb://database_alumni:27017/alumnis';
