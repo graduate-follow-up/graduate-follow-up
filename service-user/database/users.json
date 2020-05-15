@@ -1,6 +1,6 @@
 [
   {
-    "_id": "5eba6861b0b374d1e825fa68",
+    "_id": {"$oid":"5eba6861b0b374d1e825fa68"},
     "login": "excepteur",
     "mdp": "ullamco",
     "statut": "respo-option",
@@ -11,7 +11,7 @@
     "email": "lindsay.chandler@undefined.biz"
   },
   {
-    "_id": "5eba686123cbdbf4c4b0278b",
+    "_id": {"$oid":"5eba686123cbdbf4c4b0278b"},
     "login": "dolor",
     "mdp": "mollit",
     "statut": "administrateur",
@@ -22,7 +22,7 @@
     "email": "waters.jones@undefined.org"
   },
   {
-    "_id": "5eba686112a0f23d187f620d",
+    "_id": {"$oid":"5eba686112a0f23d187f620d"},
     "login": "anim",
     "mdp": "dolor",
     "statut": "prof",
@@ -33,7 +33,7 @@
     "email": "frost.ayers@undefined.info"
   },
   {
-    "_id": "5eba68610b7162b230e84819",
+    "_id": {"$oid":"5eba68610b7162b230e84819"},
     "login": "proident",
     "mdp": "ipsum",
     "statut": "administrateur",
@@ -44,7 +44,7 @@
     "email": "clara.cherry@undefined.name"
   },
   {
-    "_id": "5eba68617da5ce7606518ebc",
+    "_id": {"$oid":"5eba68617da5ce7606518ebc"},
     "login": "sint",
     "mdp": "aute",
     "statut": "administrateur",
@@ -55,7 +55,7 @@
     "email": "malinda.glass@undefined.me"
   },
   {
-    "_id": "5eba6861db2aab5e99fee440",
+    "_id": {"$oid":"5eba6861db2aab5e99fee440"},
     "login": "exercitation",
     "mdp": "excepteur",
     "statut": "prof",
@@ -66,7 +66,7 @@
     "email": "lang.blair@undefined.com"
   },
   {
-    "_id": "5eba68613b6d1a9069756982",
+    "_id": {"$oid":"5eba68613b6d1a9069756982"},
     "login": "magna",
     "mdp": "eiusmod",
     "statut": "prof",
@@ -77,7 +77,7 @@
     "email": "dodson.byers@undefined.io"
   },
   {
-    "_id": "5eba6861c652474a0f832243",
+    "_id": {"$oid":"5eba6861c652474a0f832243"},
     "login": "anim",
     "mdp": "aute",
     "statut": "respo-option",
@@ -88,7 +88,7 @@
     "email": "ruthie.parsons@undefined.biz"
   },
   {
-    "_id": "5eba686116acf84189e2186a",
+    "_id": {"$oid":"5eba686116acf84189e2186a"},
     "login": "labore",
     "mdp": "in",
     "statut": "administrateur",
@@ -99,7 +99,7 @@
     "email": "schroeder.mcknight@undefined.ca"
   },
   {
-    "_id": "5eba6861d0734f87ff801d81",
+    "_id": {"$oid":"5eba6861d0734f87ff801d81"},
     "login": "officia",
     "mdp": "mollit",
     "statut": "prof",
@@ -110,7 +110,7 @@
     "email": "williams.gilbert@undefined.net"
   },
   {
-    "_id": "5eba6861bb5e3b3f8626d7fd",
+    "_id": {"$oid":"5eba6861bb5e3b3f8626d7fd"},
     "login": "dolore",
     "mdp": "consequat",
     "statut": "administrateur",
@@ -121,7 +121,7 @@
     "email": "anthony.duffy@undefined.tv"
   },
   {
-    "_id": "5eba68615818674071550d97",
+    "_id": {"$oid":"5eba68615818674071550d97"},
     "login": "sunt",
     "mdp": "anim",
     "statut": "administrateur",
@@ -132,7 +132,7 @@
     "email": "mclaughlin.leach@undefined.co.uk"
   },
   {
-    "_id": "5eba68617f82f4b2216ee52f",
+    "_id": {"$oid":"5eba68617f82f4b2216ee52f"},
     "login": "quis",
     "mdp": "ullamco",
     "statut": "prof",
@@ -143,7 +143,7 @@
     "email": "padilla.oneal@undefined.biz"
   },
   {
-    "_id": "5eba686166660ca5af8616de",
+    "_id": {"$oid":"5eba686166660ca5af8616de"},
     "login": "tempor",
     "mdp": "laboris",
     "statut": "administrateur",
@@ -154,7 +154,7 @@
     "email": "bentley.roberson@undefined.org"
   },
   {
-    "_id": "5eba6861f75715bb20017f19",
+    "_id": {"$oid":"5eba6861f75715bb20017f19"},
     "login": "eu",
     "mdp": "ipsum",
     "statut": "prof",
@@ -165,7 +165,7 @@
     "email": "sanford.larsen@undefined.info"
   },
   {
-    "_id": "5eba68618507c47b8f98d248",
+    "_id": {"$oid":"5eba68618507c47b8f98d248"},
     "login": "amet",
     "mdp": "incididunt",
     "statut": "respo-option",
@@ -176,7 +176,7 @@
     "email": "selma.mcgowan@undefined.name"
   },
   {
-    "_id": "5eba68617a2bbe93aafd3638",
+    "_id": {"$oid":"5eba68617a2bbe93aafd3638"},
     "login": "consequat",
     "mdp": "anim",
     "statut": "prof",
@@ -187,7 +187,7 @@
     "email": "osborn.montoya@undefined.me"
   },
   {
-    "_id": "5eba6861429fb652bdeffce9",
+    "_id": {"$oid":"5eba6861429fb652bdeffce9"},
     "login": "ea",
     "mdp": "dolore",
     "statut": "prof",
@@ -198,7 +198,7 @@
     "email": "therese.flores@undefined.com"
   },
   {
-    "_id": "5eba68613f53c033fb0d15eb",
+    "_id": {"$oid":"5eba68613f53c033fb0d15eb"},
     "login": "anim",
     "mdp": "nisi",
     "statut": "respo-option",
@@ -209,7 +209,7 @@
     "email": "schneider.chaney@undefined.io"
   },
   {
-    "_id": "5eba68616bb880cfc7569c82",
+    "_id": {"$oid":"5eba68616bb880cfc7569c82"},
     "login": "exercitation",
     "mdp": "laborum",
     "statut": "prof",
@@ -220,7 +220,7 @@
     "email": "bridgette.clemons@undefined.biz"
   },
   {
-    "_id": "5eba68610743d89bd95603d4",
+    "_id": {"$oid":"5eba68610743d89bd95603d4"},
     "login": "amet",
     "mdp": "laboris",
     "statut": "prof",
@@ -231,7 +231,7 @@
     "email": "adams.brennan@undefined.ca"
   },
   {
-    "_id": "5eba6861a305072fa260dd52",
+    "_id": {"$oid":"5eba6861a305072fa260dd52"},
     "login": "consectetur",
     "mdp": "exercitation",
     "statut": "respo-option",
@@ -242,7 +242,7 @@
     "email": "kristen.avery@undefined.net"
   },
   {
-    "_id": "5eba686162247596370f5331",
+    "_id": {"$oid":"5eba686162247596370f5331"},
     "login": "cillum",
     "mdp": "Lorem",
     "statut": "administrateur",
@@ -253,7 +253,7 @@
     "email": "avila.rosa@undefined.tv"
   },
   {
-    "_id": "5eba686186c15b6102001e00",
+    "_id": {"$oid":"5eba686186c15b6102001e00"},
     "login": "Lorem",
     "mdp": "consequat",
     "statut": "administrateur",
@@ -264,7 +264,7 @@
     "email": "maynard.olsen@undefined.co.uk"
   },
   {
-    "_id": "5eba6861ebe9f8a581085083",
+    "_id": {"$oid":"5eba6861ebe9f8a581085083"},
     "login": "eiusmod",
     "mdp": "eu",
     "statut": "prof",
@@ -275,7 +275,7 @@
     "email": "brewer.pearson@undefined.biz"
   },
   {
-    "_id": "5eba6861b5770e4afd7e0a3b",
+    "_id": {"$oid":"5eba6861b5770e4afd7e0a3b"},
     "login": "consectetur",
     "mdp": "anim",
     "statut": "prof",
@@ -286,7 +286,7 @@
     "email": "pope.marquez@undefined.org"
   },
   {
-    "_id": "5eba68614e953ae72dc96047",
+    "_id": {"$oid":"5eba68614e953ae72dc96047"},
     "login": "culpa",
     "mdp": "tempor",
     "statut": "respo-option",
@@ -297,7 +297,7 @@
     "email": "alicia.graves@undefined.info"
   },
   {
-    "_id": "5eba68613627f82b6f1fa9f4",
+    "_id": {"$oid":"5eba68613627f82b6f1fa9f4"},
     "login": "irure",
     "mdp": "adipisicing",
     "statut": "administrateur",
@@ -308,7 +308,7 @@
     "email": "rosalie.macdonald@undefined.name"
   },
   {
-    "_id": "5eba6861b52077035180e643",
+    "_id": {"$oid":"5eba6861b52077035180e643"},
     "login": "nulla",
     "mdp": "ullamco",
     "statut": "administrateur",
@@ -319,7 +319,7 @@
     "email": "sandoval.saunders@undefined.me"
   },
   {
-    "_id": "5eba6861c059539a89aff0f1",
+    "_id": {"$oid":"5eba6861c059539a89aff0f1"},
     "login": "amet",
     "mdp": "est",
     "statut": "prof",
@@ -330,7 +330,7 @@
     "email": "doyle.nielsen@undefined.com"
   },
   {
-    "_id": "5eba68618e777f4871c13b04",
+    "_id": {"$oid":"5eba68618e777f4871c13b04"},
     "login": "velit",
     "mdp": "reprehenderit",
     "statut": "administrateur",
@@ -341,7 +341,7 @@
     "email": "harvey.burris@undefined.io"
   },
   {
-    "_id": "5eba686135bd60f75e6d1203",
+    "_id": {"$oid":"5eba686135bd60f75e6d1203"},
     "login": "eiusmod",
     "mdp": "culpa",
     "statut": "prof",
@@ -352,7 +352,7 @@
     "email": "effie.barr@undefined.biz"
   },
   {
-    "_id": "5eba6861c36d173945f556a6",
+    "_id": {"$oid":"5eba6861c36d173945f556a6"},
     "login": "consequat",
     "mdp": "sunt",
     "statut": "administrateur",
@@ -363,7 +363,7 @@
     "email": "stanley.diaz@undefined.ca"
   },
   {
-    "_id": "5eba68614f2c08bd51062933",
+    "_id": {"$oid":"5eba68614f2c08bd51062933"},
     "login": "non",
     "mdp": "aliquip",
     "statut": "respo-option",
@@ -374,7 +374,7 @@
     "email": "bonner.austin@undefined.net"
   },
   {
-    "_id": "5eba6861b15875e0eef4fa3f",
+    "_id": {"$oid":"5eba6861b15875e0eef4fa3f"},
     "login": "irure",
     "mdp": "nulla",
     "statut": "administrateur",
@@ -385,7 +385,7 @@
     "email": "ericka.tyson@undefined.tv"
   },
   {
-    "_id": "5eba6861f227b0717e9ad444",
+    "_id": {"$oid":"5eba6861f227b0717e9ad444"},
     "login": "aliquip",
     "mdp": "duis",
     "statut": "administrateur",
@@ -396,7 +396,7 @@
     "email": "jenna.hayden@undefined.co.uk"
   },
   {
-    "_id": "5eba6861279115a96faa62b5",
+    "_id": {"$oid":"5eba6861279115a96faa62b5"},
     "login": "nisi",
     "mdp": "voluptate",
     "statut": "administrateur",
