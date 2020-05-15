@@ -32,7 +32,7 @@ export class AlumnusDetailComponent implements OnInit {
   }
 
   checkAuthorize(alumnus: Alumnus) {
-    return ((alumnus.name === this.connectionService.getToken()) || this.isAuthorized(alumnus));
+    return ((alumnus.first_name === this.connectionService.getToken()) || this.isAuthorized(alumnus));
   }
 
   modifyAlumnus(id: number) {

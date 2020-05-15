@@ -14,8 +14,8 @@ export class FilterAlumnusPipe implements PipeTransform {
 
     if (searchValue) {
       searchValue = searchValue.toLowerCase();
-      alumnusArray = alumnusArray.filter(e => e.name.toLowerCase().includes(searchValue)
-        || e.entreprise.toLowerCase().includes(searchValue)); }
+      alumnusArray = alumnusArray.filter(e => e.last_name.toLowerCase().includes(searchValue)
+        || e.company.toLowerCase().includes(searchValue)); }
 
     return alumnusArray;
   }

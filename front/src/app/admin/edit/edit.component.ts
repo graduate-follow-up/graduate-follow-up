@@ -28,13 +28,13 @@ export class EditComponent implements OnInit {
       this.idAlumnus = alumnusToModify.id;
 
       this.checkoutForm = this.formBuilder.group({
-        id: alumnusToModify.id,
-        name: alumnusToModify.name,
-        promotion: alumnusToModify.promotion,
+        id: alumnusToModify._id,
+        name: alumnusToModify.first_name + alumnusToModify.last_name,
+        promotion: alumnusToModify.graduation,
         option: alumnusToModify.option,
-        pays: alumnusToModify.pays,
-        entreprise: alumnusToModify.entreprise,
-        salaire: alumnusToModify.salaire
+        pays: alumnusToModify.country,
+        entreprise: alumnusToModify.company,
+        salaire: alumnusToModify.wage
       });
     } else {
 

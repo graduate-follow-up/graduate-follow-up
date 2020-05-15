@@ -27,8 +27,9 @@ export class AlumnusComponent implements OnInit {
     private dataOption: DataOptionService
   ) { }
 
+
   ngOnInit() {
-    this.alumnus = this.alumnusService.getAlumnus();
+    this.alumnusService.getAlumnusObservable().subscribe(alumnus => this.alumnus = alumnus);
     this.options = this.dataOption.getOptions();
   }
 
