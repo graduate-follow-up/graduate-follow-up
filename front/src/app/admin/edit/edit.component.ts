@@ -16,7 +16,7 @@ export class EditComponent implements OnInit {
   action: string;
   options: string[];
   checkoutForm;
-  idAlumnus: number;
+  idAlumnus: string;
 
   ngOnInit() {
     this.options = this.dataOptionService.getOptions();
@@ -28,26 +28,36 @@ export class EditComponent implements OnInit {
       this.idAlumnus = alumnusToModify._id;
 
       this.checkoutForm = this.formBuilder.group({
-        id: alumnusToModify._id,
-        name: alumnusToModify.first_name + alumnusToModify.last_name,
-        promotion: alumnusToModify.graduation,
+        first_name: alumnusToModify.first_name,
+        last_name : alumnusToModify.last_name,
+        email: alumnusToModify.email,
+        company: alumnusToModify.company,
+        job: alumnusToModify.job,
+        country: alumnusToModify.country,
+        city: alumnusToModify.city,
         option: alumnusToModify.option,
-        pays: alumnusToModify.country,
-        entreprise: alumnusToModify.company,
-        salaire: alumnusToModify.wage
+        campus: alumnusToModify.campus,
+        graduation: alumnusToModify.graduation,
+        wage: alumnusToModify.wage,
+        phone: alumnusToModify.phone
       });
     } else {
 
-      this.idAlumnus = this.alumnusService.generateId();
+     // this.idAlumnus = this.alumnusService.generateId();
 
       this.checkoutForm = this.formBuilder.group({
-        id: this.idAlumnus,
-        name: '',
-        promotion: '',
+        first_name: '',
+        last_name : '',
+        email: '',
+        company: '',
+        job: '',
+        country: '',
+        city: '',
         option: '',
-        pays: '',
-        entreprise: '',
-        salaire: ''
+        campus: '',
+        graduation: '',
+        wage: '',
+        phone: ''
       });
     }
   }
@@ -66,11 +76,11 @@ export class EditComponent implements OnInit {
   onclickSubmit(formData) {
 
     // Add Alumnus Id to data
-    formData.id = this.idAlumnus;
+
 
     // Test if it is Modify or Add Mode
     if (this.action === 'Modify') {
-      this.alumnusService.modify(formData);
+      this.alumnusService.update(this.idAlumnus, formData);
       this.router.navigate(['']);
     } else {
       this.alumnusService.add(formData);
