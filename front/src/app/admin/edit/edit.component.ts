@@ -25,7 +25,7 @@ export class EditComponent implements OnInit {
     if (this.action === 'Modify') {
 
       const alumnusToModify: Alumnus = this.alumnusService.findOne(this.actionPerformed.getAlumnusId());
-      this.idAlumnus = alumnusToModify.id;
+      this.idAlumnus = alumnusToModify._id;
 
       this.checkoutForm = this.formBuilder.group({
         id: alumnusToModify._id,
