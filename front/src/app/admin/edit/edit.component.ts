@@ -5,6 +5,8 @@ import {AlumnusService} from '../../alumnus/service/alumnus.service';
 import {FormBuilder} from '@angular/forms';
 import {ActionPerformedService} from '../../alumnus/service/actionPerformed.service';
 import {DataOptionService} from '../../service/dataOption.service';
+import {Observable} from 'rxjs';
+import {ErrorService} from '../../service/error.service';
 
 @Component({
   selector: 'app-alumnus-modify',
@@ -17,6 +19,7 @@ export class EditComponent implements OnInit {
   options: string[];
   checkoutForm;
   idAlumnus: string;
+  errorMsg: string;
 
   ngOnInit() {
     this.options = this.dataOptionService.getOptions();
@@ -68,7 +71,8 @@ export class EditComponent implements OnInit {
     private router: Router,
     private formBuilder: FormBuilder,
     private actionPerformed: ActionPerformedService,
-    private dataOptionService: DataOptionService
+    private dataOptionService: DataOptionService,
+    private errorService: ErrorService
   ) {
   }
 
@@ -76,12 +80,14 @@ export class EditComponent implements OnInit {
   onclickSubmit(formData) {
 
     // Add Alumnus Id to data
-
-
     // Test if it is Modify or Add Mode
-    if (this.action === 'Modify') {
-      this.alumnusService.update(this.idAlumnus, formData);
-      this.router.navigate(['']);
+    if (this.action === 'Modify') { // ICI METTRE LE SUBSCRIBE ET SI ERROR METTRE LE MESSAGE D4ERRUER ET BANCO
+      // TODO
+      this.alumnusService.update(this.idAlumnus, formData).subscribe(
+        data => this.router.navigate(['']),
+        error => this.errorMsg = this.errorService.getErrorMessage() // TODO En fait n pas faire ça mais plutot fairte apparaitre la zone dans le dom avec le message d'erreur
+      )
+
     } else {
       this.alumnusService.add(formData);
       this.router.navigate(['']);
