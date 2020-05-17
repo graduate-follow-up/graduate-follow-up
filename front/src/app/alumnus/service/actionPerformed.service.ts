@@ -1,4 +1,5 @@
 import {Injectable} from '@angular/core';
+import {Alumnus} from "../../model/Alumnus";
 
 @Injectable({
   providedIn: 'root'
@@ -6,14 +7,14 @@ import {Injectable} from '@angular/core';
 export class ActionPerformedService {
 
   private actionPerformed: string;
-  private alumnusId: number;
+  private alumnus: Alumnus;
 
   constructor() {
   }
 
-  enabledModificationMode(id: number) {
+  enabledModificationMode(alumnus: Alumnus) {
     this.actionPerformed = 'Modify';
-    this.alumnusId = id;
+    this.alumnus = alumnus;
   }
 
   enabledAddMode() {
@@ -24,7 +25,7 @@ export class ActionPerformedService {
     return this.actionPerformed;
   }
 
-  getAlumnusId() {
-    return this.alumnusId;
+  getAlumnus() {
+    return this.alumnus;
   }
 }

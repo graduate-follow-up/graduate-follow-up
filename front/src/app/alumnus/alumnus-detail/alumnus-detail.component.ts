@@ -35,8 +35,8 @@ export class AlumnusDetailComponent implements OnInit {
     return ((alumnus.first_name === this.connectionService.getToken()) || this.isAuthorized(alumnus));
   }
 
-  modifyAlumnus(id: number) {
-    this.actionPerformed.enabledModificationMode(id);
+  modifyAlumnus(alumnus: Alumnus) {
+    this.actionPerformed.enabledModificationMode(alumnus);
     this.router.navigate(['admin/edit']);
   }
 }

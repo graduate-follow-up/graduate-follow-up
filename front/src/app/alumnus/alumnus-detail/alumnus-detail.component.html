@@ -14,7 +14,7 @@
     </div>
     <div class="extra content" >
       <div class="ui two buttons">
-        <div class="ui basic grey button" (click)="modifyAlumnus(alumnus._id)">Modifier</div>
+        <div class="ui basic grey button" (click)="modifyAlumnus(alumnus)">Modifier</div>
         <div class="ui basic red button" (click)="this.alumnusService.delete(alumnus._id)" *ngIf="isAuthorized(alumnus)">Delete</div>
       </div>
     </div>

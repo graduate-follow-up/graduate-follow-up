@@ -3,6 +3,7 @@ import {Alumnus} from '../../model/Alumnus';
 import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
 import {Observable, throwError} from 'rxjs';
 import {catchError} from 'rxjs/operators';
+import {AlumnusWithoutId} from "../../model/alumnus-without-id";
 
 @Injectable({
   providedIn: 'root'
@@ -49,8 +50,8 @@ export class AlumnusService {
     this.getAlumnus().splice(index, 1);
   }*/
 
-  update(id: string, alumnus: Alumnus) {
-    return this.http.put(this.ulrAlumnus, alumnus, this.httpOptions)
+  update(id: string, alumnus: AlumnusWithoutId) {
+    return this.http.put(this.ulrAlumnus + '/' + id, alumnus, this.httpOptions)
       .pipe(catchError(this.handleError)
     );
   }
