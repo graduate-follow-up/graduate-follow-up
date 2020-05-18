@@ -51,7 +51,7 @@ export class AlumnusService {
 */
   add(newAlumnus: AlumnusWithoutId) { // Insert in Database
     return this.http.post(this.ulrAlumnus, newAlumnus, this.httpOptions)
-      .pipe(catchError(ErrorService.handleError))
+      .pipe(catchError(ErrorService.handleError));
   }
 
   /*delete(id: number) {
@@ -60,8 +60,12 @@ export class AlumnusService {
   }*/
 
   update(id: string, alumnus: AlumnusWithoutId) {
-    return this.http.put(this.ulrAlumnus + '/' + id, alumnus, this.httpOptions)
-      .pipe(catchError(ErrorService.handleError))
+    return this.http.put(this.ulrAlumnus + id, alumnus, this.httpOptions)
+      .pipe(catchError(ErrorService.handleError));
   }
 
+  delete(id: string) {
+    return this.http.delete(this.ulrAlumnus + id, this.httpOptions)
+      .pipe(catchError(ErrorService.handleError));
+  }
 }

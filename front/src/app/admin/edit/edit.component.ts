@@ -85,12 +85,14 @@ export class EditComponent implements OnInit {
       // TODO
       this.alumnusService.update(this.idAlumnus, formData).subscribe(
         data => this.router.navigate(['']),
-        error => this.errorMsg = this.errorService.getErrorMessage() // TODO En fait n pas faire ça mais plutot fairte apparaitre la zone dans le dom avec le message d'erreur
-      )
+        error => this.errorMsg = this.errorService.getErrorMessage()
+      );
 
     } else {
-      this.alumnusService.add(formData);
-      this.router.navigate(['']);
+      this.alumnusService.add(formData).subscribe(
+        data => this.router.navigate(['']),
+        error => this.errorMsg = this.errorService.getErrorMessage()
+      );
     }
   }
 }

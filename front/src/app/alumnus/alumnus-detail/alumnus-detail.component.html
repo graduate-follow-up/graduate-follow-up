@@ -1,3 +1,8 @@
+<div class="ui negative message" *ngIf="errorMsg">
+  <div class="header">
+  </div>
+  <p>{{errorMsg}}</p></div>
+
 <!--Card View-->
 <div class="ui cards" *ngIf="checkAuthorize(alumnus)">
   <div class="card" style="margin-bottom: 20px">
@@ -15,7 +20,7 @@
     <div class="extra content" >
       <div class="ui two buttons">
         <div class="ui basic grey button" (click)="modifyAlumnus(alumnus)">Modifier</div>
-        <div class="ui basic red button" (click)="this.alumnusService.delete(alumnus._id)" *ngIf="isAuthorized(alumnus)">Delete</div>
+        <div class="ui basic red button" (click)="this.delete(alumnus._id)" *ngIf="isAuthorized(alumnus)">Delete</div>
       </div>
     </div>
   </div>
