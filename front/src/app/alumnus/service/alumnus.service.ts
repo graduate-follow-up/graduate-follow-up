@@ -19,12 +19,6 @@ export class AlumnusService {
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json'})};
 
- /* findOne(alumnusId: number): Alumnus {
-    return this.getAlumnus().find(e => e._id === alumnusId);
-  }*/
-
-
-
 
   getAlumnusObservable(): Observable<Alumnus[]> {
     return this.http.get<Alumnus[]>(this.ulrAlumnus)
@@ -32,33 +26,13 @@ export class AlumnusService {
       );
   }
 
-  /*getAlumnusFillData(): void {
-    this.getAlumnusObservable().subscribe(alumnus => {
-      console.log(alumnus);
-      this.alumnusData = alumnus;
-    });
-    console.log(this.alumnusData);
-  }*/
-
   getAlumnus(): Alumnus[] {
     return this.alumnusData; }
 
- /* getAlumnusIndex(id: number): number {
-    return this.getAlumnus().findIndex(e => e._id === id); }
-
-  generateId(): number {
-    return this.getAlumnus().reduce(((acc, val) => (val._id > acc) ? val._id : acc), 0) + 1; }
-*/
   add(newAlumnus: AlumnusWithoutId) { // Insert in Database
     return this.http.post(this.ulrAlumnus, newAlumnus, this.httpOptions)
       .pipe(catchError(ErrorService.handleError));
   }
-
-
-  /*delete(id: number) {
-    const index: number = this.getAlumnus().findIndex(e => e._id === id);
-    this.getAlumnus().splice(index, 1);
-  }*/
 
   update(id: string, alumnus: AlumnusWithoutId) {
     return this.http.put(this.ulrAlumnus + id, alumnus, this.httpOptions)
