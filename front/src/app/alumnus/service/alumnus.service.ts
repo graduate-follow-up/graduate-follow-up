@@ -17,7 +17,7 @@ export class AlumnusService {
   private alumnusData: Alumnus[];
 
   httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'})};
+    headers: new HttpHeaders({ 'Content-Type': 'application/json'})};
 
  /* findOne(alumnusId: number): Alumnus {
     return this.getAlumnus().find(e => e._id === alumnusId);
@@ -53,6 +53,7 @@ export class AlumnusService {
     return this.http.post(this.ulrAlumnus, newAlumnus, this.httpOptions)
       .pipe(catchError(ErrorService.handleError));
   }
+
 
   /*delete(id: number) {
     const index: number = this.getAlumnus().findIndex(e => e._id === id);
