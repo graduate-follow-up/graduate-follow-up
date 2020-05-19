@@ -1,4 +1,4 @@
-import {Alumnus} from '../model/Alumnus';
+/*import {Alumnus} from '../model/Alumnus';
 
 export let MockAlumnus: Alumnus [] =
   [
@@ -17,4 +17,4 @@ export let MockAlumnus: Alumnus [] =
     {id : 13, name : 'Manche Abalais', option : 'ia', promotion : ' 2015', entreprise : 'Enedis', pays : 'France', salaire : '75000'},
     {id : 14, name : 'Ramasse Poussiere', option : 'ia', promotion : ' 2019', entreprise : 'Safran', pays : 'France', salaire : '86320'},
 
-  ];
+  ];*/

@@ -1,9 +1,15 @@
 export class Alumnus {
   id: number;
+  firstName: string;
   name: string;
-  promotion: string;
-  option: string;
-  pays: string;
+  email: string;
   entreprise: string;
-  salaire: string;
+  job: string;
+  pays: string;
+  city: string;
+  option: string;
+  campus: string;
+  promotion: number;
+  salaire: number;
+  phone: string;
 }

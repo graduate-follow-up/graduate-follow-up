@@ -16,7 +16,7 @@ export class AlumnusDetailComponent implements OnInit {
   @Input() alumnus: Alumnus;
 
   constructor(
-    private alumnusService: AlumnusService,
+    public alumnusService: AlumnusService,
     private connectionService: ConnectionService,
     private actionPerformed: ActionPerformedService,
     private router: Router
