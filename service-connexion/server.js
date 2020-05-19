@@ -71,7 +71,7 @@ app.post('/login', (req, res) => {
                         username: username,
                         role: responseString.statut,
                         id: responseString._id },
-                    refreshTokenSecret,
+                    process.env.JWT_KEY2,
                     {expiresIn: '120m'}
                 );
 
@@ -113,7 +113,7 @@ app.post('/token', (req, res) => {
         return res.sendStatus(403);
     }
 
-    jwt.verify(token, refreshTokenSecret, (err, payload) => {
+    jwt.verify(token, process.env.JWT_KEY2, (err, payload) => {
         if (err) {
             return res.sendStatus(403);
         }
