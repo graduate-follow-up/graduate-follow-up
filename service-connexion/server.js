@@ -13,7 +13,7 @@ app.use(bodyParser.json());
 
 
 // TODO : store secret in volume / as var env / docker secret
-const accessTokenSecret = 'youraccesstokensecret';
+//const accessTokenSecret = 'youraccesstokensecret';
 const refreshTokenSecret = 'yourrefreshtokensecrethere';
 
 let refreshTokens = [];
@@ -62,7 +62,7 @@ app.post('/login', (req, res) => {
                         role: responseString.statut,
                         id: responseString._id
                     },
-                    accessTokenSecret,
+                    process.env.JWT_KEY,
                     {expiresIn: '20m'}
                 );
 
@@ -124,7 +124,7 @@ app.post('/token', (req, res) => {
                 role: payload.role,
                 id: payload.id
             },
-            accessTokenSecret,
+            process.env.JWT_KEY,
             {expiresIn: '20m'}
         );
 

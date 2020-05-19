@@ -131,3 +131,4 @@ speed-measure-plugin*.json
 # Other
 .DS_Store
 .idea/
+.env/

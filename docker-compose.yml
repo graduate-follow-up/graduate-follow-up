@@ -18,6 +18,8 @@ services:
     build: ./service-connexion/
     networks:
       - proxy
+    env_file:
+      - ./.env/api.env
 
   service_user:
     build: ./service-user/
