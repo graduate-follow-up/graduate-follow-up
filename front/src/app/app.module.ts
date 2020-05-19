@@ -12,6 +12,10 @@ import {HeaderComponent} from './header/header.component';
 import {RGPDComponent} from './rgpd/rgpd.component';
 import {StatsComponent} from './stats/stats.component';
 import { AdminModule } from './admin/admin.module';
+import {DeviceDetectorService} from 'ngx-device-detector';
+import {MatMenuModule} from '@angular/material/menu';
+import {MatCommonModule} from '@angular/material/core';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 const Routes = [
   {path: 'RGPD', component: RGPDComponent},
@@ -34,9 +38,12 @@ const Routes = [
     HttpClientModule,
     AlumnusModule,
     ReactiveFormsModule,
-    AdminModule
+    AdminModule,
+    MatMenuModule,
+    MatCommonModule,
+    BrowserAnimationsModule
   ],
-  providers: [AuthGuardGuard],
+  providers: [AuthGuardGuard, DeviceDetectorService, ],
   bootstrap: [AppComponent]
 })
 export class AppModule {

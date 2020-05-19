@@ -1,8 +1,11 @@
-<div class="ui secondary pointing menu" style="margin-bottom: 10px">
-  <a *ngIf="this.connectionService.isConnected" class="active item" routerLink="">Home</a>
+
+<div class="ui fixed inverted menu">
+ <a class="item" routerLink="" style="padding:0; margin:0;"><img src="assets/logo.png" style="width:110px; height:70px"></a>
+  <a *ngIf="this.connectionService.isConnected" class="item" routerLink="">Home</a>
   <a *ngIf="this.connectionService.isConnected" class="item" routerLink="stats">Stats</a>
   <a class="item" routerLink="RGPD">RGPD</a>
 
+  <!-- Manage connection -->
   <div class="right menu" *ngIf="this.connectionService.isConnected">
     <a class="ui item" (click)="this.connectionService.logout()">Logout</a>
   </div>
@@ -11,4 +14,43 @@
   </div>
 </div>
 
+<br><br><br><br><br><br>
 
+<!-- TEST avec la version mobile desktop -->
+<!--div class="ui grid">
+
+  <div class="computer only row">
+    <div class="column">
+      <div class="ui menu">
+        <a class="item" id="test">Menu Item A</a>
+        <a class="item">Menu Item B</a>
+        <a class="item">Menu Item C</a>
+        <a class="item">Menu Item D</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="tablet mobile only row">
+    <div class="column">
+      <div class="ui menu">
+
+        <button mat-button [matMenuTriggerFor]="menu"><a id="mobile_item" class="item"><i class="bars icon"></i></a></button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item>Item 1</button>
+          <button mat-menu-item>Item 2</button>
+        </mat-menu>
+      </div>
+    </div>
+  </div>
+</div-->
+
+<!--div class="ui fixed inverted menu" style="padding-left: 5% !important; padding-right: 5%!important; background: #305082 !important;">
+<div class="container">
+  <a class="header item">
+    <img src="src/assets/logo.png">
+    header
+  </a>
+  <a class="item" href="">link</a>
+  <a class="item" href="">link</a>
+
+</div-->

@@ -1,21 +1,39 @@
 import {Injectable} from '@angular/core';
 import {Alumnus} from '../../model/Alumnus';
-import {MockAlumnus} from '../../Database/mock-alumnus';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {Observable} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AlumnusService {
 
-  constructor() {}
+  private ulrAlumnus = 'http://proxy/alumnis/';
+  private alumnusData: Alumnus[];
 
-  getAlumnus(): Alumnus[] {
-    return MockAlumnus; }
+  constructor(private http: HttpClient) {}
+
+  /*
+  const httpOptions = {
+    headers: new HttpHeaders({
+      'Access-Control-Allow-Origin':'*',
+    })
+  };*/
+
+
+  private getAlumnusObservable(): Observable<Alumnus[]> {
+    return this.http.get<Alumnus[]>(this.ulrAlumnus);
+  }
+
+   getAlumnus(): Alumnus[] {
+    this.getAlumnusObservable().subscribe(alumnus => this.alumnusData = alumnus);
+    return this.alumnusData; }
+
 
   getAlumnusIndex(id: number): number {
     return this.getAlumnus().findIndex(e => e.id === id); }
 
-    generateId(): number {
+  generateId(): number {
     return this.getAlumnus().reduce(((acc, val) => (val.id > acc) ? val.id : acc), 0) + 1; }
 
   add(newAlumnus: Alumnus) { // Insert in Database
@@ -30,7 +48,6 @@ export class AlumnusService {
     this.delete(alumnus.id);
     this.add(alumnus);
   }
-
 
   findOne(alumnusId: number): Alumnus {
     return this.getAlumnus().find(e => e.id === alumnusId);
