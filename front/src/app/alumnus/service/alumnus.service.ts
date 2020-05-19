@@ -11,6 +11,7 @@ import {ErrorService} from '../../service/error.service';
 })
 export class AlumnusService {
 
+
   constructor(private http: HttpClient) {}
 
   private ulrAlumnus = 'http://localhost/alumnis/';
@@ -18,7 +19,6 @@ export class AlumnusService {
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json'})};
-
 
   getAlumnusObservable(): Observable<Alumnus[]> {
     return this.http.get<Alumnus[]>(this.ulrAlumnus)
