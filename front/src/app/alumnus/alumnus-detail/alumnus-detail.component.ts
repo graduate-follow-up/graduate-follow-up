@@ -45,7 +45,7 @@ export class AlumnusDetailComponent implements OnInit {
 
   delete(id: string) {
     this.alumnusService.delete(id).subscribe(
-      data => this.router.navigate(['']),
+      data => this.router.navigateByUrl('/admin/edit', { skipLocationChange: true }).then(() => {this.router.navigate(['']); }),
       error => this.errorMsg = this.errorService.getErrorMessage()
     );
   }
