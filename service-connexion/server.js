@@ -12,10 +12,6 @@ const app = express();
 app.use(bodyParser.json());
 
 
-// TODO : store secret in volume / as var env / docker secret
-//const accessTokenSecret = 'youraccesstokensecret';
-const refreshTokenSecret = 'yourrefreshtokensecrethere';
-
 let refreshTokens = [];
 
 app.listen(PORT, () => {
@@ -27,7 +23,6 @@ app.listen(PORT, () => {
     // refresh-token : token permettant de régénérer accesstoken
 
 app.post('/login', (req, res) => {
-    // read username and password from request body
     const username = req.body.user;
     const pwd = req.body.password;
     console.log(username);
@@ -62,7 +57,7 @@ app.post('/login', (req, res) => {
                         role: responseString.statut,
                         id: responseString._id
                     },
-                    process.env.JWT_KEY,
+                    process.env.JWT_ACCES_TOKEN_SECRET,
                     {expiresIn: '20m'}
                 );
 
@@ -71,7 +66,7 @@ app.post('/login', (req, res) => {
                         username: username,
                         role: responseString.statut,
                         id: responseString._id },
-                    process.env.JWT_KEY2,
+                    process.env.JWT_REFRESH_TOKEN_SECRET,
                     {expiresIn: '120m'}
                 );
 
@@ -113,7 +108,7 @@ app.post('/token', (req, res) => {
         return res.sendStatus(403);
     }
 
-    jwt.verify(token, process.env.JWT_KEY2, (err, payload) => {
+    jwt.verify(token, process.env.JWT_REFRESH_TOKEN_SECRET, (err, payload) => {
         if (err) {
             return res.sendStatus(403);
         }
@@ -124,7 +119,7 @@ app.post('/token', (req, res) => {
                 role: payload.role,
                 id: payload.id
             },
-            process.env.JWT_KEY,
+            process.env.JWT_ACCESS_TOKEN_SECRET,
             {expiresIn: '20m'}
         );
 
