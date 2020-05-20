@@ -4,17 +4,16 @@ const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
 const http = require('http');
 
-
+if(! process.env.JWT_ACCESS_TOKEN_SECRET || ! process.env.JWT_REFRESH_TOKEN_SECRET){
+    console.error('\x1b[31m%s\x1b[0m', 'Jwt tokens are not initialized. Please run install.sh.');
+    return process.exit(255);
+}
 
 // App
 const PORT = 3000;
 const app = express();
 app.use(bodyParser.json());
 
-
-// TODO : store secret in volume / as var env / docker secret
-const accessTokenSecret = 'youraccesstokensecret';
-const refreshTokenSecret = 'yourrefreshtokensecrethere';
 
 let refreshTokens = [];
 
@@ -27,7 +26,6 @@ app.listen(PORT, () => {
     // refresh-token : token permettant de régénérer accesstoken
 
 app.post('/login', (req, res) => {
-    // read username and password from request body
     const username = req.body.user;
     const pwd = req.body.password;
     console.log(username);
@@ -62,7 +60,7 @@ app.post('/login', (req, res) => {
                         role: responseString.statut,
                         id: responseString._id
                     },
-                    accessTokenSecret,
+                    process.env.JWT_ACCES_TOKEN_SECRET,
                     {expiresIn: '20m'}
                 );
 
@@ -71,7 +69,7 @@ app.post('/login', (req, res) => {
                         username: username,
                         role: responseString.statut,
                         id: responseString._id },
-                    refreshTokenSecret,
+                    process.env.JWT_REFRESH_TOKEN_SECRET,
                     {expiresIn: '120m'}
                 );
 
@@ -113,7 +111,7 @@ app.post('/token', (req, res) => {
         return res.sendStatus(403);
     }
 
-    jwt.verify(token, refreshTokenSecret, (err, payload) => {
+    jwt.verify(token, process.env.JWT_REFRESH_TOKEN_SECRET, (err, payload) => {
         if (err) {
             return res.sendStatus(403);
         }
@@ -124,7 +122,7 @@ app.post('/token', (req, res) => {
                 role: payload.role,
                 id: payload.id
             },
-            accessTokenSecret,
+            process.env.JWT_ACCESS_TOKEN_SECRET,
             {expiresIn: '20m'}
         );
 

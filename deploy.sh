@@ -1,8 +1,7 @@
-#/bin/sh -x
+#!/bin/sh -x
 
-if [ -f dockercompose.lock ]; then
-  docker-compose stop
-  rm dockercompose.lock
+if [ ! -f ./.env/.installed ]; then
+. ./install.sh
 fi
 
 docker-compose up -d --build --remove-orphans
