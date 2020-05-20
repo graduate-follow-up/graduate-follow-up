@@ -5,6 +5,8 @@ import {AlumnusService} from '../../alumnus/service/alumnus.service';
 import {FormBuilder} from '@angular/forms';
 import {ActionPerformedService} from '../../alumnus/service/actionPerformed.service';
 import {DataOptionService} from '../../service/dataOption.service';
+import {Observable} from 'rxjs';
+import {ErrorService} from '../../service/error.service';
 
 @Component({
   selector: 'app-alumnus-modify',
@@ -16,7 +18,8 @@ export class EditComponent implements OnInit {
   action: string;
   options: string[];
   checkoutForm;
-  idAlumnus: number;
+  idAlumnus: string;
+  errorMsg: string;
 
   ngOnInit() {
     this.options = this.dataOptionService.getOptions();
@@ -24,30 +27,40 @@ export class EditComponent implements OnInit {
 
     if (this.action === 'Modify') {
 
-      const alumnusToModify: Alumnus = this.alumnusService.findOne(this.actionPerformed.getAlumnusId());
-      this.idAlumnus = alumnusToModify.id;
+      const alumnusToModify: Alumnus = this.actionPerformed.getAlumnus();
+      this.idAlumnus = alumnusToModify._id;
 
       this.checkoutForm = this.formBuilder.group({
-        id: alumnusToModify.id,
-        name: alumnusToModify.name,
-        promotion: alumnusToModify.promotion,
+        first_name: alumnusToModify.first_name,
+        last_name : alumnusToModify.last_name,
+        email: alumnusToModify.email,
+        company: alumnusToModify.company,
+        job: alumnusToModify.job,
+        country: alumnusToModify.country,
+        city: alumnusToModify.city,
         option: alumnusToModify.option,
-        pays: alumnusToModify.pays,
-        entreprise: alumnusToModify.entreprise,
-        salaire: alumnusToModify.salaire
+        campus: alumnusToModify.campus,
+        graduation: alumnusToModify.graduation,
+        wage: alumnusToModify.wage,
+        phone: alumnusToModify.phone
       });
     } else {
 
-      this.idAlumnus = this.alumnusService.generateId();
+     // this.idAlumnus = this.alumnusService.generateId();
 
       this.checkoutForm = this.formBuilder.group({
-        id: this.idAlumnus,
-        name: '',
-        promotion: '',
+        first_name: '',
+        last_name : '',
+        email: '',
+        company: '',
+        job: '',
+        country: '',
+        city: '',
         option: '',
-        pays: '',
-        entreprise: '',
-        salaire: ''
+        campus: '',
+        graduation: '',
+        wage: '',
+        phone: ''
       });
     }
   }
@@ -58,7 +71,8 @@ export class EditComponent implements OnInit {
     private router: Router,
     private formBuilder: FormBuilder,
     private actionPerformed: ActionPerformedService,
-    private dataOptionService: DataOptionService
+    private dataOptionService: DataOptionService,
+    private errorService: ErrorService
   ) {
   }
 
@@ -66,15 +80,19 @@ export class EditComponent implements OnInit {
   onclickSubmit(formData) {
 
     // Add Alumnus Id to data
-    formData.id = this.idAlumnus;
-
     // Test if it is Modify or Add Mode
-    if (this.action === 'Modify') {
-      this.alumnusService.modify(formData);
-      this.router.navigate(['']);
+    if (this.action === 'Modify') { // ICI METTRE LE SUBSCRIBE ET SI ERROR METTRE LE MESSAGE D4ERRUER ET BANCO
+      // TODO
+      this.alumnusService.update(this.idAlumnus, formData).subscribe(
+        data => this.router.navigate(['']),
+        error => this.errorMsg = this.errorService.getErrorMessage()
+      );
+
     } else {
-      this.alumnusService.add(formData);
-      this.router.navigate(['']);
+      this.alumnusService.add(formData).subscribe(
+        data => this.router.navigate(['']),
+        error => this.errorMsg = this.errorService.getErrorMessage()
+      );
     }
   }
 }
