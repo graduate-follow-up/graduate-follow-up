@@ -18,19 +18,28 @@ public class Controller {
     @GetMapping("/")
     String test () throws IOException, InterruptedException {
 
-        HttpClient client = HttpClient.newHttpClient();
+        /*HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("http://localhost/alumnis"))
                 .build();
         HttpResponse<String> response = client.send(request,
                 HttpResponse.BodyHandlers.ofString());
 
-        System.out.println(response.body());
+        System.out.println(response.body());*/
 
         /*HttpURLConnection con = (HttpURLConnection) new URL("http://localhost/alumnis").openConnection();
 
         con.setRequestMethod("GET");*/
-
-        return response.body();
+        HttpClient client = HttpClient.newBuilder()
+                .version(Version.HTTP_1_1)
+                .followRedirects(Redirect.NORMAL)
+                .connectTimeout(Duration.ofSeconds(20))
+                .proxy(ProxySelector.of(new InetSocketAddress("proxy.example.com", 80)))
+                .authenticator(Authenticator.getDefault())
+                .build();
+        HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
+        System.out.println(response.statusCode());
+        System.out.println(response.body());
+        return "";// response.body();
     }
 }
