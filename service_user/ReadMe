@@ -1,4 +1,0 @@
-Service user doit être fait en nodejs car c'est plus léger et je pense que c'est mieux.
-L'utilisation de expressJs peut être un must mais je suis pas expert de la gestion d'api Rest en node.
-
-- Alex D 

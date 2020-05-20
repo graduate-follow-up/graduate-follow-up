@@ -1,0 +1,64 @@
+<<<<<<< HEAD
+=======
+
+
+<div class="ui negative message" *ngIf="errorMsg">
+  <div class="header">
+  </div>
+  <p>{{errorMsg}}</p></div>
+
+
+>>>>>>> origin/front
+<h2 class="ui header">{{action}} an alumni</h2>
+
+
+<form [formGroup]="checkoutForm" (ngSubmit)="onclickSubmit(checkoutForm.value)"  class="ui form" >
+
+<<<<<<< HEAD
+  <label for="name">Name</label>
+  <input id="name" type="text" formControlName="name" >
+  <label for="promotion">Promotion</label>
+  <input id="promotion" type="text" formControlName="promotion" >
+=======
+  <label for="first_name">Prénom</label>
+  <input id="first_name" type="text" formControlName="first_name" >
+  <label for="last_name">Nom</label>
+  <input id="last_name" type="text" formControlName="last_name" >
+  <label for="email">Email</label>
+  <input id="email" type="text" formControlName="email" >
+  <label for="company">Entreprise</label>
+  <input id="company" type="text" formControlName="company" >
+  <label for="job">Job</label>
+  <input id="job" type="text" formControlName="job" >
+  <label for="country">Pays</label>
+  <input id="country" type="text" formControlName="country" >
+  <label for="city">Ville</label>
+  <input id="city" type="text" formControlName="city" >
+>>>>>>> origin/front
+  <label for="option">Option</label>
+  <!--input id="option" type="text"-->
+  <select id="option" class="ui dropdown" formControlName="option">
+<!--    <option selected *ngFor="let opt of options" value=opt>{{opt}}</option>-->
+    <option *ngFor="let opt of options" [value]="opt">{{opt}}</option>
+  </select>
+<<<<<<< HEAD
+  <label for="pays">Pays</label>
+  <input id="pays" type="text" formControlName="pays" >
+  <label for="entreprise">Entreprise</label>
+  <input id="entreprise" type="text" formControlName="entreprise" >
+  <label for="salaire">Salaire</label>
+  <input id="salaire" type="text" formControlName="salaire" >
+=======
+  <label for="campus">Campus</label>
+  <input id="campus" type="text" formControlName="campus" >
+  <label for="graduation">Promotion</label>
+  <input id="graduation" type="text" formControlName="graduation" >
+  <label for="wage">Salaire</label>
+  <input id="wage" type="text" formControlName="wage" >
+  <label for="phone">Telephone</label>
+  <input id="phone" type="text" formControlName="phone" >
+>>>>>>> origin/front
+  <br><br>
+  <button  class="ui button" type="submit">{{action}}</button>
+</form>
+
