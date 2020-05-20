@@ -4,7 +4,10 @@ const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
 const http = require('http');
 
-
+if(! process.env.JWT_ACCESS_TOKEN_SECRET || ! process.env.JWT_REFRESH_TOKEN_SECRET){
+    console.error('\x1b[31m%s\x1b[0m', 'Jwt tokens are not initialized. Please run install.sh.');
+    return process.exit(255);
+}
 
 // App
 const PORT = 3000;
