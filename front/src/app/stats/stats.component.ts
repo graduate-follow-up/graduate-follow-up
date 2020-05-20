@@ -56,8 +56,8 @@ export class StatsComponent implements OnInit {
     const listCompanies: string[] = [];
     // We fill the list option with all option
     allAlumnus.map(e => {
-        if (listCompanies.find(o => o === e.entreprise) === undefined) {
-          listCompanies.push(e.entreprise);
+        if (listCompanies.find(o => o === e.company) === undefined) {
+          listCompanies.push(e.company);
         }
       }
     );
@@ -66,7 +66,7 @@ export class StatsComponent implements OnInit {
   }
 
   private countEntreprise(entr: string) {
-    return this.alumnusService.getAlumnus().reduce((acc: number, val) => (acc + ((val.entreprise === entr) ? 1 : 0)), 0);
+    return this.alumnusService.getAlumnus().reduce((acc: number, val) => (acc + ((val.company === entr) ? 1 : 0)), 0);
   }
 
   createDataSalaryByOption(allAlumnus: Alumnus[]) {
@@ -90,7 +90,7 @@ export class StatsComponent implements OnInit {
   }
 
   countSalary(option: string): number {
-    return this.alumnusService.getAlumnus().reduce((acc: number, val) => (acc + ((val.option === option) ? +val.salaire : 0)), 0);
+    return this.alumnusService.getAlumnus().reduce((acc: number, val) => (acc + ((val.option === option) ? +val.wage : 0)), 0);
   }
 
 

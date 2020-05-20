@@ -1,7 +1,7 @@
 'use strict';
 const express = require('express');
 const bodyParser = require('body-parser');
-const { MongoClient } = require('mongodb');
+const { MongoClient, ObjectId } = require('mongodb');
 
 // Constants
 const MONGODB_URI = 'mongodb://database_user:27017/users';
@@ -38,8 +38,31 @@ app.get('/', (req, res) => {
   });
 });
 
+// On login -> service connexion asks service user to check user & pwd :
+//       - If user & pwd correct : sends user role
+//       - If user or pwd incorrect : sends status code 404 .
+app.get('/check-user',(req, res) => {
+
+  const usr = req.body.user;
+  const pwd = req.body.password;
+
+  collection.find({login: usr, mdp: pwd }).project({ statut: 1 }).toArray(function (err, docs) {
+    if(err) {
+      res.status(500).send(err);
+    } else {
+      if(docs.length === 0){
+        res.status(404).send();
+      }else{
+        res.status(200).send(docs[0]);
+      }
+    }
+  });
+
+
+});
+
 app.get('/:userId', (req, res) => {
-  collection.find({_id: req.params.userId}).toArray(function (err, docs) {
+  collection.find({_id: ObjectId(req.params.userId)}).toArray(function (err, docs) {
     if(err) {
       res.status(500).send(err);
     } else {
@@ -70,12 +93,11 @@ app.post('/', (req, res) => {
 
 app.put('/:userId', (req, res) => {
   // TODO check permissions
-
   // TODO verify update content
-  var userId = req.params.userId;
+
   let update = {$set : req.body};
 
-  collection.updateOne({_id: userId}, update, (err,resMongo) => {
+  collection.updateOne({_id: ObjectId(req.params.userId)}, update, (err,resMongo) => {
     if(err) {
       res.status(400).send(err);
     } else {
@@ -93,7 +115,7 @@ app.put('/:userId', (req, res) => {
 
 
   app.delete('/:userId', (req, res) => {
-  collection.deleteOne({"_id": req.params.userId}, (err, resMongo) => {
+  collection.deleteOne({"_id": ObjectId(req.params.userId)}, (err, resMongo) => {
     if(err) {
       res.status(500).send(err);
     } else {

@@ -12,12 +12,14 @@ services:
         - ${PROXY_PORT:-127.0.0.1:80}:80
     networks:
       - proxy
-    depends_on:
-      - service_user
-      - service_alumni
-      - front_login
-
   #Mongo database
+
+  service_connexion:
+    build: ./service-connexion/
+    networks:
+      - proxy
+    env_file:
+      - ./.env/api.env
 
   service_user:
     build: ./service-user/
@@ -60,10 +62,9 @@ services:
       - internal_alumni
 
   # Service Front   
-  front_login:
-    hostname: localhost
+  front:
     build:
-      context: ./front-login1/
+      context: ./front/
       args:
         BASE_HREF: /hello/
     networks:

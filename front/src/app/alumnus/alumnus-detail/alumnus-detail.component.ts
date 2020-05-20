@@ -5,6 +5,7 @@ import {DataUserService} from '../../service/dataUser.service';
 import {ConnectionService} from '../../login/services/connection.service';
 import {ActionPerformedService} from '../service/actionPerformed.service';
 import {Router} from '@angular/router';
+import {ErrorService} from '../../service/error.service';
 
 @Component({
   selector: 'app-alumnus-detail',
@@ -14,12 +15,14 @@ import {Router} from '@angular/router';
 export class AlumnusDetailComponent implements OnInit {
 
   @Input() alumnus: Alumnus;
+  errorMsg: string;
 
   constructor(
-    private alumnusService: AlumnusService,
+    public alumnusService: AlumnusService,
     private connectionService: ConnectionService,
     private actionPerformed: ActionPerformedService,
-    private router: Router
+    private router: Router,
+    private errorService: ErrorService
 ) {
   }
 
@@ -32,11 +35,18 @@ export class AlumnusDetailComponent implements OnInit {
   }
 
   checkAuthorize(alumnus: Alumnus) {
-    return ((alumnus.name === this.connectionService.getToken()) || this.isAuthorized(alumnus));
+    return ((alumnus.first_name === this.connectionService.getToken()) || this.isAuthorized(alumnus));
   }
 
-  modifyAlumnus(id: number) {
-    this.actionPerformed.enabledModificationMode(id);
+  modifyAlumnus(alumnus: Alumnus) {
+    this.actionPerformed.enabledModificationMode(alumnus);
     this.router.navigate(['admin/edit']);
+  }
+
+  delete(id: string) {
+    this.alumnusService.delete(id).subscribe(
+      data => this.router.navigate(['']),
+      error => this.errorMsg = this.errorService.getErrorMessage()
+    );
   }
 }

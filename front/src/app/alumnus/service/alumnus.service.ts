@@ -1,38 +1,46 @@
-import {Injectable} from '@angular/core';
+import {Injectable, OnInit} from '@angular/core';
 import {Alumnus} from '../../model/Alumnus';
-import {MockAlumnus} from '../../Database/mock-alumnus';
+import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
+import {Observable, throwError} from 'rxjs';
+import {catchError, tap} from 'rxjs/operators';
+import {AlumnusWithoutId} from '../../model/alumnus-without-id';
+import {ErrorService} from '../../service/error.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AlumnusService {
 
-  constructor() {}
+
+  constructor(private http: HttpClient) {}
+
+  private ulrAlumnus = 'http://localhost/alumnis/';
+  private alumnusData: Alumnus[];
+
+  httpOptions = {
+    headers: new HttpHeaders({ 'Content-Type': 'application/json'})};
+
+  getAlumnusObservable(): Observable<Alumnus[]> {
+    return this.http.get<Alumnus[]>(this.ulrAlumnus)
+      .pipe(catchError(ErrorService.handleError)
+      );
+  }
 
   getAlumnus(): Alumnus[] {
-    return MockAlumnus; }
+    return this.alumnusData; }
 
-  getAlumnusIndex(id: number): number {
-    return this.getAlumnus().findIndex(e => e.id === id); }
-
-    generateId(): number {
-    return this.getAlumnus().reduce(((acc, val) => (val.id > acc) ? val.id : acc), 0) + 1; }
-
-  add(newAlumnus: Alumnus) { // Insert in Database
-    this.getAlumnus().push(newAlumnus); }
-
-  delete(id: number) {
-    const index: number = this.getAlumnus().findIndex(e => e.id === id);
-    this.getAlumnus().splice(index, 1);
+  add(newAlumnus: AlumnusWithoutId) { // Insert in Database
+    return this.http.post(this.ulrAlumnus, newAlumnus, this.httpOptions)
+      .pipe(catchError(ErrorService.handleError));
   }
 
-  modify(alumnus: Alumnus) {
-    this.delete(alumnus.id);
-    this.add(alumnus);
+  update(id: string, alumnus: AlumnusWithoutId) {
+    return this.http.put(this.ulrAlumnus + id, alumnus, this.httpOptions)
+      .pipe(catchError(ErrorService.handleError));
   }
 
-
-  findOne(alumnusId: number): Alumnus {
-    return this.getAlumnus().find(e => e.id === alumnusId);
+  delete(id: string) {
+    return this.http.delete(this.ulrAlumnus + id, this.httpOptions)
+      .pipe(catchError(ErrorService.handleError));
   }
 }
