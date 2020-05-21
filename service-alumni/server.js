@@ -18,6 +18,15 @@ const ROLE = {
   RESPO: 'respo-option',
   ADMIN: 'administrateur'
 }
+const SERVICE_ACCESS_TOKEN = jwt.sign(
+    {
+      username: 'service-alumni',
+      role: 'service',
+      id: 'service-alumni'
+    },
+    process.env.JWT_ACCESS_TOKEN_SECRET,
+    {}
+);
 
 // App
 const app = express();
@@ -35,12 +44,13 @@ function isThisMyself(request_id,user_id, next) {
     family: 4,
     headers: {
       'Content-Type': 'application/json',
-      'Content-Length': 0
+      'Content-Length': 0,
+      'Authorization': 'Bearer '+ SERVICE_ACCESS_TOKEN
     }
   }
 
   const request = http.request(options, result => {
-    var responseString = "";
+    let responseString = "";
 
     result.on("data", function (data) {
       responseString += data;
@@ -53,11 +63,11 @@ function isThisMyself(request_id,user_id, next) {
         let user_email = responseString.email;
         collection.find({_id: ObjectId(request_id)}).toArray(function (err, alumni) {
           if(err) {
-            console.log("Error while checking if myself");
+            console.log('Error while checking if myself');
             next(false);
           } else {
             if (alumni.length === 0) {
-              console.log("Alumni not found.");
+              console.log('Alumni not found.');
               next(false);
             } else {
               let res = ((alumni[0].first_name === user_fn && alumni[0].last_name === user_ln) || alumni[0].email === user_email);
@@ -66,7 +76,7 @@ function isThisMyself(request_id,user_id, next) {
           }
         });
       }else{
-        console.log("Problem with request to service-user");
+        console.log('Problem with request to service-user');
         next(false);
       }
     });
@@ -147,7 +157,7 @@ MongoClient.connect(MONGODB_URI, {useUnifiedTopology: true}, function(err, clien
 
 
 app.get('/', authenticateToken ,(req, res) => {
-  let projection = "";
+  let projection = '';
   if(req.user.role === ROLE.USER){
     projection ={ first_name: 0, last_name:0, email: 0, phone: 0 };
   }
@@ -161,7 +171,7 @@ app.get('/', authenticateToken ,(req, res) => {
 });
 
 app.get('/:alumniId', authenticateToken , (req, res) => {
-  let projection = "";
+  let projection = '';
   if(req.user.role === ROLE.USER){
     projection = { first_name: 0, last_name:0, email: 0, phone: 0 };
   }
@@ -170,7 +180,7 @@ app.get('/:alumniId', authenticateToken , (req, res) => {
       res.status(500).send(err);
     } else {
       if(docs.length === 0 ){
-        res.status(404).send("Not found.");
+        res.status(404).send('Not found.');
       }else{
         res.status(200).send(docs[0]);
       }
@@ -189,7 +199,7 @@ app.post('/', authenticateToken, (req, res) => {
       }
     });
   }else{
-    res.status(401).send("Unauthorized.");
+    res.status(401).send('Unauthorized.');
   }
 })
 
@@ -205,7 +215,7 @@ app.put('/:alumniId', authenticateToken, (req, res) => {
       } else {
         switch (resMongo.matchedCount) {
           case 0:
-            res.status(404).send("No matching element found.");
+            res.status(404).send('No matching element found.');
             break;
           case 1:
             res.status(200).send('Element successfully updated');
@@ -214,14 +224,14 @@ app.put('/:alumniId', authenticateToken, (req, res) => {
       }
     });
   }else{
-    res.status(401).send("Unauthorized.");
+    res.status(401).send('Unauthorized.');
   }
   });
 });
 
 app.delete('/:alumniId', authenticateToken , (req, res) => {
   if(req.user.role !== ROLE.USER){
-    collection.deleteOne({"_id": ObjectId(req.params.alumniId)}, (err, resMongo) => {
+    collection.deleteOne({_id: ObjectId(req.params.alumniId)}, (err, resMongo) => {
       if(err) {
         res.status(500).send(err);
       } else {

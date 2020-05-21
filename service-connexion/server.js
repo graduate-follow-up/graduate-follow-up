@@ -9,9 +9,20 @@ if(! process.env.JWT_ACCESS_TOKEN_SECRET || ! process.env.JWT_REFRESH_TOKEN_SECR
     return process.exit(255);
 }
 
-// App
+
 const PORT = 3000;
 const app = express();
+const SERVICE_ACCESS_TOKEN = jwt.sign(
+    {
+        username: 'service-connexion',
+        role: 'service',
+        id: 'service-connexion'
+    },
+    process.env.JWT_ACCESS_TOKEN_SECRET,
+    {}
+);
+
+// App
 app.use(bodyParser.json());
 
 
@@ -36,14 +47,6 @@ function authenticateToken(req, res, next) {
         next() // pass the execution off to whatever request the client intended
     })
 }
-app.get('/protected', authenticateToken, (req, res) => {
-        if(req.user.role === "administrateur"){
-            res.status(200).send(JSON.stringify(refreshTokens));
-        }else{
-            res.status(403).send('Apparently, you are not an admin...');
-        }
-});
-
 
 // Génère deux token :
     // access-token : token qui sera vérifié et validé par les services pour déterminer accès , etc
@@ -63,12 +66,13 @@ app.post('/login', (req, res) => {
         family: 4,
         headers: {
             'Content-Type': 'application/json',
-            'Content-Length': body_to_send.length
+            'Content-Length': body_to_send.length,
+            'Authorization': 'Bearer '+ SERVICE_ACCESS_TOKEN
         }
     }
 
     const request = http.request(options, result => {
-        var responseString = "";
+        var responseString = '';
 
         result.on("data", function (data) {
             responseString += data;
@@ -160,5 +164,5 @@ app.post('/logout', authenticateToken ,(req, res) => {
     console.log(req.body);
     refreshTokens = refreshTokens.filter(t => t !== token);
 
-    res.send("Logout successful");
+    res.send('Logout successful');
 });

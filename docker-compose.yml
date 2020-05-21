@@ -28,6 +28,8 @@ services:
       - internal_user
     depends_on:
       - database_user
+    env_file:
+      - ./.env/api.env
 
   database_user:
     build: ./database-mongodb/
