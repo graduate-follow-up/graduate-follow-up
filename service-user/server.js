@@ -62,7 +62,7 @@ app.get('/check-user',(req, res) => {
 });
 
 app.get('/:userId', (req, res) => {
-  collection.find({_id: ObjectId(req.params.userId)}).toArray(function (err, docs) {
+  collection.find({_id: ObjectId(req.params.userId)}).project({mdp:0}).toArray(function (err, docs) {
     if(err) {
       res.status(500).send(err);
     } else {
