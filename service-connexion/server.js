@@ -21,6 +21,30 @@ app.listen(PORT, () => {
     console.log(`Service-connexion started and listen to port ${PORT}`);
 });
 
+function authenticateToken(req, res, next) {
+    // Gather the jwt access token from the request header
+    const authHeader = req.headers['authorization']
+    const token = authHeader && authHeader.split(' ')[1]
+    if (token == null) return res.sendStatus(401) // if there isn't any token
+
+    jwt.verify(token, process.env.JWT_ACCESS_TOKEN_SECRET, (err, user) => {
+        if (err){
+            console.log(err);
+            return res.sendStatus(403);
+        }
+        req.user = user
+        next() // pass the execution off to whatever request the client intended
+    })
+}
+app.get('/protected', authenticateToken, (req, res) => {
+        if(req.user.role === "administrateur"){
+            res.status(200).send(JSON.stringify(refreshTokens));
+        }else{
+            res.status(403).send('Apparently, you are not an admin...');
+        }
+});
+
+
 // Génère deux token :
     // access-token : token qui sera vérifié et validé par les services pour déterminer accès , etc
     // refresh-token : token permettant de régénérer accesstoken
@@ -28,8 +52,6 @@ app.listen(PORT, () => {
 app.post('/login', (req, res) => {
     const username = req.body.user;
     const pwd = req.body.password;
-    console.log(username);
-    console.log(pwd);
 
     const body_to_send = JSON.stringify({user : username, password: pwd})
 
@@ -60,7 +82,7 @@ app.post('/login', (req, res) => {
                         role: responseString.statut,
                         id: responseString._id
                     },
-                    process.env.JWT_ACCES_TOKEN_SECRET,
+                    process.env.JWT_ACCESS_TOKEN_SECRET,
                     {expiresIn: '20m'}
                 );
 
@@ -133,8 +155,9 @@ app.post('/token', (req, res) => {
 });
 
 // Au logout -> refresh supprimé.
-app.post('/logout', (req, res) => {
+app.post('/logout', authenticateToken ,(req, res) => {
     const {token} = req.body;
+    console.log(req.body);
     refreshTokens = refreshTokens.filter(t => t !== token);
 
     res.send("Logout successful");
