@@ -81,16 +81,15 @@ export class AlumnusEditComponent implements OnInit {
 
     // Add Alumnus Id to data
     // Test if it is Modify or Add Mode
-    if (this.action === 'Modify') { // ICI METTRE LE SUBSCRIBE ET SI ERROR METTRE LE MESSAGE D4ERRUER ET BANCO
-      // TODO
+    if (this.action === 'Modify') {
       this.alumnusService.update(this.idAlumnus, formData).subscribe(
-        data => this.router.navigate(['']),
+        data => {this.router.navigate(['']).catch(e => this.errorMsg = e); console.log('Update :' + data); },
         error => this.errorMsg = this.errorService.getErrorMessage()
       );
 
     } else {
       this.alumnusService.add(formData).subscribe(
-        data => this.router.navigate(['']),
+        data => {this.router.navigate(['']).catch(e => this.errorMsg = e); console.log('Adding :' + data); },
         error => this.errorMsg = this.errorService.getErrorMessage()
       );
     }
