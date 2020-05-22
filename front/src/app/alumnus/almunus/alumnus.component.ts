@@ -6,7 +6,7 @@ import {ConnectionService} from '../../login/services/connection.service';
 import {Router} from '@angular/router';
 import {ActionPerformedService} from '../service/actionPerformed.service';
 import {DataOptionService} from '../../service/dataOption.service';
-import {ErrorService} from "../../service/error.service";
+import {ErrorService} from '../../service/error.service';
 
 @Component({
   selector: 'app-alumnus',
@@ -49,6 +49,6 @@ export class AlumnusComponent implements OnInit {
 
   addAlumnus() {
     this.actionPerformed.enabledAddMode();
-    this.router.navigate(['/admin/edit']);
+    this.router.navigate(['/alumnus/edit']).catch(err => this.errorMsg = err);
   }
 }

@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import {EditComponent} from './edit/edit.component';
+import {AlumnusEditComponent} from '../alumnus/alumnus-edit/alumnus-edit.component';
 import {AuthGuardGuard} from '../login/services/auth-guard.guard';
 
 
 const adminRoutes: Routes = [
-  {path: 'admin/edit', component: EditComponent, canActivate : [AuthGuardGuard]},
+  // {path: 'admin/edit', component: AlumnusEditComponent, canActivate : [AuthGuardGuard]},
 ];
 
 @NgModule({
