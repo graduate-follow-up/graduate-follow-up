@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {Alumnus} from '../../model/Alumnus';
 import {AlumnusService} from '../service/alumnus.service';
-import {DataUserService} from '../../service/dataUser.service';
 import {ConnectionService} from '../../login/services/connection.service';
 import {Router} from '@angular/router';
 import {ActionPerformedService} from '../service/actionPerformed.service';
@@ -41,11 +39,6 @@ export class AlumnusComponent implements OnInit {
   isAuthorized() {
     return (this.connectionService.getToken() === 'admin');
   }
-
-  /*subscribe(
-    data => this.router.navigate(['']),
-  error => this.errorMsg = this.errorService.getErrorMessage()
-);*/
 
   addAlumnus() {
     this.actionPerformed.enabledAddMode();
