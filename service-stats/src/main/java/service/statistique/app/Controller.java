@@ -1,25 +1,23 @@
 package service.statistique.app;
 
+import org.json.simple.parser.ParseException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
-import java.net.URI;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
-import static service.statistique.app.alumniService.getAlumni;
+import static service.statistique.app.alumniService.getAlumniStream;
 
 @RestController
 public class Controller {
 
 
     @GetMapping("/")
-    String test () throws IOException, InterruptedException {
+    Double test () throws IOException, InterruptedException, ParseException {
 
-        System.out.println(getAlumni());
-        System.out.println();
-
-        return getAlumni().toString();
+        return getAlumniStream().map(al -> al.get("wage")).collect(Collectors.averagingInt(x -> Integer.parseInt(x.toString())));
     }
 }
