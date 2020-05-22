@@ -45,7 +45,8 @@ export class AlumnusDetailComponent implements OnInit {
 
   delete(id: string) {
     this.alumnusService.delete(id).subscribe(
-      data => this.router.navigateByUrl('/admin/edit', { skipLocationChange: true }).then(() => {this.router.navigate(['']).catch(err => this.errorMsg = err); }),
+      // tslint:disable-next-line:max-line-length
+      data => this.router.navigateByUrl('/alumnus/edit', { skipLocationChange: true }).then(() => {this.router.navigate(['']).catch(err => this.errorMsg = err); }),
       error => this.errorMsg = this.errorService.getErrorMessage()
     );
   }
