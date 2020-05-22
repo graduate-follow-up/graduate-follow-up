@@ -3,7 +3,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const { MongoClient, ObjectId } = require('mongodb');
 
-
+const databaseSchema = require('./database/schema.json');
 
 // Constants
 const MONGODB_URI = 'mongodb://database_alumni:27017/alumnis';
@@ -27,40 +27,7 @@ MongoClient.connect(MONGODB_URI, {useUnifiedTopology: true}, function(err, clien
   //TODO : getTodayYear for graduation max
   db.command( { collMod: COLLECTION_NAME,
     validator: {
-      $jsonSchema : {
-        bsonType: "object",
-        required: [ "first_name","last_name", "email", "option", "campus", "graduation" ],
-        properties: {
-          _id: {
-            bsonType: 'objectId',
-          },
-          first_name: {
-            bsonType: "string",
-            description: "required and must be a string" },
-          last_name: {
-            bsonType: "string",
-            description: "required and must be a string" },
-          email: {
-            bsonType: "string",
-            description: "required and must be a string"},
-          option: {
-            enum: ["ICC", "IERP", "IA", "IMSI", "INEM","IFI", "DS","SECU","BI","VS", "FINTECH"],
-            description: "required and must be one of those string: [ICC, IERP, IA, IMSI, INEM,IFI, DS,SECU,BI,VS, FINTECH]"},
-          campus: {
-            enum: [ "Pau", "Cergy" ],
-            description: "required and must be Pau or Cergy" },
-          graduation: {
-            bsonType: "int",
-            minimum: 1983,
-            maximum: 2025,
-            description: "must be an integer in [ 1983, actual year ] and is required"},
-          company: {
-            bsonType: "string",
-            description: "optional and must be a string"
-          }
-
-        }
-      }
+      $jsonSchema : databaseSchema
     },
     validationLevel: "strict",
     validationAction: "error"
@@ -72,7 +39,7 @@ MongoClient.connect(MONGODB_URI, {useUnifiedTopology: true}, function(err, clien
 });
 
 
-app.get('/', (req, res) => {
+app.get('/', (_req, res) => {
   // TODO check permissions
   collection.find({}).toArray(function(err, docs) {
     if(err) {
@@ -141,4 +108,8 @@ app.delete('/:alumniId', (req, res) => {
       res.sendStatus(resMongo.deletedCount > 0 ? 204 : 404);
     }
   });
+});
+
+app.get('/schema', (_req, res) => {
+  res.status(200).send(databaseSchema);
 });
