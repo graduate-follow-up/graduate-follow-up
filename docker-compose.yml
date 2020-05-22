@@ -28,6 +28,8 @@ services:
       - internal_user
     depends_on:
       - database_user
+    env_file:
+      - ./.env/api.env
 
   database_user:
     build: ./database-mongodb/
@@ -48,6 +50,8 @@ services:
       - internal_alumni
     depends_on:
       - database_alumni
+    env_file:
+      - ./.env/api.env
 
   database_alumni:
     build:  ./database-mongodb/
