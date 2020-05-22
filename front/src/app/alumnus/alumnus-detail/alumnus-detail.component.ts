@@ -40,12 +40,12 @@ export class AlumnusDetailComponent implements OnInit {
 
   modifyAlumnus(alumnus: Alumnus) {
     this.actionPerformed.enabledModificationMode(alumnus);
-    this.router.navigate(['admin/edit']);
+    this.router.navigate(['alumnus/edit']).catch(err => this.errorMsg = err);
   }
 
   delete(id: string) {
     this.alumnusService.delete(id).subscribe(
-      data => this.router.navigateByUrl('/admin/edit', { skipLocationChange: true }).then(() => {this.router.navigate(['']); }),
+      data => this.router.navigateByUrl('/admin/edit', { skipLocationChange: true }).then(() => {this.router.navigate(['']).catch(err => this.errorMsg = err); }),
       error => this.errorMsg = this.errorService.getErrorMessage()
     );
   }

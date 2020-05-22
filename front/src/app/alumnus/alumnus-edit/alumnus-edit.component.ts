@@ -1,19 +1,19 @@
 import {Component, OnInit} from '@angular/core';
 import {Alumnus} from '../../model/Alumnus';
 import {ActivatedRoute, Router} from '@angular/router';
-import {AlumnusService} from '../../alumnus/service/alumnus.service';
+import {AlumnusService} from '../service/alumnus.service';
 import {FormBuilder} from '@angular/forms';
-import {ActionPerformedService} from '../../alumnus/service/actionPerformed.service';
+import {ActionPerformedService} from '../service/actionPerformed.service';
 import {DataOptionService} from '../../service/dataOption.service';
 import {Observable} from 'rxjs';
 import {ErrorService} from '../../service/error.service';
 
 @Component({
   selector: 'app-alumnus-modify',
-  templateUrl: './edit.component.html',
-  styleUrls: ['./edit.component.css']
+  templateUrl: './alumnus-edit.component.html',
+  styleUrls: ['./alumnus-edit.component.css']
 })
-export class EditComponent implements OnInit {
+export class AlumnusEditComponent implements OnInit {
 
   action: string;
   options: string[];
