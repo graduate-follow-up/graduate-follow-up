@@ -89,7 +89,7 @@ app.get('/check-user',authenticateToken ,(req, res) => {
 
 app.get('/:userId', authenticateToken, (req, res) => {
   let authorized = req.user.role === ROLE.ADMIN || req.user.id === req.params.userId ;
-  let projection = ((req.user.id === req.params.userId) ? '' : {mdp:0});
+  let projection = ((req.user.id === req.params.userId) ? '' : {mdp:0}); // TODO : logique?
   if(authorized){
     collection.find({_id: ObjectId(req.params.userId)}).project(projection).toArray(function (err, docs) {
       if(err) {

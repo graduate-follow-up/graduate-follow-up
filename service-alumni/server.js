@@ -6,8 +6,6 @@ const jwt = require('jsonwebtoken');
 const http = require('http');
 
 
-
-
 // Constants
 const MONGODB_URI = 'mongodb://database_alumni:27017/alumnis';
 const DATABASE_NAME = 'alumnis';
@@ -157,10 +155,7 @@ MongoClient.connect(MONGODB_URI, {useUnifiedTopology: true}, function(err, clien
 
 
 app.get('/', authenticateToken ,(req, res) => {
-  let projection = '';
-  if(req.user.role === ROLE.USER){
-    projection ={ first_name: 0, last_name:0, email: 0, phone: 0 };
-  }
+  let projection = (req.user.role === ROLE.USER) ? { first_name: 0, last_name:0, email: 0, phone: 0 } : '';
   collection.find({}).project(projection).toArray(function(err, docs) {
     if(err) {
       res.status(500).send(err);
@@ -171,10 +166,7 @@ app.get('/', authenticateToken ,(req, res) => {
 });
 
 app.get('/:alumniId', authenticateToken , (req, res) => {
-  let projection = '';
-  if(req.user.role === ROLE.USER){
-    projection = { first_name: 0, last_name:0, email: 0, phone: 0 };
-  }
+  let projection = req.user.role === ROLE.USER ? { first_name: 0, last_name:0, email: 0, phone: 0 } : '' ;
   collection.find({_id: ObjectId(req.params.alumniId)}).project(projection).toArray(function (err, docs) {
     if(err) {
       res.status(500).send(err);
