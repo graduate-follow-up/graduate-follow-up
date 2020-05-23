@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import {Router} from '@angular/router';
+import {Token} from '../../model/Token';
+import {Observable} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -12,22 +14,24 @@ export class ConnectionService {
     this.isConnected = this.getConnection();
   }
 
-
   getConnection() {
-    return (sessionStorage.getItem('connection') !== null); }
+    return (sessionStorage.getItem('accessToken') !== null); }
 
-  stockConnection(login: string) {
+  stockConnection(token: Token) {
     this.isConnected = true;
-    sessionStorage.setItem('connection', login);
+    sessionStorage.setItem('accessToken', token.accessToken);
+    sessionStorage.setItem('refreshToken', token.refreshToken);
   }
 
   logout() {
-    sessionStorage.removeItem('connection');
+    // TODO : invoke API logout method
+    sessionStorage.removeItem('refreshToken');
+    sessionStorage.removeItem('accessToken');
     this.isConnected = false;
     this.router.navigate(['login']);
   }
 
   getToken() {
-    return sessionStorage.getItem('connection');
+    return sessionStorage.getItem('accessToken');
   }
 }

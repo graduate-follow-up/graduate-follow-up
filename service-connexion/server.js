@@ -30,7 +30,7 @@ app.post('/login', (req, res) => {
     const pwd = req.body.password;
     console.log(username);
     console.log(pwd);
-
+    console.log("Trying to login!");
     const body_to_send = JSON.stringify({user : username, password: pwd})
 
     const options = {
@@ -60,7 +60,7 @@ app.post('/login', (req, res) => {
                         role: responseString.statut,
                         id: responseString._id
                     },
-                    process.env.JWT_ACCES_TOKEN_SECRET,
+                    process.env.JWT_ACCESS_TOKEN_SECRET,
                     {expiresIn: '20m'}
                 );
 
