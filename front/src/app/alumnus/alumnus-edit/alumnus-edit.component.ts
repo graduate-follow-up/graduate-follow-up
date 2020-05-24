@@ -84,13 +84,13 @@ export class AlumnusEditComponent implements OnInit {
     if (this.action === 'Modify') {
       this.alumnusService.update(this.idAlumnus, formData).subscribe(
         data => {this.router.navigate(['']).catch(e => this.errorMsg = e); console.log('Update :' + data); },
-        error => this.errorMsg = this.errorService.getErrorMessage()
+        error => this.errorMsg = error + ' | ' + this.errorService.getErrorMessage()
       );
 
     } else {
       this.alumnusService.add(formData).subscribe(
         data => {this.router.navigate(['']).catch(e => this.errorMsg = e); console.log('Adding :' + data); },
-        error => this.errorMsg = this.errorService.getErrorMessage()
+        error => this.errorMsg = error + ' | ' + this.errorService.getErrorMessage()
       );
     }
   }

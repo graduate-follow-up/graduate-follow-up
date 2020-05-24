@@ -1,3 +1,12 @@
+div.ui:nth-child(2) {
+  align-items: center;
+}
+
 .margin {
   margin-top : 25px;
+  align-items: center;
+}
+
+.margin-left-20 {
+  margin-left : 20px;
 }
