@@ -64,6 +64,25 @@ app.get('/:alumniId', (req, res) => {
   });
 });
 
+
+app.post('/alumni-info/', (req,res) => {
+  let objectIdArray = [];
+  req.body.listId.map(s => {
+    objectIdArray.push(ObjectId(s));
+  });
+  collection.find({_id: {$in: objectIdArray}}).project({first_name: 1, last_name: 1, email: 1}).toArray(function (err,docs){
+    if(err){
+      res.status(500).send(err);
+    } else {
+      if(docs.length === 0 ){
+        res.status(404).send("Not found.");
+      }else{
+        res.status(200).send(docs);
+      }
+    }
+  });
+});
+
 app.post('/', (req, res) => {
   // TODO check permissions
   // TODO verify document format
