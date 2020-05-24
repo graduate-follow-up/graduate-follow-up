@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {Router} from '@angular/router';
 import {Token} from '../../model/Token';
-import {Observable} from "rxjs";
+import * as jwt_decode from 'jwt-decode';
 
 @Injectable({
   providedIn: 'root'
@@ -18,20 +18,38 @@ export class ConnectionService {
     return (sessionStorage.getItem('accessToken') !== null); }
 
   stockConnection(token: Token) {
-    this.isConnected = true;
+    const decoded = this.getDecodedAccessToken(token.accessToken);
     sessionStorage.setItem('accessToken', token.accessToken);
     sessionStorage.setItem('refreshToken', token.refreshToken);
+    sessionStorage.setItem('role', decoded.role);
+    sessionStorage.setItem('id', decoded.id);
+    sessionStorage.setItem('username', decoded.username);
+    this.isConnected = true;
+
   }
 
   logout() {
-    // TODO : invoke API logout method
     sessionStorage.removeItem('refreshToken');
     sessionStorage.removeItem('accessToken');
+    sessionStorage.removeItem('role');
+    sessionStorage.removeItem('id');
+    sessionStorage.removeItem('username');
     this.isConnected = false;
-    this.router.navigate(['login']);
   }
 
-  getToken() {
+  getAccessToken() {
     return sessionStorage.getItem('accessToken');
+  }
+
+  getUserRole() {
+    return sessionStorage.getItem('role');
+  }
+
+  getDecodedAccessToken(token: string): any {
+    try {
+      return jwt_decode(token);
+    } catch (Error) {
+      return null;
+    }
   }
 }

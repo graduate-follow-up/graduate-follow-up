@@ -1,6 +1,5 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
-
 import {AppComponent} from './app.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {RouterModule} from '@angular/router';
@@ -16,6 +15,7 @@ import {DeviceDetectorService} from 'ngx-device-detector';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatCommonModule} from '@angular/material/core';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {NgbAlertModule} from '@ng-bootstrap/ng-bootstrap';
 
 const Routes = [
   {path: 'RGPD', component: RGPDComponent},
@@ -31,6 +31,7 @@ const Routes = [
     StatsComponent
   ],
   imports: [
+    NgbAlertModule,
     BrowserModule,
     FormsModule,
     RouterModule.forRoot(Routes),

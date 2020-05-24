@@ -30,12 +30,13 @@ export class AlumnusDetailComponent implements OnInit {
   }
 
   isAuthorized(al: Alumnus) {
-    // User is allowed to see alumnus only if token equals to option or 'admin'
-    return ((al.option === this.connectionService.getToken()) || (this.connectionService.getToken() === 'admin'));
+    // User is allowed to see alumnus only if role is respo-option or administrateur
+    return (
+      (this.connectionService.getUserRole() === 'respo-option') || (this.connectionService.getUserRole() === 'administrateur') );
   }
 
   checkAuthorize(alumnus: Alumnus) {
-    return ((alumnus.first_name === this.connectionService.getToken()) || this.isAuthorized(alumnus));
+    return ((alumnus.first_name === this.connectionService.getAccessToken()) || this.isAuthorized(alumnus));
   }
 
   modifyAlumnus(alumnus: Alumnus) {
@@ -45,6 +46,7 @@ export class AlumnusDetailComponent implements OnInit {
 
   delete(id: string) {
     this.alumnusService.delete(id).subscribe(
+      // tslint:disable-next-line:max-line-length
       data => this.router.navigateByUrl('/admin/edit', { skipLocationChange: true }).then(() => {this.router.navigate(['']).catch(err => this.errorMsg = err); }),
       error => this.errorMsg = this.errorService.getErrorMessage()
     );

@@ -37,7 +37,7 @@ export class AlumnusComponent implements OnInit {
   }
 
   isAuthorized() {
-    return (this.connectionService.getToken() === 'admin');
+    return (this.connectionService.getUserRole() === 'administrateur' || this.connectionService.getUserRole() === 'respo-option' );
   }
 
   addAlumnus() {

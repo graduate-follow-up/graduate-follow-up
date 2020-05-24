@@ -74,6 +74,7 @@ app.post('/login', (req, res) => {
                 );
 
                 refreshTokens.push(refreshToken);
+                console.log(JSON.stringify(refreshTokens));
 
                 res.json({
                     accessToken,
@@ -134,8 +135,16 @@ app.post('/token', (req, res) => {
 
 // Au logout -> refresh supprimé.
 app.post('/logout', (req, res) => {
-    const {token} = req.body;
-    refreshTokens = refreshTokens.filter(t => t !== token);
-
-    res.send("Logout successful");
+    const token = req.body.token;
+    const success = {
+        success_message: "Logout successful"
+    }
+    if(refreshTokens.indexOf(token) > -1){
+        console.log("Token found");
+        refreshTokens = refreshTokens.filter(t => t !== token);
+        res.status(200).send(JSON.stringify(success));
+    }else{
+        console.log("Token not found");
+        res.status(404).send("Token not found".json);
+    }
 });
