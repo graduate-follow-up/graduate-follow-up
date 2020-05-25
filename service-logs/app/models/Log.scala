@@ -21,7 +21,7 @@ case class Log(
 object Formatters {
   implicit val logRead: Reads[Log] = (
     Reads.pure(None) and
-    (JsPath \ "date").read[Instant] and
+    Reads.pure(Instant.now) and
     (JsPath \ "logType").read[String].filter(JsonValidationError("Unsupported log type"))(logTypes.contains(_)) and
     (JsPath \ "actorRole").read[String] and
     (JsPath \ "actorId").read[String] and

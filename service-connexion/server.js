@@ -3,8 +3,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
 const http = require('http');
-
-
+const axios = require('axios');
 
 // App
 const PORT = 3000;
@@ -17,6 +16,14 @@ const accessTokenSecret = 'youraccesstokensecret';
 const refreshTokenSecret = 'yourrefreshtokensecrethere';
 
 let refreshTokens = [];
+
+function log(logType, {id: actorId, role: actorRole}) {
+    axios.post('http://service_logs/', {
+        "logType": logType,
+        "actorId": actorId,
+        "actorRole":  actorRole
+    }).catch(error => console.error(error.message));
+}
 
 app.listen(PORT, () => {
     console.log(`Service-connexion started and listen to port ${PORT}`);
@@ -56,24 +63,15 @@ app.post('/login', (req, res) => {
         result.on("end", function () {
             if (result.statusCode === 200){
                 responseString = JSON.parse(responseString);
-                const accessToken = jwt.sign(
-                    {
-                        username: username,
-                        role: responseString.statut,
-                        id: responseString._id
-                    },
-                    accessTokenSecret,
-                    {expiresIn: '20m'}
-                );
 
-                const refreshToken = jwt.sign(
-                    {
-                        username: username,
-                        role: responseString.statut,
-                        id: responseString._id },
-                    refreshTokenSecret,
-                    {expiresIn: '120m'}
-                );
+                const payload = {
+                    username: username,
+                    role: responseString.statut,
+                    id: responseString._id
+                }
+
+                const accessToken = jwt.sign(payload, accessTokenSecret, {expiresIn: '20m'});
+                const refreshToken = jwt.sign(payload, refreshTokenSecret, {expiresIn: '120m'});
 
                 refreshTokens.push(refreshToken);
 
@@ -81,6 +79,8 @@ app.post('/login', (req, res) => {
                     accessToken,
                     refreshToken
                 });
+
+                log('LoggedIn', payload);
             }else{
                 res.status(404).send('Username or password incorrect');
             }
@@ -113,24 +113,19 @@ app.post('/token', (req, res) => {
         return res.sendStatus(403);
     }
 
-    jwt.verify(token, refreshTokenSecret, (err, payload) => {
+    jwt.verify(token, refreshTokenSecret, (err, {username, role, id}) => {
         if (err) {
             return res.sendStatus(403);
         }
 
-        const accessToken = jwt.sign(
-            {
-                username: payload.username,
-                role: payload.role,
-                id: payload.id
-            },
-            accessTokenSecret,
-            {expiresIn: '20m'}
-        );
+        const newPayload = {username, role, id};
+        const accessToken = jwt.sign(newPayload, accessTokenSecret, {expiresIn: '20m'});
 
         res.json({
             accessToken
         });
+
+        log('TokenRefreshed', newPayload);
     });
 });
 
@@ -139,5 +134,12 @@ app.post('/logout', (req, res) => {
     const {token} = req.body;
     refreshTokens = refreshTokens.filter(t => t !== token);
 
-    res.send("Logout successful");
+    jwt.verify(token, refreshTokenSecret, (err, payload) => {
+        if (err) {
+            return res.sendStatus(400);
+        }
+
+        log('LoggedOut', payload);
+        res.send('Logout successful');
+    });
 });
