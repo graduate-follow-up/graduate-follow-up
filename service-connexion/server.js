@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
 const http = require('http');
 
+
 if(! process.env.JWT_ACCESS_TOKEN_SECRET || ! process.env.JWT_REFRESH_TOKEN_SECRET){
     console.error('\x1b[31m%s\x1b[0m', 'Jwt tokens are not initialized. Please run install.sh.');
     return process.exit(255);
@@ -60,7 +61,7 @@ app.post('/login', (req, res) => {
                         role: responseString.statut,
                         id: responseString._id
                     },
-                    process.env.JWT_ACCES_TOKEN_SECRET,
+                    process.env.JWT_ACCESS_TOKEN_SECRET,
                     {expiresIn: '20m'}
                 );
 
@@ -97,6 +98,24 @@ app.post('/login', (req, res) => {
 // A SUPPRIMER QUAND DEV FINI
 app.post('/active-refresh', (req,res) => {
    res.status(200).send(JSON.stringify(refreshTokens))
+});
+
+// PREND EN BODY UN TABLEAU D'OBJETS (OUTPUT DE ALUMNI-INFO) -> RETOURNE OBJET + "link":URL
+app.post('/', (req,res) => {
+    let alumnisId = [];
+    req.body.map(e => {
+        e["link"] = "localhost/" + jwt.sign(
+            {
+                role: "alumni",
+                id: e._id
+            },
+            process.env.JWT_ACCESS_TOKEN_SECRET,
+            {}
+        );
+        alumnisId.push(e);
+    });
+    res.status(200).send(alumnisId);
+
 });
 
 
