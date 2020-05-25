@@ -104,7 +104,6 @@ app.post('/active-refresh', (req,res) => {
 app.post('/', (req,res) => {
     let alumnisId = [];
     let idArray = Array.from(req.body.listId);
-    console.log(idArray);
     idArray.map(e => {
         let element = {};
         element["_id"] = e;

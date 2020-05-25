@@ -33,6 +33,15 @@ app.post('/send-update-mail', (req, res) => {
         }
     }
 
+    let callback_mail = function (response){
+        if(response.statusCode === 200){
+            res.status(200).send('Email sent.');
+        }else{
+            res.status(500).send('Server error.');
+        }
+    };
+
+
     let callback_connexion = function (response){
         let str = [];
         response.on('data', function (chunk) {
@@ -47,13 +56,16 @@ app.post('/send-update-mail', (req, res) => {
                        let e2 = JSON.parse(alumniListObjects).find(e => e._id = e1._id);
                         result.push({...e2, ...e1});
                     });
-                    res.status(200).send(result);
+                    let request_mail = http.request(define_request_option('mail', '/mailmaj',result), callback_mail);
+                    request_mail.write(result);
+                    request_mail.end();
+                    // res.status(200).send(result);
                     break
                 default :
                     console.log('Failure: '+ response.statusCode);
             }
         });
-    }
+    };
 
     let callback_alumni = function(response) {
         let str = [];
@@ -86,7 +98,7 @@ app.post('/send-update-mail', (req, res) => {
         response.on('error', function () {
            console.log('Oups, error!');
         });
-    }
+    };
     let options = define_request_option("alumni", "/alumni-info", listId);
     let request_alumni = http.request(options, callback_alumni);
     request_alumni.write(listId);
