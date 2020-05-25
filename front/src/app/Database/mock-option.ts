@@ -1,5 +1,13 @@
 export let MockOption: string[] = [
   'ICC',
   'IA',
-  'IMSI'
+  'IMSI',
+  'IERP',
+  'INEM',
+  'IFI',
+  'DS',
+  'SECU',
+  'BI',
+  'VS',
+  'FINTECH'
 ];
