@@ -45,11 +45,6 @@ app.post('/send-update-mail', (req, res) => {
                     let result = []
                     listToSend.forEach(e1 => {
                        let e2 = JSON.parse(alumniListObjects).find(e => e._id = e1._id);
-                        /*JSON.parse(alumniListObjects).forEach(e2 => {
-                            if(e1._id === e2._id){
-                              result.push({...e2, ...e1});
-                            }
-                        });*/
                         result.push({...e2, ...e1});
                     });
                     res.status(200).send(result);
