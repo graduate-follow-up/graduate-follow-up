@@ -57,7 +57,7 @@ app.post('/login', (req, res) => {
                 const accessToken = jwt.sign(
                     {
                         username: username,
-                        role: responseString.statut,
+                        role: responseString.role,
                         id: responseString._id
                     },
                     process.env.JWT_ACCES_TOKEN_SECRET,
@@ -67,7 +67,7 @@ app.post('/login', (req, res) => {
                 const refreshToken = jwt.sign(
                     {
                         username: username,
-                        role: responseString.statut,
+                        role: responseString.role,
                         id: responseString._id },
                     process.env.JWT_REFRESH_TOKEN_SECRET,
                     {expiresIn: '120m'}

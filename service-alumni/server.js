@@ -24,7 +24,6 @@ MongoClient.connect(MONGODB_URI, {useUnifiedTopology: true}, function(err, clien
   let db = client.db(DATABASE_NAME);
   collection = db.collection(COLLECTION_NAME);
 
-  //TODO : getTodayYear for graduation max
   db.command( { collMod: COLLECTION_NAME,
     validator: {
       $jsonSchema : databaseSchema
