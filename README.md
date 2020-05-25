@@ -52,7 +52,7 @@ $ git merge service-user_mongo
 $ git push origin dev
 ```
 
-Et voilà ! vous avez ajouté une feature au projet ;)
+Et voilà ! Vous avez ajouté une feature au projet ;)
 
 Si jamais, vous pouvez toujours revenir sur la branche si vous voulez faire des améliorations, juste redéplacez vous dans la branche features :
 
