@@ -6,6 +6,9 @@ public class JsonService {
 
 
 
-    public static <R> String Jsonify(Stream<R> wage) {
+
+
+    public static String Jsonify(String name, String value) {
+        return "\"" + name + "\":\"" + value + "\"";
     }
 }

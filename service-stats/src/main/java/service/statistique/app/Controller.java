@@ -27,7 +27,11 @@ public class Controller {
     @GetMapping("/chartType/{nbName}/{strName}")
     String chartType (@PathVariable String nbName, @PathVariable String strName) throws IOException, InterruptedException, ParseException {
 
-        return JsonService.Jsonify(getAlumniStream()
-                .map(al -> "{" + nbName + ":" + al.get("wage") + ""));
+        return  "["
+                 + getAlumniStream()
+                .map(al -> "{" + Jsonify(nbName, (String) al.get(nbName)) + "," + Jsonify(strName, (String) al.get(strName))  + "}")
+                .collect(Collectors.joining(", "))
+                //.reduce("",(acc, al) -> acc + "{" + Jsonify(nbName, (String) al.get(nbName)) + "," + Jsonify(strName, (String) al.get(strName))  + "}")
+                + "]";
     }
 }
