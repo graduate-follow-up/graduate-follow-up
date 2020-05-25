@@ -15,34 +15,34 @@ export class ConnectionService {
   }
 
   getConnection() {
-    return (sessionStorage.getItem('accessToken') !== null); }
+    return (localStorage.getItem('accessToken') !== null); }
 
   stockConnection(token: Token) {
     const decoded = this.getDecodedAccessToken(token.accessToken);
-    sessionStorage.setItem('accessToken', token.accessToken);
-    sessionStorage.setItem('refreshToken', token.refreshToken);
-    sessionStorage.setItem('role', decoded.role);
-    sessionStorage.setItem('id', decoded.id);
-    sessionStorage.setItem('username', decoded.username);
+    localStorage.setItem('accessToken', token.accessToken);
+    localStorage.setItem('refreshToken', token.refreshToken);
+    localStorage.setItem('role', decoded.role);
+    localStorage.setItem('id', decoded.id);
+    localStorage.setItem('username', decoded.username);
     this.isConnected = true;
 
   }
 
   logout() {
-    sessionStorage.removeItem('refreshToken');
-    sessionStorage.removeItem('accessToken');
-    sessionStorage.removeItem('role');
-    sessionStorage.removeItem('id');
-    sessionStorage.removeItem('username');
+    localStorage.removeItem('refreshToken');
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('role');
+    localStorage.removeItem('id');
+    localStorage.removeItem('username');
     this.isConnected = false;
   }
 
   getAccessToken() {
-    return sessionStorage.getItem('accessToken');
+    return localStorage.getItem('accessToken');
   }
 
   getUserRole() {
-    return sessionStorage.getItem('role');
+    return localStorage.getItem('role');
   }
 
   getDecodedAccessToken(token: string): any {
