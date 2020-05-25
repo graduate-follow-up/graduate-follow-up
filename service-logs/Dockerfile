@@ -3,6 +3,7 @@ FROM mozilla/sbt:8u232_1.3.8
 WORKDIR /server
 
 COPY project project
+COPY build.sbt build.sbt
 
 # Download dependencies
 RUN sbt compile
