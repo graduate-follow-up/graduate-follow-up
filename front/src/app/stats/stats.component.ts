@@ -1,9 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import * as CanvasJS from '../../assets/canvasjs.min';
-import {Alumnus} from '../model/Alumnus';
 import {AlumnusService} from '../alumnus/service/alumnus.service';
-
-type chartType = Array<{ y: number, label: string }>;
+import {DataService} from './service/data.service';
 
 
 @Component({
@@ -13,11 +11,13 @@ type chartType = Array<{ y: number, label: string }>;
 })
 export class StatsComponent implements OnInit {
 
-  constructor(private alumnusService: AlumnusService) {
+  constructor(private alumnusService: AlumnusService,
+              private dataService: DataService) {
   }
 
   ngOnInit() {
-    const chart = new CanvasJS.Chart('chartContainer', {
+    let chart: CanvasJS.Chart;
+    chart = new CanvasJS.Chart('chartContainer', {
       animationEnabled: true,
       exportEnabled: true,
       title: {
@@ -25,7 +25,7 @@ export class StatsComponent implements OnInit {
       },
       data: [{
         type: 'column',
-        dataPoints: this.createDataSalaryByOption(this.alumnusService.getAlumnus()),
+        dataPoints: this.dataService.createDataSalaryByOption(this.alumnusService.getAlumnus()),
       }]
     });
 
@@ -42,7 +42,7 @@ export class StatsComponent implements OnInit {
         startAngle: 240,
         yValueFormatString: '##0.00"%"',
         indexLabel: '{label} {y}',
-        dataPoints: this.createCompaniesRepartition(this.alumnusService.getAlumnus())
+        dataPoints: this.dataService.createCompaniesRepartition(this.alumnusService.getAlumnus())
       }]
     });
     chart2.render();
@@ -50,48 +50,6 @@ export class StatsComponent implements OnInit {
 
   }
 
-  createCompaniesRepartition(allAlumnus: Alumnus[]): chartType {
-    const res: chartType = [];
-
-    const listCompanies: string[] = [];
-    // We fill the list option with all option
-    allAlumnus.map(e => {
-        if (listCompanies.find(o => o === e.company) === undefined) {
-          listCompanies.push(e.company);
-        }
-      }
-    );
-    listCompanies.map(entr => res.push({y: (this.countEntreprise(entr) / allAlumnus.length) * 100, label: entr}));
-    return res;
-  }
-
-  private countEntreprise(entr: string) {
-    return this.alumnusService.getAlumnus().reduce((acc: number, val) => (acc + ((val.company === entr) ? 1 : 0)), 0);
-  }
-
-  createDataSalaryByOption(allAlumnus: Alumnus[]) {
-    const res: chartType = [];
-
-    const listOptions: string[] = [];
-    // We fill the list option with all option
-    allAlumnus.map(e => {
-        if (listOptions.find(o => o === e.option) === undefined) {
-          listOptions.push(e.option);
-        }
-      }
-    );
-
-    listOptions.map(opt => res.push({y: this.countSalary(opt) / this.countOption(opt), label: opt}));
-    return res;
-  }
-
-  countOption(option: string): number {
-    return this.alumnusService.getAlumnus().reduce((acc: number, val) => (acc + ((val.option === option) ? 1 : 0)), 0);
-  }
-
-  countSalary(option: string): number {
-    return this.alumnusService.getAlumnus().reduce((acc: number, val) => (acc + ((val.option === option) ? +val.wage : 0)), 0);
-  }
 
 
 }
