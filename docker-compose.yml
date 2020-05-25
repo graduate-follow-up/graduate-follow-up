@@ -21,6 +21,11 @@ services:
     env_file:
       - ./.env/api.env
 
+  service_link:
+    build: ./service-link/
+    networks:
+      - proxy
+
   service_user:
     build: ./service-user/
     networks:

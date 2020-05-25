@@ -64,8 +64,10 @@ app.get('/:alumniId', (req, res) => {
   });
 });
 
-
-app.post('/alumni-info/', (req,res) => {
+// res.body = {
+// 	"listId":["5ebbfc19fc13ae528a000065","5ebbfc19fc13ae528a000066","5ebbfc1afc13ae528a000067"]
+// }
+app.post('/alumni-info', (req,res) => {
   let objectIdArray = [];
   req.body.listId.map(s => {
     objectIdArray.push(ObjectId(s));
