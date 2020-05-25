@@ -103,16 +103,20 @@ app.post('/active-refresh', (req,res) => {
 // PREND EN BODY UN TABLEAU D'OBJETS (OUTPUT DE ALUMNI-INFO) -> RETOURNE OBJET + "link":URL
 app.post('/', (req,res) => {
     let alumnisId = [];
-    req.body.map(e => {
-        e["link"] = "localhost/" + jwt.sign(
+    let idArray = Array.from(req.body.listId);
+    console.log(idArray);
+    idArray.map(e => {
+        let element = {};
+        element["_id"] = e;
+        element["link"] = "localhost/" + jwt.sign(
             {
                 role: "alumni",
-                id: e._id
+                id: e
             },
             process.env.JWT_ACCESS_TOKEN_SECRET,
             {}
         );
-        alumnisId.push(e);
+        alumnisId.push(element);
     });
     res.status(200).send(alumnisId);
 

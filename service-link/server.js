@@ -15,7 +15,6 @@ app.listen(PORT, () => {
 
 
 app.post('/send-update-mail', (req, res) => {
-    // req contains id list
     const listId = JSON.stringify(req.body);
     let alumniListObjects = [];
     let listToSend= [];
@@ -42,18 +41,24 @@ app.post('/send-update-mail', (req, res) => {
         response.on('end', function () {
             switch(response.statusCode) {
                 case 200 :
-                    listToSend = Buffer.concat(str).toString('utf8');
-                    console.log(listToSend);
-                    console.log('congrats');
-                    res.status(200).send(JSON.parse(listToSend));
+                    listToSend = JSON.parse(Buffer.concat(str).toString('utf8'));
+                    let result = []
+                    listToSend.forEach(e1 => {
+                       let e2 = JSON.parse(alumniListObjects).find(e => e._id = e1._id);
+                        /*JSON.parse(alumniListObjects).forEach(e2 => {
+                            if(e1._id === e2._id){
+                              result.push({...e2, ...e1});
+                            }
+                        });*/
+                        result.push({...e2, ...e1});
+                    });
+                    res.status(200).send(result);
                     break
                 default :
                     console.log('Failure: '+ response.statusCode);
             }
         });
     }
-
-
 
     let callback_alumni = function(response) {
         let str = [];
@@ -64,14 +69,11 @@ app.post('/send-update-mail', (req, res) => {
             switch (response.statusCode) {
                 case 200 :
                     alumniListObjects = Buffer.concat(str).toString('utf8');
-                    console.log('Body to send to connexion request : '+ alumniListObjects);
                     if(JSON.parse(str).length < JSON.stringify(req.body.listId.length)){
                         console.log("not all id's found.");
                     }
-                    console.log("request_alumni.statusCode= "+response.statusCode);
-                    console.log("alumniListObjects= "+ alumniListObjects);
-                    let request_connexion = http.request(define_request_option("connexion","/",alumniListObjects), callback_connexion)
-                    request_connexion.write(alumniListObjects);
+                    let request_connexion = http.request(define_request_option("connexion","/",listId), callback_connexion)
+                    request_connexion.write(listId);
                     request_connexion.end();
                     break
                 case 404 :
