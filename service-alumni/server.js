@@ -10,7 +10,7 @@ const MONGODB_URI = 'mongodb://database_alumni:27017/alumnis';
 const DATABASE_NAME = 'alumnis';
 const COLLECTION_NAME = 'alumnis';
 
-const PORT = 3000;
+const PORT = 80;
 
 // App
 const app = express();

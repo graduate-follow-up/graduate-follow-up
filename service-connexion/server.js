@@ -10,7 +10,7 @@ if(! process.env.JWT_ACCESS_TOKEN_SECRET || ! process.env.JWT_REFRESH_TOKEN_SECR
 }
 
 // App
-const PORT = 3000;
+const PORT = 80;
 const app = express();
 app.use(bodyParser.json());
 
@@ -35,7 +35,7 @@ app.post('/login', (req, res) => {
 
     const options = {
         host: 'service_user',
-        port: 3000,
+        port: 80,
         path: '/check-user',
         method: 'GET',
         family: 4,
