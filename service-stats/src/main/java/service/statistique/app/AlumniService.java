@@ -7,9 +7,9 @@ import org.json.simple.parser.ParseException;
 import java.io.IOException;
 import java.util.stream.Stream;
 
-import static service.statistique.app.httpService.getAlumniResponse;
+import static service.statistique.app.HttpService.getAlumniResponse;
 
-public class alumniService {
+public class AlumniService {
 
     /* Variable */
     private static final JSONParser jsonParser = new JSONParser();
