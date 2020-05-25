@@ -33,7 +33,7 @@ class LogsController @Inject()(logsDAO: LogsDAO, cc: ControllerComponents) exten
   }
 
   def list(page : Long): Action[AnyContent] = Action.async { implicit request: Request[AnyContent] =>
-    logsDAO.some(PAGE_SIZE, PAGE_SIZE*page).map {
+    logsDAO.some(PAGE_SIZE, PAGE_SIZE*(page-1)).map {
       logs => Ok(Json.toJson(logs))
     } recover {
       exception => InternalServerError(exception.getMessage)
@@ -55,7 +55,7 @@ class LogsController @Inject()(logsDAO: LogsDAO, cc: ControllerComponents) exten
 
   private def lastWithIdAndType(id: String, logType: String): Action[AnyContent] = Action.async {
     logsDAO.lastWithTypeAndId(id, logType).map {
-      case Some(log) => Ok(log)
+      case Some(log) => Ok(Json.toJson(log))
       case None => NotFound
     } recover {
       exception => InternalServerError(exception.getMessage)

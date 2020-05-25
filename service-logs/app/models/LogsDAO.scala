@@ -33,6 +33,7 @@ class LogsDAO @Inject() (protected val dbConfigProvider: DatabaseConfigProvider)
   def lastWithTypeAndId(id: String, logType: String): Future[Option[Log]] = db.run(Logs
     .sortBy(_.date.desc)
     .filter(_.logType === logType)
+    .filter(_.subjectId === id)
     .take(1)
     .result
     .headOption
