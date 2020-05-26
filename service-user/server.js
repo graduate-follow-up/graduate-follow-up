@@ -9,7 +9,7 @@ const bcrypt = require('bcrypt');
 const MONGODB_URI = 'mongodb://database_user:27017/users';
 const DATABASE_NAME = 'users';
 const COLLECTION_NAME = 'users';
-const SALT_ROUND = 17 ;
+const SALT_ROUND = 10 ;
 
 const PORT = 3000;
 
@@ -96,13 +96,11 @@ app.post('/', (req, res) => {
   let document = req.body;
   let password = req.body.password;
   delete document['password'];
-  let salt ;
-  console.log('starting');
 
   crypto.randomBytes(256, (err, buf) => {
     if (err) res.status(500).send(err);
 
-    salt = buf.toString('hex');
+    let salt = buf.toString('hex');
     document["salt"] = salt;
 
     bcrypt.hash(password + salt, SALT_ROUND, function(err, hash) {
@@ -127,8 +125,8 @@ app.put('/:userId', (req, res) => {
 
   let update = req.body;
 
-  // if (req.body.salt) delete update['salt'] ;
-  // if (req.body.hashed) delete update['hashed'];
+  if (req.body.salt) delete update['salt'] ;
+  if (req.body.hashed) delete update['hashed'];
   if (req.body.password) delete update['password'] ;
   if (req.body.statut) delete update['statut'] ;
   // if (req.body.role) delete update['role];
