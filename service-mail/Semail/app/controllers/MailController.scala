@@ -10,6 +10,9 @@ import play.api.mvc._
 
 class MailController @Inject() (mailerClient: MailerClient) extends Controller  {
 
+  def home() = Action{
+    Ok(s"Welcome Home")
+  }
 
   def sendEmailMaj() =Action(parse.json){
     implicit request: Request[JsValue] => {
@@ -40,7 +43,7 @@ class MailController @Inject() (mailerClient: MailerClient) extends Controller  
            | </body></html>""".stripMargin)
     )
     mailerClient.send(email)
-    return (s"Mail envoyé a "+last_name+" "+first_name)
+     s"Mail envoyé a "+last_name+" "+first_name
 
   }
 
@@ -72,7 +75,7 @@ class MailController @Inject() (mailerClient: MailerClient) extends Controller  
            | </body></html>""".stripMargin)
     )
     mailerClient.send(email)
-    return (s"Mail envoyé a "+last_name+" "+first_name)
+    s"Mail envoyé a "+last_name+" "+first_name
 
   }
 

@@ -9,7 +9,7 @@ resolvers += "scalaz-bintray" at "https://dl.bintray.com/scalaz/releases"
       
 scalaVersion := "2.11.11"
 
-libraryDependencies ++= Seq( jdbc , cache , ws , specs2 % Test,
+libraryDependencies ++= Seq( jdbc , ws , specs2 % Test,
   "javax.inject" % "javax.inject" % "1",
   "com.typesafe" % "config" % "1.4.0",
   "org.slf4j" % "slf4j-api" % "1.7.30",
