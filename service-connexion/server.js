@@ -18,6 +18,14 @@ app.use(bodyParser.json());
 
 let refreshTokens = [];
 
+function log(logType, {id: actorId, role: actorRole}) {
+    axios.post('http://service_logs/', {
+        "logType": logType,
+        "actorId": actorId,
+        "actorRole":  actorRole
+    }).catch(error => console.error(error.message));
+}
+
 app.listen(PORT, () => {
     console.log(`Service-connexion started and listen to port ${PORT}`);
 });
@@ -34,32 +42,15 @@ app.post('/login', (req, res) => {
         password: pwd
     }).then(result => {
         const {username, role: role, _id: id} = result.data;
+        const payload = {username, role, id};
         
-        const accessToken = jwt.sign(
-            {
-                username: username,
-                role: role,
-                id: id
-            },
-            process.env.JWT_ACCESS_TOKEN_SECRET,
-            {expiresIn: '20m'}
-        );
-
-        const refreshToken = jwt.sign(
-            {
-                username: username,
-                role: role,
-                id: id },
-            process.env.JWT_REFRESH_TOKEN_SECRET,
-            {expiresIn: '120m'}
-        );
+        const accessToken = jwt.sign(payload, process.env.JWT_ACCESS_TOKEN_SECRET, {expiresIn: '20m'});
+        const refreshToken = jwt.sign(payload, process.env.JWT_REFRESH_TOKEN_SECRET, {expiresIn: '120m'});
 
         refreshTokens.push(refreshToken);
 
-        res.json({
-            accessToken,
-            refreshToken
-        });
+        res.json({accessToken,refreshToken});
+        log('LoggedIn', payload);
     }).catch(error => {
         if(error.response && error.response.status == 404) {
             res.status(401).send('Username or password incorrect');
@@ -102,24 +93,19 @@ app.post('/token', (req, res) => {
         return res.sendStatus(403);
     }
 
-    jwt.verify(token, process.env.JWT_REFRESH_TOKEN_SECRET, (err, payload) => {
+    jwt.verify(token, process.env.JWT_REFRESH_TOKEN_SECRET, (err, {username, role, id}) => {
         if (err) {
             return res.sendStatus(403);
         }
 
-        const accessToken = jwt.sign(
-            {
-                username: payload.username,
-                role: payload.role,
-                id: payload.id
-            },
-            process.env.JWT_ACCESS_TOKEN_SECRET,
-            {expiresIn: '20m'}
-        );
+        const newPayload = {username, role, id};
+        const accessToken = jwt.sign(newPayload, process.env.JWT_ACCESS_TOKEN_SECRET, {expiresIn: '20m'});
 
         res.json({
             accessToken
         });
+
+        log('TokenRefreshed', newPayload);
     });
 });
 
@@ -128,5 +114,12 @@ app.post('/logout', (req, res) => {
     const {token} = req.body;
     refreshTokens = refreshTokens.filter(t => t !== token);
 
-    res.send("Logout successful");
+    jwt.verify(token, process.env.JWT_REFRESH_TOKEN_SECRET, (err, payload) => {
+        if (err) {
+            return res.sendStatus(400);
+        }
+
+        log('LoggedOut', payload);
+        res.send('Logout successful');
+    });
 });

@@ -1,0 +1,11 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# https://www.playframework.com/documentation/latest/ScalaRouting
+# ~~~~
+
+GET   /                                 controllers.LogsController.listAll
+GET   /page/:page                       controllers.LogsController.list(page : Long)
+POST  /                                 controllers.LogsController.add
+
+GET   /lastModification/alumni/:id      controllers.LogsController.lastAlumniModification(id: String)
+GET   /lastModification/user/:id        controllers.LogsController.lastUserModification(id: String)

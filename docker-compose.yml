@@ -72,6 +72,24 @@ services:
     networks:
       - internal_alumni
 
+  service_logs:
+    build:  ./service-logs/
+    networks:
+      - proxy
+      - internal_logs
+    depends_on:
+      - database_logs
+
+  database_logs:
+    image: mysql:5.7
+    environment:
+       MYSQL_ROOT_PASSWORD: somelogs
+       MYSQL_DATABASE: logs
+       MYSQL_USER: logs
+       MYSQL_PASSWORD: logs
+    networks:
+      - internal_logs
+
   front:
     build:
       context: ./front/
@@ -85,8 +103,10 @@ volumes:
   database_user_configdb:
   database_alumni_db:
   database_alumni_configdb:
+  database_logs:
 
 networks:
   proxy:
   internal_alumni:
   internal_user:
+  internal_logs:
