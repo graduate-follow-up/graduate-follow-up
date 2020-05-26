@@ -54,7 +54,7 @@ export class HeaderComponent implements OnInit {
   }
 
   logout() {
-    this.serverService.disconnect(sessionStorage.getItem('refreshToken')).subscribe(
+    this.serverService.disconnect(this.connectionService.getRefreshToken()).subscribe(
       response => {
         this.connectionService.logout();
         this.alerts.push({type: 'success', message: 'Successfully logged out'});

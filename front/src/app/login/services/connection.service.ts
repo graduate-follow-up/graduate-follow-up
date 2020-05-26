@@ -45,6 +45,10 @@ export class ConnectionService {
     return localStorage.getItem('role');
   }
 
+  getRefreshToken() {
+    return localStorage.getItem('refreshToken');
+  }
+
   getDecodedAccessToken(token: string): any {
     try {
       return jwt_decode(token);

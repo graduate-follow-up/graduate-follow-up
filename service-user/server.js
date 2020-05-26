@@ -9,7 +9,7 @@ const bcrypt = require('bcrypt');
 const MONGODB_URI = 'mongodb://database_user:27017/users';
 const DATABASE_NAME = 'users';
 const COLLECTION_NAME = 'users';
-const SALT_ROUND = 10 ;
+const SALT_ROUND = 0 ; // otherwise execution is too long
 
 const PORT = 3000;
 
