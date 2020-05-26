@@ -3,14 +3,14 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const { MongoClient, ObjectId } = require('mongodb');
 
-
+const databaseSchema = require('./database/schema.json');
 
 // Constants
 const MONGODB_URI = 'mongodb://database_alumni:27017/alumnis';
 const DATABASE_NAME = 'alumnis';
 const COLLECTION_NAME = 'alumnis';
 
-const PORT = 3000;
+const PORT = 80;
 
 // App
 const app = express();
@@ -24,43 +24,9 @@ MongoClient.connect(MONGODB_URI, {useUnifiedTopology: true}, function(err, clien
   let db = client.db(DATABASE_NAME);
   collection = db.collection(COLLECTION_NAME);
 
-  //TODO : getTodayYear for graduation max
   db.command( { collMod: COLLECTION_NAME,
     validator: {
-      $jsonSchema : {
-        bsonType: "object",
-        required: [ "first_name","last_name", "email", "option", "campus", "graduation" ],
-        properties: {
-          _id: {
-            bsonType: 'objectId',
-          },
-          first_name: {
-            bsonType: "string",
-            description: "required and must be a string" },
-          last_name: {
-            bsonType: "string",
-            description: "required and must be a string" },
-          email: {
-            bsonType: "string",
-            description: "required and must be a string"},
-          option: {
-            enum: ["ICC", "IERP", "IA", "IMSI", "INEM","IFI", "DS","SECU","BI","VS", "FINTECH"],
-            description: "required and must be one of those string: [ICC, IERP, IA, IMSI, INEM,IFI, DS,SECU,BI,VS, FINTECH]"},
-          campus: {
-            enum: [ "Pau", "Cergy" ],
-            description: "required and must be Pau or Cergy" },
-          graduation: {
-            bsonType: "int",
-            minimum: 1983,
-            maximum: 2025,
-            description: "must be an integer in [ 1983, actual year ] and is required"},
-          company: {
-            bsonType: "string",
-            description: "optional and must be a string"
-          }
-
-        }
-      }
+      $jsonSchema : databaseSchema
     },
     validationLevel: "strict",
     validationAction: "error"
@@ -72,13 +38,35 @@ MongoClient.connect(MONGODB_URI, {useUnifiedTopology: true}, function(err, clien
 });
 
 
-app.get('/', (req, res) => {
+app.get('/', (_req, res) => {
   // TODO check permissions
   collection.find({}).toArray(function(err, docs) {
     if(err) {
       res.status(500).send(err);
     } else {
       res.send(docs);
+    }
+  });
+});
+
+const idsListRegex = /^([a-f\d]{24}(,[a-f\d]{24})*)$/i;
+// /infos/5ebbfc19fc13ae528a000065,5ebbfc19fc13ae528a000066
+app.get('/infos/:ids', (req,res) => {
+  if(!req.params.ids.match(idsListRegex)) {
+    res.status(400).send('Ids list required');
+    return;
+  }
+  const objectIdsArray = req.params.ids.split(',').map(id => ObjectId(id));
+
+  collection.find({_id: {$in: objectIdsArray}}).project({first_name: 1, last_name: 1, email: 1}).toArray(function (err,docs){
+    if(err) {
+      res.status(500).send(err);
+    } else {
+      if (docs.length != objectIdsArray.length){
+        res.status(404).send("Not found.");
+      } else{
+        res.status(200).send(docs);
+      }
     }
   });
 });
@@ -141,4 +129,8 @@ app.delete('/:alumniId', (req, res) => {
       res.sendStatus(resMongo.deletedCount > 0 ? 204 : 404);
     }
   });
+});
+
+app.get('/schema', (_req, res) => {
+  res.status(200).send(databaseSchema);
 });

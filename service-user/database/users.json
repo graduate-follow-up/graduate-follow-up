@@ -2,8 +2,8 @@
   {
     "_id": {"$oid":"5eba6861b0b374d1e825fa68"},
     "login": "excepteur",
-    "mdp": "ullamco",
-    "statut": "respo-option",
+    "password": "ullamco",
+    "role": "respo-option",
     "name": {
       "first": "Lindsay",
       "last": "Chandler"
@@ -13,8 +13,8 @@
   {
     "_id": {"$oid":"5eba686123cbdbf4c4b0278b"},
     "login": "dolor",
-    "mdp": "mollit",
-    "statut": "administrateur",
+    "password": "mollit",
+    "role": "administrateur",
     "name": {
       "first": "Waters",
       "last": "Jones"
@@ -23,9 +23,9 @@
   },
   {
     "_id": {"$oid":"5eba686112a0f23d187f620d"},
-    "login": "anim",
-    "mdp": "dolor",
-    "statut": "prof",
+    "login": "anima",
+    "password": "dolor",
+    "role": "prof",
     "name": {
       "first": "Frost",
       "last": "Ayers"
@@ -35,8 +35,8 @@
   {
     "_id": {"$oid":"5eba68610b7162b230e84819"},
     "login": "proident",
-    "mdp": "ipsum",
-    "statut": "administrateur",
+    "password": "ipsum",
+    "role": "administrateur",
     "name": {
       "first": "Clara",
       "last": "Cherry"
@@ -46,8 +46,8 @@
   {
     "_id": {"$oid":"5eba68617da5ce7606518ebc"},
     "login": "sint",
-    "mdp": "aute",
-    "statut": "administrateur",
+    "password": "aute",
+    "role": "administrateur",
     "name": {
       "first": "Malinda",
       "last": "Glass"
@@ -56,9 +56,9 @@
   },
   {
     "_id": {"$oid":"5eba6861db2aab5e99fee440"},
-    "login": "exercitation",
-    "mdp": "excepteur",
-    "statut": "prof",
+    "login": "exercitatione",
+    "password": "excepteur",
+    "role": "prof",
     "name": {
       "first": "Lang",
       "last": "Blair"
@@ -68,8 +68,8 @@
   {
     "_id": {"$oid":"5eba68613b6d1a9069756982"},
     "login": "magna",
-    "mdp": "eiusmod",
-    "statut": "prof",
+    "password": "eiusmod",
+    "role": "prof",
     "name": {
       "first": "Dodson",
       "last": "Byers"
@@ -78,9 +78,9 @@
   },
   {
     "_id": {"$oid":"5eba6861c652474a0f832243"},
-    "login": "anim",
-    "mdp": "aute",
-    "statut": "respo-option",
+    "login": "anime",
+    "password": "aute",
+    "role": "respo-option",
     "name": {
       "first": "Ruthie",
       "last": "Parsons"
@@ -90,8 +90,8 @@
   {
     "_id": {"$oid":"5eba686116acf84189e2186a"},
     "login": "labore",
-    "mdp": "in",
-    "statut": "administrateur",
+    "password": "in",
+    "role": "administrateur",
     "name": {
       "first": "Schroeder",
       "last": "Mcknight"
@@ -101,8 +101,8 @@
   {
     "_id": {"$oid":"5eba6861d0734f87ff801d81"},
     "login": "officia",
-    "mdp": "mollit",
-    "statut": "prof",
+    "password": "mollit",
+    "role": "prof",
     "name": {
       "first": "Williams",
       "last": "Gilbert"
@@ -112,8 +112,8 @@
   {
     "_id": {"$oid":"5eba6861bb5e3b3f8626d7fd"},
     "login": "dolore",
-    "mdp": "consequat",
-    "statut": "administrateur",
+    "password": "consequat",
+    "role": "administrateur",
     "name": {
       "first": "Anthony",
       "last": "Duffy"
@@ -123,8 +123,8 @@
   {
     "_id": {"$oid":"5eba68615818674071550d97"},
     "login": "sunt",
-    "mdp": "anim",
-    "statut": "administrateur",
+    "password": "anim",
+    "role": "administrateur",
     "name": {
       "first": "Mclaughlin",
       "last": "Leach"
@@ -134,8 +134,8 @@
   {
     "_id": {"$oid":"5eba68617f82f4b2216ee52f"},
     "login": "quis",
-    "mdp": "ullamco",
-    "statut": "prof",
+    "password": "ullamco",
+    "role": "prof",
     "name": {
       "first": "Padilla",
       "last": "Oneal"
@@ -145,8 +145,8 @@
   {
     "_id": {"$oid":"5eba686166660ca5af8616de"},
     "login": "tempor",
-    "mdp": "laboris",
-    "statut": "administrateur",
+    "password": "laboris",
+    "role": "administrateur",
     "name": {
       "first": "Bentley",
       "last": "Roberson"
@@ -156,8 +156,8 @@
   {
     "_id": {"$oid":"5eba6861f75715bb20017f19"},
     "login": "eu",
-    "mdp": "ipsum",
-    "statut": "prof",
+    "password": "ipsum",
+    "role": "prof",
     "name": {
       "first": "Sanford",
       "last": "Larsen"
@@ -166,9 +166,9 @@
   },
   {
     "_id": {"$oid":"5eba68618507c47b8f98d248"},
-    "login": "amet",
-    "mdp": "incididunt",
-    "statut": "respo-option",
+    "login": "amete",
+    "password": "incididunt",
+    "role": "respo-option",
     "name": {
       "first": "Selma",
       "last": "Mcgowan"
@@ -177,9 +177,9 @@
   },
   {
     "_id": {"$oid":"5eba68617a2bbe93aafd3638"},
-    "login": "consequat",
-    "mdp": "anim",
-    "statut": "prof",
+    "login": "consequate",
+    "password": "anim",
+    "role": "prof",
     "name": {
       "first": "Osborn",
       "last": "Montoya"
@@ -189,8 +189,8 @@
   {
     "_id": {"$oid":"5eba6861429fb652bdeffce9"},
     "login": "ea",
-    "mdp": "dolore",
-    "statut": "prof",
+    "password": "dolore",
+    "role": "prof",
     "name": {
       "first": "Therese",
       "last": "Flores"
@@ -200,8 +200,8 @@
   {
     "_id": {"$oid":"5eba68613f53c033fb0d15eb"},
     "login": "anim",
-    "mdp": "nisi",
-    "statut": "respo-option",
+    "password": "nisi",
+    "role": "respo-option",
     "name": {
       "first": "Schneider",
       "last": "Chaney"
@@ -211,8 +211,8 @@
   {
     "_id": {"$oid":"5eba68616bb880cfc7569c82"},
     "login": "exercitation",
-    "mdp": "laborum",
-    "statut": "prof",
+    "password": "laborum",
+    "role": "prof",
     "name": {
       "first": "Bridgette",
       "last": "Clemons"
@@ -221,9 +221,9 @@
   },
   {
     "_id": {"$oid":"5eba68610743d89bd95603d4"},
-    "login": "amet",
-    "mdp": "laboris",
-    "statut": "prof",
+    "login": "ameta",
+    "password": "laboris",
+    "role": "prof",
     "name": {
       "first": "Adams",
       "last": "Brennan"
@@ -232,9 +232,9 @@
   },
   {
     "_id": {"$oid":"5eba6861a305072fa260dd52"},
-    "login": "consectetur",
-    "mdp": "exercitation",
-    "statut": "respo-option",
+    "login": "consecteture",
+    "password": "exercitation",
+    "role": "respo-option",
     "name": {
       "first": "Kristen",
       "last": "Avery"
@@ -244,8 +244,8 @@
   {
     "_id": {"$oid":"5eba686162247596370f5331"},
     "login": "cillum",
-    "mdp": "Lorem",
-    "statut": "administrateur",
+    "password": "Lorem",
+    "role": "administrateur",
     "name": {
       "first": "Avila",
       "last": "Rosa"
@@ -254,9 +254,9 @@
   },
   {
     "_id": {"$oid":"5eba686186c15b6102001e00"},
-    "login": "Lorem",
-    "mdp": "consequat",
-    "statut": "administrateur",
+    "login": "lorem",
+    "password": "consequat",
+    "role": "administrateur",
     "name": {
       "first": "Maynard",
       "last": "Olsen"
@@ -265,9 +265,9 @@
   },
   {
     "_id": {"$oid":"5eba6861ebe9f8a581085083"},
-    "login": "eiusmod",
-    "mdp": "eu",
-    "statut": "prof",
+    "login": "eiusmoda",
+    "password": "eu",
+    "role": "prof",
     "name": {
       "first": "Brewer",
       "last": "Pearson"
@@ -277,8 +277,8 @@
   {
     "_id": {"$oid":"5eba6861b5770e4afd7e0a3b"},
     "login": "consectetur",
-    "mdp": "anim",
-    "statut": "prof",
+    "password": "anim",
+    "role": "prof",
     "name": {
       "first": "Pope",
       "last": "Marquez"
@@ -288,8 +288,8 @@
   {
     "_id": {"$oid":"5eba68614e953ae72dc96047"},
     "login": "culpa",
-    "mdp": "tempor",
-    "statut": "respo-option",
+    "password": "tempor",
+    "role": "respo-option",
     "name": {
       "first": "Alicia",
       "last": "Graves"
@@ -298,9 +298,9 @@
   },
   {
     "_id": {"$oid":"5eba68613627f82b6f1fa9f4"},
-    "login": "irure",
-    "mdp": "adipisicing",
-    "statut": "administrateur",
+    "login": "irur",
+    "password": "adipisicing",
+    "role": "administrateur",
     "name": {
       "first": "Rosalie",
       "last": "Macdonald"
@@ -310,8 +310,8 @@
   {
     "_id": {"$oid":"5eba6861b52077035180e643"},
     "login": "nulla",
-    "mdp": "ullamco",
-    "statut": "administrateur",
+    "password": "ullamco",
+    "role": "administrateur",
     "name": {
       "first": "Sandoval",
       "last": "Saunders"
@@ -321,8 +321,8 @@
   {
     "_id": {"$oid":"5eba6861c059539a89aff0f1"},
     "login": "amet",
-    "mdp": "est",
-    "statut": "prof",
+    "password": "est",
+    "role": "prof",
     "name": {
       "first": "Doyle",
       "last": "Nielsen"
@@ -332,8 +332,8 @@
   {
     "_id": {"$oid":"5eba68618e777f4871c13b04"},
     "login": "velit",
-    "mdp": "reprehenderit",
-    "statut": "administrateur",
+    "password": "reprehenderit",
+    "role": "administrateur",
     "name": {
       "first": "Harvey",
       "last": "Burris"
@@ -343,8 +343,8 @@
   {
     "_id": {"$oid":"5eba686135bd60f75e6d1203"},
     "login": "eiusmod",
-    "mdp": "culpa",
-    "statut": "prof",
+    "password": "culpa",
+    "role": "prof",
     "name": {
       "first": "Effie",
       "last": "Barr"
@@ -354,8 +354,8 @@
   {
     "_id": {"$oid":"5eba6861c36d173945f556a6"},
     "login": "consequat",
-    "mdp": "sunt",
-    "statut": "administrateur",
+    "password": "sunt",
+    "role": "administrateur",
     "name": {
       "first": "Stanley",
       "last": "Diaz"
@@ -365,8 +365,8 @@
   {
     "_id": {"$oid":"5eba68614f2c08bd51062933"},
     "login": "non",
-    "mdp": "aliquip",
-    "statut": "respo-option",
+    "password": "aliquip",
+    "role": "respo-option",
     "name": {
       "first": "Bonner",
       "last": "Austin"
@@ -376,8 +376,8 @@
   {
     "_id": {"$oid":"5eba6861b15875e0eef4fa3f"},
     "login": "irure",
-    "mdp": "nulla",
-    "statut": "administrateur",
+    "password": "nulla",
+    "role": "administrateur",
     "name": {
       "first": "Ericka",
       "last": "Tyson"
@@ -387,8 +387,8 @@
   {
     "_id": {"$oid":"5eba6861f227b0717e9ad444"},
     "login": "aliquip",
-    "mdp": "duis",
-    "statut": "administrateur",
+    "password": "duis",
+    "role": "administrateur",
     "name": {
       "first": "Jenna",
       "last": "Hayden"
@@ -398,8 +398,8 @@
   {
     "_id": {"$oid":"5eba6861279115a96faa62b5"},
     "login": "nisi",
-    "mdp": "voluptate",
-    "statut": "administrateur",
+    "password": "voluptate",
+    "role": "administrateur",
     "name": {
       "first": "Kitty",
       "last": "Bishop"

@@ -21,6 +21,13 @@ services:
     env_file:
       - ./.env/api.env
 
+  service_link:
+    build: ./service-link/
+    networks:
+      - proxy
+    environment:
+      - PROXY_URL=${PROXY_URL:-http://localhost}
+
   service_user:
     build: ./service-user/
     networks:
@@ -28,6 +35,8 @@ services:
       - internal_user
     depends_on:
       - database_user
+    env_file:
+      - ./.env/api.env
 
   database_user:
     build: ./database-mongodb/
@@ -48,6 +57,8 @@ services:
       - internal_alumni
     depends_on:
       - database_alumni
+    env_file:
+      - ./.env/api.env
 
   database_alumni:
     build:  ./database-mongodb/
@@ -61,12 +72,11 @@ services:
     networks:
       - internal_alumni
 
-  # Service Front   
   front:
     build:
       context: ./front/
       args:
-        BASE_HREF: /hello/
+        BASE_HREF: /
     networks:
       - proxy
 
