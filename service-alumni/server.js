@@ -3,7 +3,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const { MongoClient, ObjectId } = require('mongodb');
 const jwt = require('jsonwebtoken');
-const http = require('http');
+const expressJwt = require('express-jwt');
+const axios = require('axios');
 
 const databaseSchema = require('./database/schema.json');
 
@@ -15,91 +16,44 @@ const PORT = 80;
 const ROLE = {
   USER: 'prof',
   RESPO: 'respo-option',
-  ADMIN: 'administrateur'
-}
-const SERVICE_ACCESS_TOKEN = jwt.sign(
-    {
-      username: 'service-alumni',
-      role: 'service',
-      id: 'service-alumni'
-    },
-    process.env.JWT_ACCESS_TOKEN_SECRET,
-    {}
-);
+  ADMIN: 'administrateur',
+  SERVICE: 'service'
+};
+
+const SERVICE_ACCESS_TOKEN = jwt.sign({username: 'alumni',role: 'service', id: 'alumni'},process.env.JWT_ACCESS_TOKEN_SECRET,{});
+axios.defaults.headers.common['Authorization'] = 'Bearer ' + SERVICE_ACCESS_TOKEN;
 
 // App
 const app = express();
 app.use(bodyParser.json());
 
+// Token verification
+app.use(expressJwt({ secret: process.env.JWT_ACCESS_TOKEN_SECRET }))
+app.use((err, _req, res, _next) => {
+  if (err.name === 'UnauthorizedError') {
+    res.status(401).send('invalid token');
+  }
+});
+
 var collection;
 
-function isThisMyself(request_id,user_id, next) {
-  let custom_path = '/'+user_id;
-  const options = {
-    host: 'service_user',
-    port: 3000,
-    path: custom_path,
-    method: 'GET',
-    family: 4,
-    headers: {
-      'Content-Type': 'application/json',
-      'Content-Length': 0,
-      'Authorization': 'Bearer '+ SERVICE_ACCESS_TOKEN
-    }
-  }
+function checkIfMyself(alumniId, userId) {
+  return new Promise((resolve, reject) => {
+    axios.get(`http://service_user/${userId}`).then(res => {
+      const {name: {
+        first: userFirstname,
+        last: userLastname
+      }, userEmail} = res.data;
 
-  const request = http.request(options, result => {
-    let responseString = "";
-
-    result.on("data", function (data) {
-      responseString += data;
-    });
-    result.on("end", function () {
-      if (result.statusCode === 200){
-        responseString = JSON.parse(responseString);
-        let user_fn = responseString.name.first;
-        let user_ln = responseString.name.last;
-        let user_email = responseString.email;
-        collection.find({_id: ObjectId(request_id)}).toArray(function (err, alumni) {
-          if(err) {
-            console.log('Error while checking if myself');
-            next(false);
-          } else {
-            if (alumni.length === 0) {
-              console.log('Alumni not found.');
-              next(false);
-            } else {
-              let res = ((alumni[0].first_name === user_fn && alumni[0].last_name === user_ln) || alumni[0].email === user_email);
-              next(res);
-            }
-          }
-        });
-      }else{
-        console.log('Problem with request to service-user');
-        next(false);
-      }
-    });
+      collection.find({_id: ObjectId(alumniId)}).toArray(function (err, docs) {
+        if(!err && docs.length > 0 && docs[0].first_name == userFirstname && docs[0].last_name == userLastname && docs[0].email == userEmail) {
+          resolve();
+        } else {
+          reject();
+        }
+      });
+    }).catch(reject);
   });
-  request.on('error', error => {
-    console.error(error);
-  });
-  request.write("");
-  request.end();
-}
-
-function authenticateToken(req, res, next) {
-  const authHeader = req.headers['authorization']
-  const token = authHeader && authHeader.split(' ')[1]
-  if (token == null) return res.sendStatus(401) // if there isn't any token
-
-  jwt.verify(token, process.env.JWT_ACCESS_TOKEN_SECRET, (err, user) => {
-    if (err){
-      console.log(err);
-      return res.sendStatus(403);
-    }
-    req.user = user
-    next() // pass the execution off to whatever request the client intended
-  })
 }
 
 MongoClient.connect(MONGODB_URI, {useUnifiedTopology: true}, function(err, client) {
@@ -121,7 +75,7 @@ MongoClient.connect(MONGODB_URI, {useUnifiedTopology: true}, function(err, clien
 });
 
 
-app.get('/', authenticateToken ,(req, res) => {
+app.get('/', (req, res) => {
   let projection = (req.user.role === ROLE.USER) ? { first_name: 0, last_name:0, email: 0, phone: 0 } : '';
   collection.find({}).project(projection).toArray(function(err, docs) {
     if(err) {
@@ -135,10 +89,10 @@ app.get('/', authenticateToken ,(req, res) => {
 const idsListRegex = /^([a-f\d]{24}(,[a-f\d]{24})*)$/i;
 // /infos/5ebbfc19fc13ae528a000065,5ebbfc19fc13ae528a000066
 app.get('/infos/:ids', (req,res) => {
-  if(!req.params.ids.match(idsListRegex)) {
-    res.status(400).send('Ids list required');
-    return;
-  }
+  if (!(req.user.role == ROLE.SERVICE && req.user.id == 'link')) return res.sendStatus(401);
+
+  if(!req.params.ids.match(idsListRegex)) return res.status(400).send('Ids list required');
+
   const objectIdsArray = req.params.ids.split(',').map(id => ObjectId(id));
 
   collection.find({_id: {$in: objectIdsArray}}).project({first_name: 1, last_name: 1, email: 1}).toArray(function (err,docs){
@@ -154,8 +108,10 @@ app.get('/infos/:ids', (req,res) => {
   });
 });
 
-app.get('/:alumniId', authenticateToken, (req, res) => {
-  let projection = req.user.role === ROLE.USER ? { first_name: 0, last_name:0, email: 0, phone: 0 } : '' ;
+app.get('/:alumniId', (req, res) => {
+  if (![ROLE.USER, ROLE.RESPO, ROLE.ADMIN].includes(req.user.role)) return res.sendStatus(401);
+
+  let projection = (req.user.role === ROLE.USER) ? { first_name: 0, last_name:0, email: 0, phone: 0 } : '';
   collection.find({_id: ObjectId(req.params.alumniId)}).project(projection).toArray(function (err, docs) {
     if(err) {
       res.status(500).send(err);
@@ -169,55 +125,42 @@ app.get('/:alumniId', authenticateToken, (req, res) => {
   });
 });
 
-app.post('/', authenticateToken, (req, res) => {
-  if(req.user.role !== ROLE.USER){
-    let document = req.body;
-    collection.insertOne(document, (err, resMongo) => {
-      if(err) {
-        res.status(500).send(err);
-      } else {
-        res.status(200).send(resMongo.insertedId);
-      }
-    });
-  }else{
-    res.status(401).send('Unauthorized.');
-  }
+app.post('/', (req, res) => {
+  if (![ROLE.RESPO, ROLE.ADMIN].includes(req.user.role)) return res.sendStatus(401);
+
+  let document = req.body;
+  collection.insertOne(document, (err, resMongo) => {
+    if(err) {
+      res.status(500).send(err);
+    } else {
+      res.status(200).send(resMongo.insertedId);
+    }
+  });
 })
 
-app.put('/:alumniId', authenticateToken, (req, res) => {
+app.put('/:alumniId', (req, res) => {
+  if (![ROLE.USER, ROLE.RESPO, ROLE.ADMIN].includes(req.user.role)) return res.sendStatus(401);
 
-  // TODO change
-  isThisMyself(req.params.alumniId, req.user.id, function (itsMe) {
-    console.log(itsMe);
-    // TODO exhaustive 
-  if( itsMe || req.user.role !== ROLE.USER){
+  const accessVerification = (req.user.role == ROLE.ADMIN || req.user.role == ROLE.RESPO) ? Promise.resolve() : checkIfMyself(req.params.alumniId, req.user.id);
+
+  accessVerification.then(() => {
     let update = {$set : req.body};
     collection.replaceOne({_id: ObjectId(req.params.alumniId)}, update, (err,resMongo) => {
       if(err) {
         res.status(400).send(err);
+      } else if(resMongo.matchedCount == 0) {
+        res.status(404).send('No matching element found.');
       } else {
-        switch (resMongo.matchedCount) {
-          case 0:
-            res.status(404).send('No matching element found.');
-            break;
-          case 1:
-            res.status(200).send('Element successfully updated');
-            break;
-        }
+        res.status(204).send('Element successfully updated');
       }
     });
-  }else{
-    res.status(401).send('Unauthorized.');
-  }
+  }).catch(() => { // If not authorized
+    res.sendStatus(401);
   });
 });
 
-app.delete('/:alumniId', authenticateToken, (req, res) => {
-  // TODO exhaustive 
-  if(req.user.role === ROLE.USER) {
-    res.sendStatus(401);
-    return;
-  }
+app.delete('/:alumniId', (req, res) => {
+  if (![ROLE.RESPO, ROLE.ADMIN].includes(req.user.role)) return res.sendStatus(401);
 
   collection.deleteOne({_id: ObjectId(req.params.alumniId)}, (err, resMongo) => {
     if(err) {

@@ -2,12 +2,32 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
+const expressJwt = require('express-jwt');
 const axios = require('axios');
+
+// Constant
+const SERVICE_ACCESS_TOKEN = jwt.sign({username: 'link',role: 'service', id: 'link'},process.env.JWT_ACCESS_TOKEN_SECRET,{});
+axios.defaults.headers.common['Authorization'] = 'Bearer ' + SERVICE_ACCESS_TOKEN;
+
+const ROLE = {
+  USER: 'prof',
+  RESPO: 'respo-option',
+  ADMIN: 'administrateur',
+  SERVICE: 'service'
+};
 
 // App
 const PORT = 80;
 const app = express();
 app.use(bodyParser.json());
+
+// Token verification
+app.use(expressJwt({ secret: process.env.JWT_ACCESS_TOKEN_SECRET }))
+app.use((err, _req, res, _next) => {
+  if (err.name === 'UnauthorizedError') {
+    res.status(401).send('invalid token');
+  }
+});
 
 app.listen(PORT, () => {
     console.log(`Listening to port ${PORT}`);
@@ -19,6 +39,8 @@ function buildUpdateLink(token) {
 
 const idsListRegex = /^([a-f\d]{24}(,[a-f\d]{24})*)$/i;
 app.post('/send-update-mail', (req, res) => {
+    if (![ROLE.RESPO, ROLE.ADMIN].includes(req.user.role)) return res.sendStatus(401);
+
     const idList = req.body.join(',');
 
     if(!idList.match(idsListRegex)) {
@@ -40,7 +62,12 @@ app.post('/send-update-mail', (req, res) => {
                 return alumni;
             });
 
-        axios.post('http://service_mail/mailmaj', alumnisWithLinks).then(() => {
+        // We use the original sender's auth token
+        axios.post('http://service_mail/mailmaj', alumnisWithLinks, { 
+            headers: {
+                'Authorization': req.headers['authorization']
+            }
+        }).then(() => {
             res.sendStatus(200);
         }).catch(error => res.status(error.status | 500).send(error.message));
     }).catch(error => res.status(error.status | 500).send(error.message))

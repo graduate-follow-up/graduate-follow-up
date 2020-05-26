@@ -2,6 +2,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
+const expressJwt = require('express-jwt');
 const axios = require('axios');
 
 
@@ -13,19 +14,23 @@ if(! process.env.JWT_ACCESS_TOKEN_SECRET || ! process.env.JWT_REFRESH_TOKEN_SECR
 // App
 const PORT = 80;
 const app = express();
-const SERVICE_ACCESS_TOKEN = jwt.sign(
-    {
-        username: 'service-connexion',
-        role: 'service',
-        id: 'service-connexion'
-    },
-    process.env.JWT_ACCESS_TOKEN_SECRET,
-    {}
-);
+
+const SERVICE_ACCESS_TOKEN = jwt.sign({username: 'connexion',role: 'service',id: 'connexion'}, process.env.JWT_ACCESS_TOKEN_SECRET, {});
+axios.defaults.headers.common['Authorization'] = 'Bearer ' + SERVICE_ACCESS_TOKEN;
 
 // App
 app.use(bodyParser.json());
 
+// jwt
+app.use((err, _req, res, _next) => {
+  if (err.name === 'UnauthorizedError') {
+    res.status(401).send('invalid token');
+  }
+});
+
+const ROLE = {
+    SERVICE: 'service'
+};
 
 let refreshTokens = [];
 
@@ -41,22 +46,6 @@ app.listen(PORT, () => {
     console.log(`Service-connexion started and listen to port ${PORT}`);
 });
 
-function authenticateToken(req, res, next) {
-    // Gather the jwt access token from the request header
-    const authHeader = req.headers['authorization']
-    const token = authHeader && authHeader.split(' ')[1]
-    if (token == null) return res.sendStatus(401) // if there isn't any token
-
-    jwt.verify(token, process.env.JWT_ACCESS_TOKEN_SECRET, (err, user) => {
-        if (err){
-            console.log(err);
-            return res.sendStatus(403);
-        }
-        req.user = user
-        next() // pass the execution off to whatever request the client intended
-    })
-}
-
 // Génère deux token :
     // access-token : token qui sera vérifié et validé par les services pour déterminer accès , etc
     // refresh-token : token permettant de régénérer accesstoken
@@ -67,8 +56,6 @@ app.post('/login', (req, res) => {
     axios.post('http://service_user/check-user', {
         user : username,
         password: pwd
-    }, {
-        headers: {'Authorization': 'Bearer '+ SERVICE_ACCESS_TOKEN}
     }).then(result => {
         const {username, role: role, _id: id} = result.data;
         const payload = {username, role, id};
@@ -89,14 +76,16 @@ app.post('/login', (req, res) => {
     });
 });
 
-// A SUPPRIMER QUAND DEV FINI
+// FIX to delete
 app.post('/active-refresh', (req,res) => {
    res.status(200).send(JSON.stringify(refreshTokens))
 });
 
 const idsListRegex = /^([a-f\d]{24}(,[a-f\d]{24})*)$/i;
 // /login-token/5ebbfc19fc13ae528a000065,5ebbfc19fc13ae528a000066
-app.get('/alumni-token/:ids', (req,res) => {
+app.get('/alumni-token/:ids', expressJwt({ secret: process.env.JWT_ACCESS_TOKEN_SECRET }), (req,res) => {
+    if (!(req.user.role == ROLE.SERVICE && req.user.id == 'link')) return res.sendStatus(401);
+
     if(!req.params.ids.match(idsListRegex)) {
         res.status(400).send('Ids list required');
         return;
@@ -139,7 +128,7 @@ app.post('/token', (req, res) => {
 });
 
 // Au logout -> refresh supprimé.
-app.post('/logout', authenticateToken ,(req, res) => {
+app.post('/logout', (req, res) => {
     const {token} = req.body;
     console.log(req.body);
     refreshTokens = refreshTokens.filter(t => t !== token);
