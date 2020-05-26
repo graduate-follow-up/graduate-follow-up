@@ -30,7 +30,7 @@ public class ChartTypeService {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    return "{" + Jsonify(fieldName,f) + "," + Jsonify(nbName, String.valueOf(avg))  + "}";
+                    return "{" + Jsonify("label",f) + "," + Jsonify("y", String.valueOf(avg))  + "}";
                 }).collect(Collectors.joining(", "));
     }
 
