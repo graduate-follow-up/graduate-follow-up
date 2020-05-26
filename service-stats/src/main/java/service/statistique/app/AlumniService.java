@@ -25,5 +25,7 @@ public class AlumniService {
         return alumniJsonArray.stream();
     }
 
-
+   /* StringBuffer sb = new StringBuffer();
+        sb.append(f);
+    String str6 = sb.toString();*/
 }

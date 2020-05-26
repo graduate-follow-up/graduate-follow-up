@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.stream.Collectors;
 
 import static service.statistique.app.AlumniService.getAlumniStream;
-import static service.statistique.app.JsonService.Jsonify;
+import static service.statistique.app.ChartTypeService.chartTypeGenerator;
 
 @RestController
 public class Controller {
@@ -26,12 +26,6 @@ public class Controller {
     // Get 2 values in array [(number,string),...]
     @GetMapping("/chartType/{nbName}/{strName}")
     String chartType (@PathVariable String nbName, @PathVariable String strName) throws IOException, InterruptedException, ParseException {
-
-        return  "["
-                 + getAlumniStream()
-                .map(al -> "{" + Jsonify(nbName, (String) al.get(nbName)) + "," + Jsonify(strName, (String) al.get(strName))  + "}")
-                .collect(Collectors.joining(", "))
-                //.reduce("",(acc, al) -> acc + "{" + Jsonify(nbName, (String) al.get(nbName)) + "," + Jsonify(strName, (String) al.get(strName))  + "}")
-                + "]";
+        return  "[" + chartTypeGenerator(nbName, strName) + "]";
     }
 }
