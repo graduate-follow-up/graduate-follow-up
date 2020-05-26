@@ -5,12 +5,13 @@ const { MongoClient, ObjectId } = require('mongodb');
 const jwt = require('jsonwebtoken');
 const http = require('http');
 
+const databaseSchema = require('./database/schema.json');
 
 // Constants
 const MONGODB_URI = 'mongodb://database_alumni:27017/alumnis';
 const DATABASE_NAME = 'alumnis';
 const COLLECTION_NAME = 'alumnis';
-const PORT = 3000;
+const PORT = 80;
 const ROLE = {
   USER: 'prof',
   RESPO: 'respo-option',
@@ -107,43 +108,9 @@ MongoClient.connect(MONGODB_URI, {useUnifiedTopology: true}, function(err, clien
   let db = client.db(DATABASE_NAME);
   collection = db.collection(COLLECTION_NAME);
 
-  //TODO : getTodayYear for graduation max
   db.command( { collMod: COLLECTION_NAME,
     validator: {
-      $jsonSchema : {
-        bsonType: "object",
-        required: [ "first_name","last_name", "email", "option", "campus", "graduation" ],
-        properties: {
-          _id: {
-            bsonType: 'objectId',
-          },
-          first_name: {
-            bsonType: "string",
-            description: "required and must be a string" },
-          last_name: {
-            bsonType: "string",
-            description: "required and must be a string" },
-          email: {
-            bsonType: "string",
-            description: "required and must be a string"},
-          option: {
-            enum: ["ICC", "IERP", "IA", "IMSI", "INEM","IFI", "DS","SECU","BI","VS", "FINTECH"],
-            description: "required and must be one of those string: [ICC, IERP, IA, IMSI, INEM,IFI, DS,SECU,BI,VS, FINTECH]"},
-          campus: {
-            enum: [ "Pau", "Cergy" ],
-            description: "required and must be Pau or Cergy" },
-          graduation: {
-            bsonType: "int",
-            minimum: 1983,
-            maximum: 2025,
-            description: "must be an integer in [ 1983, actual year ] and is required"},
-          company: {
-            bsonType: "string",
-            description: "optional and must be a string"
-          }
-
-        }
-      }
+      $jsonSchema : databaseSchema
     },
     validationLevel: "strict",
     validationAction: "error"
@@ -165,7 +132,29 @@ app.get('/', authenticateToken ,(req, res) => {
   });
 });
 
-app.get('/:alumniId', authenticateToken , (req, res) => {
+const idsListRegex = /^([a-f\d]{24}(,[a-f\d]{24})*)$/i;
+// /infos/5ebbfc19fc13ae528a000065,5ebbfc19fc13ae528a000066
+app.get('/infos/:ids', (req,res) => {
+  if(!req.params.ids.match(idsListRegex)) {
+    res.status(400).send('Ids list required');
+    return;
+  }
+  const objectIdsArray = req.params.ids.split(',').map(id => ObjectId(id));
+
+  collection.find({_id: {$in: objectIdsArray}}).project({first_name: 1, last_name: 1, email: 1}).toArray(function (err,docs){
+    if(err) {
+      res.status(500).send(err);
+    } else {
+      if (docs.length != objectIdsArray.length){
+        res.status(404).send("Not found.");
+      } else{
+        res.status(200).send(docs);
+      }
+    }
+  });
+});
+
+app.get('/:alumniId', authenticateToken, (req, res) => {
   let projection = req.user.role === ROLE.USER ? { first_name: 0, last_name:0, email: 0, phone: 0 } : '' ;
   collection.find({_id: ObjectId(req.params.alumniId)}).project(projection).toArray(function (err, docs) {
     if(err) {
@@ -197,8 +186,10 @@ app.post('/', authenticateToken, (req, res) => {
 
 app.put('/:alumniId', authenticateToken, (req, res) => {
 
+  // TODO change
   isThisMyself(req.params.alumniId, req.user.id, function (itsMe) {
     console.log(itsMe);
+    // TODO exhaustive 
   if( itsMe || req.user.role !== ROLE.USER){
     let update = {$set : req.body};
     collection.replaceOne({_id: ObjectId(req.params.alumniId)}, update, (err,resMongo) => {
@@ -221,17 +212,23 @@ app.put('/:alumniId', authenticateToken, (req, res) => {
   });
 });
 
-app.delete('/:alumniId', authenticateToken , (req, res) => {
-  if(req.user.role !== ROLE.USER){
-    collection.deleteOne({_id: ObjectId(req.params.alumniId)}, (err, resMongo) => {
-      if(err) {
-        res.status(500).send(err);
-      } else {
-        // Send a 404 if no document were deleted
-        res.sendStatus(resMongo.deletedCount > 0 ? 204 : 404);
-      }
-    });
-  }else{
-    res.sendStatus(401)   ;
+app.delete('/:alumniId', authenticateToken, (req, res) => {
+  // TODO exhaustive 
+  if(req.user.role === ROLE.USER) {
+    res.sendStatus(401);
+    return;
   }
+
+  collection.deleteOne({_id: ObjectId(req.params.alumniId)}, (err, resMongo) => {
+    if(err) {
+      res.status(500).send(err);
+    } else {
+      // Send a 404 if no document were deleted
+      res.sendStatus(resMongo.deletedCount > 0 ? 204 : 404);
+    }
+  });
+});
+
+app.get('/schema', (_req, res) => {
+  res.status(200).send(databaseSchema);
 });

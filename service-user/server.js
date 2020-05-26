@@ -4,11 +4,13 @@ const bodyParser = require('body-parser');
 const { MongoClient, ObjectId } = require('mongodb');
 const jwt = require('jsonwebtoken');
 
+const databaseSchema = require('./database/schema.json');
+
 // Constants
 const MONGODB_URI = 'mongodb://database_user:27017/users';
 const DATABASE_NAME = 'users';
 const COLLECTION_NAME = 'users';
-const PORT = 3000;
+const PORT = 80;
 const ROLE = {
   USER: 'prof',
   RESPO: 'respo-option',
@@ -42,6 +44,16 @@ MongoClient.connect(MONGODB_URI, {useUnifiedTopology: true}, function(err, clien
 
   let db = client.db(DATABASE_NAME);
   collection = db.collection(COLLECTION_NAME);
+  db.collection(COLLECTION_NAME).createIndex({"login": 1}, { unique:true});
+  db.collection(COLLECTION_NAME).createIndex({"email": 1}, { unique:true});
+
+  db.command( { collMod: COLLECTION_NAME,
+    validator: {
+      $jsonSchema : databaseSchema
+    },
+    validationLevel: "strict",
+    validationAction: "error"
+  })
 
   app.listen(PORT);
   console.log(`Listening on port ${PORT}`);
@@ -65,25 +77,25 @@ app.get('/', authenticateToken, (req, res) => {
 // On login -> service connexion asks service user to check user & pwd :
 //       - If user & pwd correct : sends user role
 //       - If user or pwd incorrect : sends status code 404 .
-app.get('/check-user',authenticateToken ,(req, res) => {
-  if(req.user.role === ROLE.SERVICE) {
-    const usr = req.body.user;
-    const pwd = req.body.password;
+app.post('/check-user', authenticateToken, (req, res) => {
+  if(req.user.role !== ROLE.SERVICE) {
+    res.sendStatus(401);
+    return;
+  }
 
-    collection.find({login: usr, mdp: pwd}).project({statut: 1}).toArray(function (err, docs) {
-      if (err) {
-        res.status(500).send(err);
-      } else {
-        if (docs.length === 0) {
-          res.status(404).send();
-        } else {
-          res.status(200).send(docs[0]);
-        }
+  const usr = req.body.user;
+  const pwd = req.body.password;
+
+  collection.find({login: usr, password: pwd }).project({ role: 1 }).toArray(function (err, docs) {
+    if(err) {
+      res.status(500).send(err);
+    } else {
+      if(docs.length === 0){
+        res.status(404).send();
+      }else{
+        res.status(200).send(docs[0]);
       }
     });
-  }else{
-    res.sendStatus(401);
-  }
 });
 
 
@@ -109,7 +121,6 @@ app.get('/:userId', authenticateToken, (req, res) => {
 
 
 app.post('/',authenticateToken,(req, res) => {
-  // TODO check document format
   if(req.user.role === ROLE.ADMIN){
     let document = req.body;
     collection.insertOne(document, (err, resMongo) => {

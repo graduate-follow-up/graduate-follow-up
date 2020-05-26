@@ -2,13 +2,13 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { AdminRoutingModule } from './admin-routing.module';
-import {EditComponent} from './edit/edit.component';
+import {AlumnusEditComponent} from '../alumnus/alumnus-edit/alumnus-edit.component';
 import {ReactiveFormsModule} from '@angular/forms';
 
 
 @NgModule({
   declarations: [
-    EditComponent,
+    AlumnusEditComponent,
   ],
   imports: [
     CommonModule,

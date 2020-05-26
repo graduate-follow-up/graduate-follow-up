@@ -1,12 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import {Alumnus} from '../../model/Alumnus';
 import {AlumnusService} from '../service/alumnus.service';
-import {DataUserService} from '../../service/dataUser.service';
 import {ConnectionService} from '../../login/services/connection.service';
 import {Router} from '@angular/router';
 import {ActionPerformedService} from '../service/actionPerformed.service';
 import {DataOptionService} from '../../service/dataOption.service';
-import {ErrorService} from "../../service/error.service";
+import {ErrorService} from '../../service/error.service';
 
 @Component({
   selector: 'app-alumnus',
@@ -42,13 +40,8 @@ export class AlumnusComponent implements OnInit {
     return (this.connectionService.getToken() === 'admin');
   }
 
-  /*subscribe(
-    data => this.router.navigate(['']),
-  error => this.errorMsg = this.errorService.getErrorMessage()
-);*/
-
   addAlumnus() {
     this.actionPerformed.enabledAddMode();
-    this.router.navigate(['/admin/edit']);
+    this.router.navigate(['/alumnus/edit']).catch(err => this.errorMsg = err);
   }
 }
