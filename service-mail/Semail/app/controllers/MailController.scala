@@ -6,6 +6,8 @@ import javax.inject.Inject
 import play.api.libs.json._
 import play.api.mvc._
 
+import scala.util._
+
 
 
 class MailController @Inject() (mailerClient: MailerClient) extends Controller  {
@@ -16,9 +18,16 @@ class MailController @Inject() (mailerClient: MailerClient) extends Controller  
 
   def sendEmailMaj() =Action(parse.json){
     implicit request: Request[JsValue] => {
-    val l_alumnis: List[Alumni] = Json.parse(request.body.toString).as[List[Alumni]]
-      l_alumnis.map(x => Emailmaj(x.email.toString,x.last_name.toString,x.first_name.toString,x.url.toString))
-      Ok(s"mail envoyé")
+      val data = Try[List[Alumni]]{
+      Json.parse(request.body.toString).as[List[Alumni]]
+      }
+      data match {
+        case  Success(l) =>
+          l.map(x => Emailmaj(x.email.toString,x.last_name.toString,x.first_name.toString,x.url.toString))
+          Ok(s"Mail envoyé")
+        case Failure(f) =>
+          Ok(s"Erreur dans la requete")
+      }
     }
   }
 
@@ -50,9 +59,16 @@ class MailController @Inject() (mailerClient: MailerClient) extends Controller  
 
   def sendEmailMdp() =Action(parse.json){
     implicit request: Request[JsValue] => {
-      val l_alumnis: List[Alumni] = Json.parse(request.body.toString()).as[List[Alumni]]
-      l_alumnis.map(x => Emailmdp(x.email.toString,x.last_name.toString,x.first_name.toString,x.url.toString))
-      Ok(s"mail envoyé")
+      val data = Try[List[Alumni]]{
+        Json.parse(request.body.toString).as[List[Alumni]]
+      }
+      data match {
+        case  Success(l) =>
+          l.map(x => Emailmdp(x.email.toString,x.last_name.toString,x.first_name.toString,x.url.toString))
+          Ok(s"Mail envoyé")
+        case Failure(f) =>
+          Ok(s"Erreur dans la requete")
+      }
     }
   }
 
