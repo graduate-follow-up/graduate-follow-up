@@ -13,7 +13,7 @@ public  class HttpService {
 
     /* Variable */
     // Url of service Alumni
-    private final static String url = "http://localhost/alumnis/";
+    private final static String url = "http://proxy/alumnis/";
     // Initialize client
     private final static HttpClient client = HttpClient.newBuilder()
             .version(HttpClient.Version.HTTP_2)

@@ -1,6 +1,7 @@
 package service.statistique.app;
 
-import org.json.simple.*;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
@@ -18,11 +19,9 @@ public class AlumniService {
     // Transform response to stream
     public static Stream<JSONObject> getAlumniStream() throws IOException, InterruptedException, ParseException {
 
-            JSONArray alumniJsonArray = (JSONArray) jsonParser.parse(getAlumniResponse().body());
+        JSONArray alumniArray = (JSONArray) jsonParser.parse(getAlumniResponse().body());
 
-            //JSONArray alumniJsonArray = (JSONArray) obj;
-
-        return alumniJsonArray.stream();
+        return alumniArray.stream();
     }
 
    /* StringBuffer sb = new StringBuffer();
