@@ -2,6 +2,17 @@
 
 EISTI academic project
 
+# Déployer projet en local : 
+Avant de déployer ; s'assurer que les volumes docker existants en cas de build ultérieurs ne vont pas géner l'exécution. 
+Dans ce cas : 
+```sh
+$ docker volume rm [volumes graduate_follow_up]
+```
+Ensuite, déployez le projet : 
+```sh
+$ docker-compose build
+$ docker-compose up
+```
 
 # Comment dev sur ce projet avec git !
 

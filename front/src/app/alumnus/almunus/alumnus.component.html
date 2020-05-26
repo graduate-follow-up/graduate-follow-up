@@ -1,0 +1,36 @@
+<!-- Title -->
+<!--<div class="ui segment margin">-->
+<!--  <h2 class="ui header">All Alumnus</h2>-->
+<!--</div>-->
+
+<!-- Error panel -->
+<div class="ui negative message" *ngIf="errorMsg">
+  <div class="header">
+  </div>
+  <p>{{errorMsg}}</p></div>
+
+<!-- Search option -->
+<div class="ui grid margin">
+  <!-- Name and Enterprise -->
+  <div class="ui search">
+    <div class="ui icon input">
+      <input class="prompt" type="text" placeholder="Search by name or enterprise" [(ngModel)]="searchValue">
+      <i class="search icon"></i>
+    </div>
+  </div>
+  <!-- Option -->
+  <h5 class="ui header"> Options :</h5>
+  <select class="ui dropdown selection " [(ngModel)]="optionValue">
+    <option value="all">all options</option>
+    <option *ngFor="let opt of options" [value]="opt">{{opt}}</option>
+  </select>
+  <!-- Add Alumni button-->
+  <button class="ui basic button margin-left-20" (click)="addAlumnus()" *ngIf="isAuthorized()"><i class="icon plus"></i> Add Alumnus </button>
+
+
+</div>
+<br>
+<div class="ui grid margin">
+  <app-alumnus-detail *ngFor="let al of alumnus | filterAlumnus:searchValue:optionValue"
+                      [alumnus]="al"></app-alumnus-detail>
+</div>
