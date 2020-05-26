@@ -18,9 +18,9 @@ public class AlumniService {
     // Transform response to stream
     public static Stream<JSONObject> getAlumniStream() throws IOException, InterruptedException, ParseException {
 
-            Object obj = jsonParser.parse(getAlumniResponse().body());
+            JSONArray alumniJsonArray = (JSONArray) jsonParser.parse(getAlumniResponse().body());
 
-            JSONArray alumniJsonArray = (JSONArray) obj;
+            //JSONArray alumniJsonArray = (JSONArray) obj;
 
         return alumniJsonArray.stream();
     }
