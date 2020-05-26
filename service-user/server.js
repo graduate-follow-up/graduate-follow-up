@@ -53,7 +53,7 @@ app.get('/', (req, res) => {
 // On login -> service connexion asks service user to check user & pwd :
 //       - If user & pwd correct : sends user role
 //       - If user or pwd incorrect : sends status code 404 .
-app.get('/check-user',(req, res) => {
+app.post('/check-user',(req, res) => {
 
   const usr = req.body.user;
   const pwd = req.body.password;
