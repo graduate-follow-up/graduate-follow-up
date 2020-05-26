@@ -11,7 +11,7 @@ if(! process.env.JWT_ACCESS_TOKEN_SECRET || ! process.env.JWT_REFRESH_TOKEN_SECR
 }
 
 // App
-const PORT = 3000;
+const PORT = 80;
 const app = express();
 app.use(bodyParser.json());
 
@@ -100,25 +100,20 @@ app.post('/active-refresh', (req,res) => {
    res.status(200).send(JSON.stringify(refreshTokens))
 });
 
-// PREND EN BODY UN TABLEAU D'OBJETS (OUTPUT DE ALUMNI-INFO) -> RETOURNE OBJET + "link":URL
-app.post('/', (req,res) => {
-    let alumnisId = [];
-    let idArray = Array.from(req.body.listId);
-    idArray.map(e => {
-        let element = {};
-        element["_id"] = e;
-        element["link"] = "localhost/" + jwt.sign(
-            {
-                role: "alumni",
-                id: e
-            },
-            process.env.JWT_ACCESS_TOKEN_SECRET,
-            {}
-        );
-        alumnisId.push(element);
-    });
-    res.status(200).send(alumnisId);
+const idsListRegex = /^([a-f\d]{24}(,[a-f\d]{24})*)$/i;
+// /login-token/5ebbfc19fc13ae528a000065,5ebbfc19fc13ae528a000066
+app.get('/alumni-token/:ids', (req,res) => {
+    if(!req.params.ids.match(idsListRegex)) {
+        res.status(400).send('Ids list required');
+        return;
+    }
 
+    let signedTokens = {};
+    req.params.ids.split(',').forEach(id => {
+        signedTokens[id] = jwt.sign({role: "alumni", id}, process.env.JWT_ACCESS_TOKEN_SECRET, {expiresIn: '120m'});
+    });
+
+    res.status(200).send(signedTokens);
 });
 
 

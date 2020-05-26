@@ -10,7 +10,7 @@ const MONGODB_URI = 'mongodb://database_alumni:27017/alumnis';
 const DATABASE_NAME = 'alumnis';
 const COLLECTION_NAME = 'alumnis';
 
-const PORT = 3000;
+const PORT = 80;
 
 // App
 const app = express();
@@ -50,6 +50,28 @@ app.get('/', (_req, res) => {
   });
 });
 
+const idsListRegex = /^([a-f\d]{24}(,[a-f\d]{24})*)$/i;
+// /infos/5ebbfc19fc13ae528a000065,5ebbfc19fc13ae528a000066
+app.get('/infos/:ids', (req,res) => {
+  if(!req.params.ids.match(idsListRegex)) {
+    res.status(400).send('Ids list required');
+    return;
+  }
+  const objectIdsArray = req.params.ids.split(',').map(id => ObjectId(id));
+
+  collection.find({_id: {$in: objectIdsArray}}).project({first_name: 1, last_name: 1, email: 1}).toArray(function (err,docs){
+    if(err) {
+      res.status(500).send(err);
+    } else {
+      if (docs.length != objectIdsArray.length){
+        res.status(404).send("Not found.");
+      } else{
+        res.status(200).send(docs);
+      }
+    }
+  });
+});
+
 app.get('/:alumniId', (req, res) => {
   collection.find({_id: ObjectId(req.params.alumniId)}).toArray(function (err, docs) {
     if(err) {
@@ -59,27 +81,6 @@ app.get('/:alumniId', (req, res) => {
         res.status(404).send("Not found.");
       }else{
         res.status(200).send(docs[0]);
-      }
-    }
-  });
-});
-
-// res.body = {
-// 	"listId":["5ebbfc19fc13ae528a000065","5ebbfc19fc13ae528a000066","5ebbfc1afc13ae528a000067"]
-// }
-app.post('/alumni-info', (req,res) => {
-  let objectIdArray = [];
-  req.body.listId.map(s => {
-    objectIdArray.push(ObjectId(s));
-  });
-  collection.find({_id: {$in: objectIdArray}}).project({first_name: 1, last_name: 1, email: 1}).toArray(function (err,docs){
-    if(err){
-      res.status(500).send(err);
-    } else {
-      if(docs.length === 0 ){
-        res.status(404).send("Not found.");
-      }else{
-        res.status(200).send(docs);
       }
     }
   });
