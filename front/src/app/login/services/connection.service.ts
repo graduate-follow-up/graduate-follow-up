@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import {Router} from '@angular/router';
 import {Token} from '../../model/Token';
 import * as jwt_decode from 'jwt-decode';
 
@@ -10,7 +9,7 @@ export class ConnectionService {
 
   isConnected = false;
 
-  constructor(private router: Router) {
+  constructor() {
     this.isConnected = this.getConnection();
   }
 
@@ -18,6 +17,7 @@ export class ConnectionService {
     return (localStorage.getItem('accessToken') !== null); }
 
   stockConnection(token: Token) {
+    console.log('role= ' + localStorage.getItem('role'));
     const decoded = this.getDecodedAccessToken(token.accessToken);
     localStorage.setItem('accessToken', token.accessToken);
     localStorage.setItem('refreshToken', token.refreshToken);
@@ -25,7 +25,6 @@ export class ConnectionService {
     localStorage.setItem('id', decoded.id);
     localStorage.setItem('username', decoded.username);
     this.isConnected = true;
-
   }
 
   logout() {
@@ -35,10 +34,6 @@ export class ConnectionService {
     localStorage.removeItem('id');
     localStorage.removeItem('username');
     this.isConnected = false;
-  }
-
-  getAccessToken() {
-    return localStorage.getItem('accessToken');
   }
 
   getUserRole() {

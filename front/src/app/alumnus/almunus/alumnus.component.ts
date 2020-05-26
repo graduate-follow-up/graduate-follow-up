@@ -36,6 +36,7 @@ export class AlumnusComponent implements OnInit {
     this.options = this.dataOption.getOptions();
   }
 
+  // Checks if user is authorized to add an alumni
   isAuthorized() {
     return (this.connectionService.getUserRole() === 'administrateur' || this.connectionService.getUserRole() === 'respo-option' );
   }

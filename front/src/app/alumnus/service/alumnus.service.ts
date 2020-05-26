@@ -14,7 +14,7 @@ export class AlumnusService {
 
   constructor(private http: HttpClient) {}
 
-  private ulrAlumnus = 'http://localhost/alumnis/';
+  private ulrAlumnus = 'http://proxy/alumnis/';
   private alumnusData: Alumnus[];
 
   httpOptions = {
