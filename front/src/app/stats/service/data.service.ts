@@ -1,6 +1,10 @@
 import { Injectable } from '@angular/core';
 import {Alumnus} from '../../model/Alumnus';
 import {AlumnusService} from '../../alumnus/service/alumnus.service';
+import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {Observable} from "rxjs";
+import {catchError} from "rxjs/operators";
+import {ErrorService} from "../../service/error.service";
 
 type chartType = Array<{ y: number, label: string }>;
 
@@ -10,12 +14,20 @@ type chartType = Array<{ y: number, label: string }>;
 })
 export class DataService {
 
-  constructor( private alumnusService: AlumnusService) {
+  constructor(private http: HttpClient) {
   }
 
 
+  httpOptions = {
+    headers: new HttpHeaders({ 'Content-Type': 'application/json'})};
 
+  getAlumnusObservable(): Observable<Alumnus[]> {
+    return this.http.get<Alumnus[]>(this.ulrStats)
+      .pipe(catchError(ErrorService.handleError)
+      );
+  }
 
+/*
   createCompaniesRepartition(allAlumnus: Alumnus[]): chartType {
     const res: chartType = [];
 
@@ -57,5 +69,5 @@ export class DataService {
 
   countSalary(option: string): number {
     return this.alumnusService.getAlumnus().reduce((acc: number, val) => (acc + ((val.option === option) ? +val.wage : 0)), 0);
-  }
+  }*/
 }
