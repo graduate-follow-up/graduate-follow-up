@@ -29,7 +29,7 @@ app.listen(PORT, () => {
 app.post('/login', (req, res) => {
     const {user: username, password: pwd} = req.body;
 
-    axios.post('http://service_user:3000/check-user', {
+    axios.post('http://service_user/check-user', {
         user : username,
         password: pwd
     }).then(result => {
