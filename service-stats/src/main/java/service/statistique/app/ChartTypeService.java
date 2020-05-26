@@ -37,6 +37,7 @@ public class ChartTypeService {
 
     private static Double calculateAvgOfField(String f, String fieldName, String nbName) throws InterruptedException, ParseException, IOException {
         return getAlumniStream()
+                .filter(e -> e.get(fieldName).equals(f))
                 .mapToDouble(x -> (Long) x.get(nbName))
                 .average()
                 .getAsDouble();
