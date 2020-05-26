@@ -72,12 +72,11 @@ services:
     networks:
       - internal_alumni
 
-  # Service Front   
   front:
     build:
       context: ./front/
       args:
-        BASE_HREF: /hello/
+        BASE_HREF: /
     networks:
       - proxy
 
