@@ -65,6 +65,11 @@ services:
     networks:
       - internal_alumni
 
+  service_stats:
+    build:  ./service-stats/
+    networks:
+      - proxy
+
   # Service Front   
   front:
     build:
