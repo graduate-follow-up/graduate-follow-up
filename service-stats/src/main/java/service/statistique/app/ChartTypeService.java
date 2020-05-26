@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static service.statistique.app.AlumniService.getAlumniStream;
-import static service.statistique.app.JsonService.Jsonify;
+import static service.statistique.app.JsonService.*;
 
 public class ChartTypeService {
 
@@ -30,7 +30,7 @@ public class ChartTypeService {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    return "{" + Jsonify("label",f) + "," + Jsonify("y", String.valueOf(avg))  + "}";
+                    return "{" + Jsonify("label",f) + "," + JsonifyValueNot("y", String.valueOf(avg))  + "}";
                 }).collect(Collectors.joining(", "));
     }
 
