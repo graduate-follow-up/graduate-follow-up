@@ -21,6 +21,13 @@ services:
     env_file:
       - ./.env/api.env
 
+  service_link:
+    build: ./service-link/
+    networks:
+      - proxy
+    environment:
+      - PROXY_URL=${PROXY_URL:-http://localhost}
+
   service_user:
     build: ./service-user/
     networks:

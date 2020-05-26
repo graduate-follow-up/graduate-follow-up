@@ -4,13 +4,14 @@ const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
 const http = require('http');
 
+
 if(! process.env.JWT_ACCESS_TOKEN_SECRET || ! process.env.JWT_REFRESH_TOKEN_SECRET){
     console.error('\x1b[31m%s\x1b[0m', 'Jwt tokens are not initialized. Please run install.sh.');
     return process.exit(255);
 }
 
 // App
-const PORT = 3000;
+const PORT = 80;
 const app = express();
 app.use(bodyParser.json());
 
@@ -97,6 +98,22 @@ app.post('/login', (req, res) => {
 // A SUPPRIMER QUAND DEV FINI
 app.post('/active-refresh', (req,res) => {
    res.status(200).send(JSON.stringify(refreshTokens))
+});
+
+const idsListRegex = /^([a-f\d]{24}(,[a-f\d]{24})*)$/i;
+// /login-token/5ebbfc19fc13ae528a000065,5ebbfc19fc13ae528a000066
+app.get('/alumni-token/:ids', (req,res) => {
+    if(!req.params.ids.match(idsListRegex)) {
+        res.status(400).send('Ids list required');
+        return;
+    }
+
+    let signedTokens = {};
+    req.params.ids.split(',').forEach(id => {
+        signedTokens[id] = jwt.sign({role: "alumni", id}, process.env.JWT_ACCESS_TOKEN_SECRET, {expiresIn: '120m'});
+    });
+
+    res.status(200).send(signedTokens);
 });
 
 
