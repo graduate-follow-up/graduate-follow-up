@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import {Alumnus} from '../../model/Alumnus';
 import {AlumnusService} from '../../alumnus/service/alumnus.service';
-import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {Observable} from "rxjs";
-import {catchError} from "rxjs/operators";
-import {ErrorService} from "../../service/error.service";
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {Observable} from 'rxjs';
+import {catchError} from 'rxjs/operators';
+import {ErrorService} from '../../service/error.service';
 
 type chartType = Array<{ y: number, label: string }>;
 
@@ -13,6 +13,8 @@ type chartType = Array<{ y: number, label: string }>;
   providedIn: 'root'
 })
 export class DataService {
+  //private ulrStats = 'http://proxy/stats';
+  private ulrStats = 'http://localhost/stats/chartType';
 
   constructor(private http: HttpClient) {
   }
@@ -21,11 +23,12 @@ export class DataService {
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json'})};
 
-  getAlumnusObservable(): Observable<Alumnus[]> {
-    return this.http.get<Alumnus[]>(this.ulrStats)
+  getCharTypeObservable(): Observable<chartType> {
+    return this.http.get<chartType>(this.ulrStats + '/wage/option')
       .pipe(catchError(ErrorService.handleError)
       );
   }
+
 
 /*
   createCompaniesRepartition(allAlumnus: Alumnus[]): chartType {
