@@ -48,4 +48,4 @@ RUN sbt stage
 EXPOSE 9000
 
 # TODO change key
-CMD ["/server/target/universal/stage/bin/Semail", "-Dplay.http.secret.key=jrqmPXf8cWo2kQToLGiEtfnQjXarKTUF"]
+CMD ["/app/target/universal/stage/bin/semail", "-Dplay.http.secret.key=jrqmPXf8cWo2kQToLGiEtfnQjXarKTUF"]
