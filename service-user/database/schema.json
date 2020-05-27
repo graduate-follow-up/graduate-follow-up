@@ -1,0 +1,21 @@
+{
+  "bsonType": "object",
+  "required": [ "login","password", "role", "email"],
+  "properties": {
+    "_id": {
+      "bsonType": "objectId"
+    },
+    "login": {
+      "bsonType": "string",
+      "description": "required and must be a string" },
+    "password": {
+      "bsonType": "string",
+      "description": "required and must be a string" },
+    "email": {
+      "bsonType": "string",
+      "description": "required and must be a string"},
+    "role": {
+      "bsonType": "string",
+      "description": "required and must be a string" }
+  }
+}

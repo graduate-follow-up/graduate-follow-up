@@ -3,12 +3,14 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const { MongoClient, ObjectId } = require('mongodb');
 
+const databaseSchema = require('./database/schema.json');
+
 // Constants
 const MONGODB_URI = 'mongodb://database_user:27017/users';
 const DATABASE_NAME = 'users';
 const COLLECTION_NAME = 'users';
 
-const PORT = 3000;
+const PORT = 80;
 
 // App
 const app = express();
@@ -21,6 +23,16 @@ MongoClient.connect(MONGODB_URI, {useUnifiedTopology: true}, function(err, clien
 
   let db = client.db(DATABASE_NAME);
   collection = db.collection(COLLECTION_NAME);
+  db.collection(COLLECTION_NAME).createIndex({"login": 1}, { unique:true});
+  db.collection(COLLECTION_NAME).createIndex({"email": 1}, { unique:true});
+
+  db.command( { collMod: COLLECTION_NAME,
+    validator: {
+      $jsonSchema : databaseSchema
+    },
+    validationLevel: "strict",
+    validationAction: "error"
+  })
 
   app.listen(PORT);
   console.log(`Listening on port ${PORT}`);
@@ -41,12 +53,12 @@ app.get('/', (req, res) => {
 // On login -> service connexion asks service user to check user & pwd :
 //       - If user & pwd correct : sends user role
 //       - If user or pwd incorrect : sends status code 404 .
-app.get('/check-user',(req, res) => {
+app.post('/check-user',(req, res) => {
 
   const usr = req.body.user;
   const pwd = req.body.password;
 
-  collection.find({login: usr, mdp: pwd }).project({ statut: 1 }).toArray(function (err, docs) {
+  collection.find({login: usr, password: pwd }).project({ role: 1 }).toArray(function (err, docs) {
     if(err) {
       res.status(500).send(err);
     } else {
