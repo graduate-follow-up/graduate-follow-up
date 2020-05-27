@@ -48,7 +48,7 @@ class LogsController @Inject()(logsDAO: LogsDAO, cc: ControllerComponents) exten
       JsPath.read[Log].reads(request.body) match {
         case error : JsError => Future { BadRequest(JsError.toJson(error)) }
         case value =>  logsDAO.add(value.get).map {
-          count => if(count == 1) Ok else InternalServerError("Not inserted")
+          count => if(count == 1) NoContent else InternalServerError("Not inserted")
         } recover {
           exception => InternalServerError(exception.getMessage)
         }

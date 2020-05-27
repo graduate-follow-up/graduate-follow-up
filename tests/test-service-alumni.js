@@ -3,7 +3,7 @@ const should = chai.should();
 const assert = chai.assert;
 const axios = require('./axios-jwt-wrapper.js');
 
-const newUser = {
+const newAlumni = {
   "first_name": "John",
   "last_name": "Doe",
   "email": "john.doe@eisti.eu",
@@ -99,20 +99,20 @@ describe('service_alumni', () => {
 
   describe('POST /', () => {
     it('should create an alumni when using an admin token', async () => {
-      let res = await axios.asAdmin.post('/alumnis/', newUser);
+      let res = await axios.asAdmin.post('/alumnis/', newAlumni);
       res.status.should.equal(200);
       res.data.should.be.an('string');
     });
 
     it('should create an alumni when using a respo token', async () => {
-      let res = await axios.asRespo.post('/alumnis/', newUser);
+      let res = await axios.asRespo.post('/alumnis/', newAlumni);
       res.status.should.equal(200);
       res.data.should.be.an('string');
     });
     
     it('should not work when using an user token', async () => {
       try {
-        await axios.asUser.post('/alumnis/', newUser);
+        await axios.asUser.post('/alumnis/', newAlumni);
       } catch(error) {
         error.response.status.should.equal(401);
         return;
@@ -126,20 +126,20 @@ describe('service_alumni', () => {
     const id = "5ebbfc1afc13ae528a000069";
 
     it('should update an alumni when using an admin token', async () => {
-      let res = await axios.asAdmin.put(`/alumnis/${id}`, newUser);
+      let res = await axios.asAdmin.put(`/alumnis/${id}`, newAlumni);
       res.status.should.equal(204);
       res.data.should.be.an('string');
     });
 
     it('should update an alumni when using a respo token', async () => {
-      let res = await axios.asRespo.put(`/alumnis/${id}`, newUser);
+      let res = await axios.asRespo.put(`/alumnis/${id}`, newAlumni);
       res.status.should.equal(204);
       res.data.should.be.an('string');
     });
     
     it('should not work when using a lambda user token', async () => {
       try {
-        await axios.asUser.put(`/alumnis/${id}`, newUser);
+        await axios.asUser.put(`/alumnis/${id}`, newAlumni);
       } catch(error) {
         error.response.status.should.equal(401);
         return;
@@ -160,7 +160,7 @@ describe('service_alumni', () => {
 
       for(let i = 0; i < 3; i++) {
         // We create an alumni
-        let res = await axios.asAdmin.post('/alumnis/', newUser);
+        let res = await axios.asAdmin.post('/alumnis/', newAlumni);
         res.status.should.equal(200);
         res.data.should.be.an('string');
         ids.push(res.data);

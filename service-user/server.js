@@ -55,7 +55,7 @@ MongoClient.connect(MONGODB_URI, {useUnifiedTopology: true}, function(err, clien
 
 
 app.get('/', (req, res) => {
-  if (req.user.role === ROLE.ADMIN) return res.sendStatus(401);
+  if (req.user.role !== ROLE.ADMIN) return res.sendStatus(401);
 
   collection.find({}).project({mdp:0}).toArray(function(err, docs) {
     if(err) {

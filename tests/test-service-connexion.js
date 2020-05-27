@@ -13,8 +13,8 @@ const credentials = {
     "password": "ullamco",
   },
   prof: {
-    "user": "anima",
-    "password": "dolor",
+    "user": "magna",
+    "password": "eiusmod",
   },
   wrong: {
     "user": "aaaaa",

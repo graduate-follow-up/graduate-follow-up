@@ -17,8 +17,8 @@ const credentials = {
     role: "respo-option"
   },
   prof: {
-    id: "5eba686112a0f23d187f620d",
-    username: "anima",
+    id: "5eba68613b6d1a9069756982",
+    username: "magna",
     role: "prof"
   }
 }
