@@ -23,8 +23,8 @@ export class DataService {
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json'})};
 
-  getCharTypeObservable(): Observable<chartType> {
-    return this.http.get<chartType>(this.ulrStats + '/wage/option')
+  getCharTypeObservable(label: any, y: any): Observable<chartType> {
+    return this.http.get<chartType>(this.ulrStats + '/' + y + '/' + label)
       .pipe(catchError(ErrorService.handleError)
       );
   }

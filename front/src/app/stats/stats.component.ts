@@ -8,6 +8,10 @@ import {ErrorService} from '../service/error.service';
 type chartType = Array<{ y: number, label: string }>;
 
 
+function creataeRender() {
+
+}
+
 @Component({
   selector: 'app-stats',
   templateUrl: './stats.component.html',
@@ -16,6 +20,13 @@ type chartType = Array<{ y: number, label: string }>;
 export class StatsComponent implements OnInit {
   private errorMsg: string;
   private chartTypeData: chartType;
+  public label = 'option';
+  public y = 'wage';
+  allLabels: string[];
+  labelValue: any;
+  valueValue: any;
+  allValue: string[];
+
 
   constructor(private alumnusService: AlumnusService,
               private dataService: DataService,
@@ -24,79 +35,69 @@ export class StatsComponent implements OnInit {
   }
 
 
-
-  // @ts-ignore
   async ngOnInit() {
-   /* this.dataService.getCharTypeObservable().subscribe(
-      el => this.chartTypeData = el,
-      error => this.errorMsg = this.errorService.getErrorMessage());*/
 
+    this.allLabels = ['option', 'company', 'country', 'city', 'job', 'campus'];
+    this.allValue = ['wage', 'graduation'];
 
-    let chart: CanvasJS.Chart;
-    chart = new CanvasJS.Chart('chartContainer', {
-      animationEnabled: true,
-      exportEnabled: true,
-      title: {
-        text: 'average salary by option'
-      },
-      data: [{
-        type: 'column',
-        dataPoints: this.chartTypeData,
-      }]
-    });
-
-
-
-
-    const chart2 = new CanvasJS.Chart('chart2Container', {
-      animationEnabled: true,
-      title: {
-        text: 'Companies'
-      },
-      data: [{
-        type: 'pie',
-        startAngle: 240,
-        yValueFormatString: '##0.00"%"',
-        indexLabel: '{label} {y}',
-        dataPoints: this.chartTypeData
-      }]
-    });
-
-    this.dataService.getCharTypeObservable().forEach(
+    this.dataService.getCharTypeObservable(this.label, this.y).forEach(
       el => this.chartTypeData = el)
-      .then( () => {
-        console.log(this.chartTypeData);
-
-        new CanvasJS.Chart('chartContainer', {
+      .then(() => {
+          new CanvasJS.Chart('chartContainer', {
             animationEnabled: true,
             exportEnabled: true,
             title: {
-              text: 'average salary by option'
+              text: 'Average ' + this.y + ' by ' + this.label
             },
             data: [{
               type: 'column',
               dataPoints: this.chartTypeData,
             }]
           }).render();
-        new CanvasJS.Chart('chart2Container', {
-            animationEnabled: true,
-            title: {
-              text: 'Companies'
-            },
-            data: [{
-              type: 'pie',
-              startAngle: 240,
-              yValueFormatString: '##0.00"%"',
-              indexLabel: '{label} {y}',
-              dataPoints: this.chartTypeData
-            }]
-          }).render();
-
-      }
+        }
       );
+  }
+
+  private requestLabel($event: any) {
+    this.label = $event;
+
+    this.dataService.getCharTypeObservable(this.label, this.y).forEach(
+      el => this.chartTypeData = el)
+      .then(() => {
+        new CanvasJS.Chart('chartContainer', {
+          animationEnabled: true,
+          exportEnabled: true,
+          title: {
+            text: 'Average ' + this.y + ' by ' + this.label
+          },
+          data: [{
+            type: 'column',
+            dataPoints: this.chartTypeData,
+          }]
+        }).render();
+      });
 
   }
 
 
+  private requestY($event: any) {
+    this.y = $event;
 
+    this.dataService.getCharTypeObservable(this.label, this.y).forEach(
+      el => this.chartTypeData = el)
+      .then(() => {
+        new CanvasJS.Chart('chartContainer', {
+          animationEnabled: true,
+          exportEnabled: true,
+          title: {
+            text: 'Average ' + this.y + ' by ' + this.label
+          },
+          data: [{
+            type: 'column',
+            dataPoints: this.chartTypeData,
+          }]
+        }).render();
+      });
+
+  }
 }
