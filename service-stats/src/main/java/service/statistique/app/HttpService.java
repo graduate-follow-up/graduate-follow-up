@@ -13,7 +13,7 @@ public  class HttpService {
 
     /* Variable */
     // Url of service Alumni
-    private final static String url = "http://service_alumni/";
+    private final static String url = "http://proxy/alumnis/";
     private final static String serviceToken = "Bearer " + JwtTokenUtil.createServiceJWT();
     // Initialize client
     private final static HttpClient client = HttpClient.newBuilder()

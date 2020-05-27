@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.io.IOException;
+import java.rmi.ServerError;
 import java.util.stream.Collectors;
 
 import static service.statistique.app.AlumniService.getAlumniStream;
@@ -20,7 +21,12 @@ public class Controller {
     @GetMapping("/chartType/{nbName}/{strName}")
     String chartType (@PathVariable String nbName, @PathVariable String strName, @RequestHeader(value="Authorization", required=false) String authorization) throws IOException, InterruptedException, ParseException {
         if(authorization != null && authorization.startsWith("Bearer ") && JwtTokenUtil.isValidToken(authorization.split(" ")[1])) {
-            return "[" + chartTypeGenerator(nbName, strName) + "]";
+            try {
+                return "[" + chartTypeGenerator(nbName, strName) + "]";
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+                throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
+            }
         } else {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         }

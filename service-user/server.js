@@ -158,8 +158,8 @@ app.put('/:userId', (req, res) => {
 
   update = {$set : update};
 
-  let update = {$set : req.body};
-  collection.updateOne({_id: ObjectId(req.params.userId)}, update, (err,resMongo) => {
+  let updateQuery = {$set : req.body};
+  collection.updateOne({_id: ObjectId(req.params.userId)}, updateQuery, (err,resMongo) => {
     if(err) {
       res.status(400).send(err);
     } else if(resMongo.matchedCount == 0) {
