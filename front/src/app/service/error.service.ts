@@ -30,7 +30,7 @@ export class ErrorService {
     }
 
     // Display in console
-    console.error(this.errorMsg);
+    console.error(ErrorService.errorMsg);
     // return an observable with a user-facing error message
     return throwError(
       'Something bad happened; please try again later.');

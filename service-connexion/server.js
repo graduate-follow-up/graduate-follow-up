@@ -13,6 +13,7 @@ if(! process.env.JWT_ACCESS_TOKEN_SECRET || ! process.env.JWT_REFRESH_TOKEN_SECR
 // App
 const PORT = 80;
 const app = express();
+const ACCESS_TOKEN_EXPIRATION = 20;
 app.use(bodyParser.json());
 
 
@@ -36,15 +37,15 @@ app.listen(PORT, () => {
 
 app.post('/login', (req, res) => {
     const {user: username, password: pwd} = req.body;
-
+    const expiration =  {expiresIn: ACCESS_TOKEN_EXPIRATION };
     axios.post('http://service_user/check-user', {
         user : username,
         password: pwd
     }).then(result => {
         const {username, role: role, _id: id} = result.data;
-        const payload = {username, role, id};
-        
-        const accessToken = jwt.sign(payload, process.env.JWT_ACCESS_TOKEN_SECRET, {expiresIn: '20m'});
+        const payload = {username, role, id, expiration};
+
+        const accessToken = jwt.sign(payload, process.env.JWT_ACCESS_TOKEN_SECRET, {expiresIn: ACCESS_TOKEN_EXPIRATION+'m'});
         const refreshToken = jwt.sign(payload, process.env.JWT_REFRESH_TOKEN_SECRET, {expiresIn: '120m'});
 
         refreshTokens.push(refreshToken);
@@ -52,7 +53,7 @@ app.post('/login', (req, res) => {
         res.json({accessToken,refreshToken});
         log('LoggedIn', payload);
     }).catch(error => {
-        if(error.response && error.response.status == 404) {
+        if(error.response && error.response.status === 404) {
             res.status(401).send('Username or password incorrect');
         } else {
             res.sendStatus(500);
@@ -83,22 +84,22 @@ app.get('/alumni-token/:ids', (req,res) => {
 
 
 app.post('/token', (req, res) => {
-    const {token} = req.body;
-
-    if (!token) {
+    const refreshToken = req.body.token;
+    const expiration =  {expiresIn: ACCESS_TOKEN_EXPIRATION };
+    if (!refreshToken) {
         return res.sendStatus(401);
     }
 
-    if (!refreshTokens.includes(token)) {
+    if (!refreshTokens.includes(refreshToken)) {
         return res.sendStatus(403);
     }
 
-    jwt.verify(token, process.env.JWT_REFRESH_TOKEN_SECRET, (err, {username, role, id}) => {
+    jwt.verify(refreshToken, process.env.JWT_REFRESH_TOKEN_SECRET, (err, {username, role, id}) => {
         if (err) {
             return res.sendStatus(403);
         }
 
-        const newPayload = {username, role, id};
+        const newPayload = {username, role, id, expiration};
         const accessToken = jwt.sign(newPayload, process.env.JWT_ACCESS_TOKEN_SECRET, {expiresIn: '20m'});
 
         res.json({
@@ -111,15 +112,19 @@ app.post('/token', (req, res) => {
 
 // Au logout -> refresh supprimé.
 app.post('/logout', (req, res) => {
-    const {token} = req.body;
-    refreshTokens = refreshTokens.filter(t => t !== token);
+    const token = req.body.token;
+    const success = { success_message: "Logout successful" }
 
-    jwt.verify(token, process.env.JWT_REFRESH_TOKEN_SECRET, (err, payload) => {
-        if (err) {
-            return res.sendStatus(400);
-        }
-
-        log('LoggedOut', payload);
-        res.send('Logout successful');
-    });
+    if(refreshTokens.indexOf(token) > -1){
+        refreshTokens = refreshTokens.filter(t => t !== token);
+        jwt.verify(token, process.env.JWT_REFRESH_TOKEN_SECRET, (err, payload) => {
+            if (err) {
+                return res.sendStatus(400);
+            }
+            log('LoggedOut', payload);
+            res.status(200).send(JSON.stringify(success));
+        });
+    }else{
+        return res.sendStatus(400);
+    }
 });
