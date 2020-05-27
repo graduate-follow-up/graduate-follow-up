@@ -1,36 +1,17 @@
-FROM  openjdk:8u181
+FROM anapsix/alpine-java:8_jdk
 
-ENV SCALA_VERSION 2.11.11
+
+# sbt
+
 ENV SBT_VERSION 0.13.15
+ENV INSTALL_DIR /usr/local
+ENV SBT_HOME /usr/local/sbt
+ENV PATH ${PATH}:${SBT_HOME}/bin
 
-# Scala expects this file
-RUN touch /usr/lib/jvm/java-8-openjdk-amd64/release
-
-
-## https://github.com/docker-library/openjdk/issues/101
-RUN /bin/bash -c "[[ ! -d $JAVA_HOME/conf ]] && ln -s $JAVA_HOME/lib $JAVA_HOME/conf"
-
-# Install Scala
-## Piping curl directly in tar
-RUN \
-  curl -fsL http://downloads.typesafe.com/scala/$SCALA_VERSION/scala-$SCALA_VERSION.tgz | tar xfz - -C /root/ && \
-  echo >> /root/.bashrc && \
-  echo 'export PATH=~/scala-$SCALA_VERSION/bin:$PATH' >> /root/.bashrc
-
-# Install rsync: sbt uses it to sync "offline" preloaded-local repo
-RUN \
-  apt-get update && \
-  apt-get install -y rsync && \
-  rm -rf /var/lib/apt/lists/*
-
-# Install sbt via direct download
-RUN \
-  cd /opt/ && \
-  (wget -q -O - https://dl.bintray.com/sbt/native-packages/sbt/0.13.15/sbt-0.13.15.tgz | tar zxf -) && \
-  ln -fs /opt/sbt/bin/sbt /usr/local/bin/sbt && \
-  sbt sbtVersion
-
-# Define working directory
+# Install sbt
+RUN apk add --no-cache --update bash wget && mkdir -p "$SBT_HOME" && \
+    wget -qO - --no-check-certificate "https://dl.bintray.com/sbt/native-packages/sbt/$SBT_VERSION/sbt-$SBT_VERSION.tgz" |  tar xz -C $INSTALL_DIR && \
+    echo -ne "- with sbt $SBT_VERSION\n" >> /root/.built
 
 WORKDIR /app
 
