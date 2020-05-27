@@ -22,6 +22,7 @@ axios.defaults.headers.common['Authorization'] = 'Bearer ' + SERVICE_ACCESS_TOKE
 app.use(bodyParser.json());
 
 // jwt
+app.use(expressJwt({ secret: process.env.JWT_ACCESS_TOKEN_SECRET }).unless({path: ['/login', '/token', '/logout']}))
 app.use((err, _req, res, _next) => {
   if (err.name === 'UnauthorizedError') {
     res.status(401).send('invalid token');
@@ -56,7 +57,7 @@ app.post('/login', (req, res) => {
     axios.post('http://service_user/check-user', {
         user : username,
         password: pwd
-    }).then(result => {
+    }).then(result => { 
         const {username, role: role, _id: id} = result.data;
         const payload = {username, role, id};
         
@@ -83,7 +84,7 @@ app.post('/active-refresh', (req,res) => {
 
 const idsListRegex = /^([a-f\d]{24}(,[a-f\d]{24})*)$/i;
 // /login-token/5ebbfc19fc13ae528a000065,5ebbfc19fc13ae528a000066
-app.get('/alumni-token/:ids', expressJwt({ secret: process.env.JWT_ACCESS_TOKEN_SECRET }), (req,res) => {
+app.get('/alumni-token/:ids', (req,res) => {
     if (!(req.user.role == ROLE.SERVICE && req.user.id == 'link')) return res.sendStatus(401);
 
     if(!req.params.ids.match(idsListRegex)) {
@@ -104,7 +105,7 @@ app.post('/token', (req, res) => {
     const {token} = req.body;
 
     if (!token) {
-        return res.sendStatus(401);
+        return res.sendStatus(400);
     }
 
     if (!refreshTokens.includes(token)) {

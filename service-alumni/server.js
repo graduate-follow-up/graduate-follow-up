@@ -108,23 +108,6 @@ app.get('/infos/:ids', (req,res) => {
   });
 });
 
-app.get('/:alumniId', (req, res) => {
-  if (![ROLE.USER, ROLE.RESPO, ROLE.ADMIN].includes(req.user.role)) return res.sendStatus(401);
-
-  let projection = (req.user.role === ROLE.USER) ? { first_name: 0, last_name:0, email: 0, phone: 0 } : '';
-  collection.find({_id: ObjectId(req.params.alumniId)}).project(projection).toArray(function (err, docs) {
-    if(err) {
-      res.status(500).send(err);
-    } else {
-      if(docs.length === 0 ){
-        res.status(404).send('Not found.');
-      }else{
-        res.status(200).send(docs[0]);
-      }
-    }
-  });
-});
-
 app.post('/', (req, res) => {
   if (![ROLE.RESPO, ROLE.ADMIN].includes(req.user.role)) return res.sendStatus(401);
 
@@ -174,4 +157,21 @@ app.delete('/:alumniId', (req, res) => {
 
 app.get('/schema', (_req, res) => {
   res.status(200).send(databaseSchema);
+});
+
+app.get('/:alumniId', (req, res) => {
+  if (![ROLE.USER, ROLE.RESPO, ROLE.ADMIN].includes(req.user.role)) return res.sendStatus(401);
+
+  let projection = (req.user.role === ROLE.USER) ? { first_name: 0, last_name:0, email: 0, phone: 0 } : '';
+  collection.find({_id: ObjectId(req.params.alumniId)}).project(projection).toArray(function (err, docs) {
+    if(err) {
+      res.status(500).send(err);
+    } else {
+      if(docs.length === 0 ){
+        res.status(404).send('Not found.');
+      }else{
+        res.status(200).send(docs[0]);
+      }
+    }
+  });
 });

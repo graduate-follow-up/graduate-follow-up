@@ -88,7 +88,7 @@ app.post('/check-user', (req, res) => {
 
 
 app.get('/:userId', (req, res) => {
-  if(req.user.role != ROLE.ADMIN && req.user.id != req.params.userId) res.sendStatus(401);
+  if(req.user.role != ROLE.ADMIN && req.user.id != req.params.userId) return res.sendStatus(401);
 
   collection.find({_id: ObjectId(req.params.userId)}).project({mdp: 0}).toArray(function (err, docs) {
     if(err) {
@@ -117,7 +117,7 @@ app.post('/', (req, res) => {
 
 // Un respo d'option ou un utilisateur peut modifier son propre profil user SAUF le champ statut (role) et _id.
 // Admin peut tout changer
-app.put('/:userId', authenticateToken ,(req, res) => {
+app.put('/:userId', (req, res) => {
   if(req.user.role != ROLE.ADMIN && req.user.id != req.params.userId) return res.sendStatus(401);
 
   // TODO verify update content -> make sure front is also bloquing some actions
@@ -138,7 +138,7 @@ app.put('/:userId', authenticateToken ,(req, res) => {
 });
 
 
-app.delete('/:userId', authenticateToken,(req, res) => {
+app.delete('/:userId',(req, res) => {
   if (req.user.role != ROLE.ADMIN) return res.sendStatus(401);
   
   collection.deleteOne({_id: ObjectId(req.params.userId)}, (err, resMongo) => {
