@@ -5,25 +5,37 @@ const { MongoClient, ObjectId } = require('mongodb');
 const crypto = require('crypto');
 const bcrypt = require('bcrypt');
 
+const databaseSchema = require('./database/schema.json');
+
 // Constants
 const MONGODB_URI = 'mongodb://database_user:27017/users';
 const DATABASE_NAME = 'users';
 const COLLECTION_NAME = 'users';
 const SALT_ROUND = 0 ; // otherwise execution is too long
 
-const PORT = 3000;
+const PORT = 80;
 
 // App
 const app = express();
 app.use(bodyParser.json());
 
-var collection;
+let collection;
 
 MongoClient.connect(MONGODB_URI, {useUnifiedTopology: true}, function(err, client) {
   if(err) throw err;
 
   let db = client.db(DATABASE_NAME);
   collection = db.collection(COLLECTION_NAME);
+  db.collection(COLLECTION_NAME).createIndex({"login": 1}, { unique:true});
+  db.collection(COLLECTION_NAME).createIndex({"email": 1}, { unique:true});
+
+  db.command( { collMod: COLLECTION_NAME,
+    validator: {
+      $jsonSchema : databaseSchema
+    },
+    validationLevel: "strict",
+    validationAction: "error"
+  })
 
   app.listen(PORT);
   console.log(`Listening on port ${PORT}`);
@@ -31,7 +43,6 @@ MongoClient.connect(MONGODB_URI, {useUnifiedTopology: true}, function(err, clien
 
 
 app.get('/', (req, res) => {
-  // TODO check permissions
   collection.find({}).toArray(function(err, docs) {
     if(err) {
       res.status(500).send(err);
@@ -44,20 +55,19 @@ app.get('/', (req, res) => {
 // On login -> service connexion asks service user to check user & pwd :
 //       - If user & pwd correct : sends user role
 //       - If user or pwd incorrect : sends status code 404 .
-app.get('/check-user',(req, res) => {
+app.post('/check-user',(req, res) => {
 
   const usr = req.body.user;
   const pwd = req.body.password;
 
-  collection.find({login: usr}).project({ statut: 1, salt : 1, hashed: 1 }).toArray(function (err, docs) {
+  collection.find({login: usr}).project({ role: 1, salt : 1, hashed: 1 }).toArray(function (err, docs) {
     if(err) {
       res.status(500).send(err);
     } else {
-      // If login is not found
       if(docs.length === 0){
         res.status(404).send();
       }else{
-        bcrypt.compare( pwd +docs[0].salt , docs[0].hashed, function(err, response) {
+        bcrypt.compare( pwd + docs[0].salt , docs[0].hashed, function(err, response) {
           if(response) {
             delete docs[0]['salt'];
             delete docs[0]['hashed'];
@@ -76,7 +86,6 @@ app.get('/check-user',(req, res) => {
 });
 
 app.get('/:userId', (req, res) => {
-
   collection.find({_id: ObjectId(req.params.userId)}).project({salt:0, hashed: 0}).toArray(function (err, docs) {
     if(err) {
       res.status(500).send(err);
@@ -101,10 +110,8 @@ app.post('/', (req, res) => {
 
     let salt = buf.toString('hex');
     document["salt"] = salt;
-
     bcrypt.hash(password + salt, SALT_ROUND, function(err, hash) {
       if (err) res.status(500).send(err);
-
       document["hashed"] = hash;
       collection.insertOne(document, (err, resMongo) => {
         if(err) {
@@ -119,14 +126,11 @@ app.post('/', (req, res) => {
 
 
 app.put('/:userId', (req, res) => {
-
   let update = req.body;
-
   if (req.body.salt) delete update['salt'] ;
   if (req.body.hashed) delete update['hashed'];
   if (req.body.password) delete update['password'] ;
-  if (req.body.statut) delete update['statut'] ;
-  // if (req.body.role) delete update['role];
+  // if (req.body.role) delete update['statut'] ;
 
   update = {$set : update};
 

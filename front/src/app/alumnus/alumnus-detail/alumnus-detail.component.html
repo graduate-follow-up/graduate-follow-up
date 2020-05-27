@@ -1,3 +1,21 @@
+<!--div-- class="ui tiny modal visible active" *ngIf="alumnusToDelete">
+  <div class="ui icon header">
+    <i class="delete icon"></i>
+    Delete {{alumnus.first_name}} {{alumnus.last_name}} ?
+  </div>
+  <div class="actions">
+    <div class="ui red basic cancel inverted button">
+      <i class="remove icon" (click)="this.alumnusToDelete = false; this.refresh()"></i>
+      No
+    </div>
+    <div class="ui green ok inverted button">
+      <i class="checkmark icon" (click)="this.delete(alumnus._id)"></i>
+      Yes
+    </div>
+  </div>
+</div-->
+
+
 <div class="ui negative message" *ngIf="errorMsg">
   <div class="header">
   </div>
@@ -7,7 +25,7 @@
 <div class="ui cards" *ngIf="checkAuthorize()">
   <div class="card" style="margin-bottom: 20px">
     <div class="content">
-      <div class="header">{{alumnus.first_name}} {{alumnus.last_name}}</div>
+      <a class="header" (click)="this.goToInformation(alumnus)">{{alumnus.first_name}} {{alumnus.last_name}}</a>
       <div class="meta"> Option : {{alumnus.option}} </div>
       <div class="description"> Entreprise : {{alumnus.company}}</div>
       <div class="description"> Salaire : {{alumnus.wage}}</div>

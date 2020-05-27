@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, ElementRef, Input, OnInit} from '@angular/core';
 import {Alumnus} from '../../model/Alumnus';
 import {AlumnusService} from '../service/alumnus.service';
 import {DataUserService} from '../../service/dataUser.service';
@@ -16,13 +16,15 @@ export class AlumnusDetailComponent implements OnInit {
 
   @Input() alumnus: Alumnus;
   errorMsg: string;
+  //alumnusToDelete = false;
 
   constructor(
     public alumnusService: AlumnusService,
     private connectionService: ConnectionService,
     private actionPerformed: ActionPerformedService,
     private router: Router,
-    private errorService: ErrorService
+    private errorService: ErrorService,
+    private el: ElementRef
 ) {
   }
 
@@ -50,9 +52,22 @@ export class AlumnusDetailComponent implements OnInit {
 
   delete(id: string) {
     this.alumnusService.delete(id).subscribe(
-      // tslint:disable-next-line:max-line-length
-      data => this.router.navigateByUrl('/admin/edit', { skipLocationChange: true }).then(() => {this.router.navigate(['']).catch(err => this.errorMsg = err); }),
+      data => this.refresh(),
       error => this.errorMsg = this.errorService.getErrorMessage()
     );
+  }
+
+  goToInformation(alumnus: Alumnus) {
+    this.actionPerformed.enabledModificationMode(alumnus);
+    this.router.navigate(['alumnus/information']).catch(err => this.errorMsg = err);
+  }
+
+  /*deleteProcess(al: Alumnus) {
+    this.alumnusToDelete = true;
+  }*/
+
+  refresh() {
+    // tslint:disable-next-line:max-line-length
+    this.router.navigateByUrl('/alumnus/edit', { skipLocationChange: true }).then(() => {this.router.navigate(['']).catch(err => this.errorMsg = err); });
   }
 }
