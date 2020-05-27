@@ -82,13 +82,17 @@ def get_profile(name, surname, driver):
 
 @app.route("/<alumni>", methods = ["GET"])
 def main(alumni):
+    
     driver = connection('linkedin.projetentreprise@gmail.com', 'projetentreprise123*')
-    alumni_name = alumni.split("_")[0]
-    alumni_surname = alumni.split("_")[1]
-    dict_alumni = {}
-    dict_alumni[alumni_name + " " + alumni_surname] = get_profile(alumni_name, alumni_surname, driver)
-    driver.quit()
-    return(json.dumps(dict_alumni, sort_keys=True, indent=4, ensure_ascii=False))
+    if driver == "Captcha":
+        return(json.dumps({'error': 'Captcha'} , sort_keys=True, indent=4, ensure_ascii=False))
+    else:
+        alumni_name = alumni.split("_")[0]
+        alumni_surname = alumni.split("_")[1]
+        dict_alumni = {}
+        dict_alumni[alumni_name + " " + alumni_surname] = get_profile(alumni_name, alumni_surname, driver)
+        driver.quit()
+        return(json.dumps(dict_alumni, sort_keys=True, indent=4, ensure_ascii=False))
 
 if __name__ == "__main__":
     app.run(debug=True, host="0.0.0.0", port=2222)

@@ -19,6 +19,5 @@ RUN pip install flask
 
 # copy scrapping script
 COPY scrapping_script.py /
-COPY alumni.txt /
 
 ENTRYPOINT ["python", "scrapping_script.py"]
