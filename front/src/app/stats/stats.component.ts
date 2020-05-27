@@ -1,10 +1,16 @@
 import {Component, OnInit} from '@angular/core';
 import * as CanvasJS from '../../assets/canvasjs.min';
-import {Alumnus} from '../model/Alumnus';
 import {AlumnusService} from '../alumnus/service/alumnus.service';
+import {DataService} from './service/data.service';
+import {ErrorService} from '../service/error.service';
+
 
 type chartType = Array<{ y: number, label: string }>;
 
+
+function creataeRender() {
+
+}
 
 @Component({
   selector: 'app-stats',
@@ -12,86 +18,86 @@ type chartType = Array<{ y: number, label: string }>;
   styleUrls: ['./stats.component.css']
 })
 export class StatsComponent implements OnInit {
-
-  constructor(private alumnusService: AlumnusService) {
-  }
-
-  ngOnInit() {
-    const chart = new CanvasJS.Chart('chartContainer', {
-      animationEnabled: true,
-      exportEnabled: true,
-      title: {
-        text: 'average salary by option'
-      },
-      data: [{
-        type: 'column',
-        dataPoints: this.createDataSalaryByOption(this.alumnusService.getAlumnus()),
-      }]
-    });
-
-    chart.render();
+  errorMsg: string;
+  private chartTypeData: chartType;
+  public label = 'option';
+  public y = 'wage';
+  allLabels: string[];
+  labelValue: any;
+  valueValue: any;
+  allValue: string[];
 
 
-    const chart2 = new CanvasJS.Chart('chart2Container', {
-      animationEnabled: true,
-      title: {
-        text: 'Companies'
-      },
-      data: [{
-        type: 'pie',
-        startAngle: 240,
-        yValueFormatString: '##0.00"%"',
-        indexLabel: '{label} {y}',
-        dataPoints: this.createCompaniesRepartition(this.alumnusService.getAlumnus())
-      }]
-    });
-    chart2.render();
-
+  constructor(private alumnusService: AlumnusService,
+              private dataService: DataService,
+              private errorService: ErrorService) {
 
   }
 
-  createCompaniesRepartition(allAlumnus: Alumnus[]): chartType {
-    const res: chartType = [];
 
-    const listCompanies: string[] = [];
-    // We fill the list option with all option
-    allAlumnus.map(e => {
-        if (listCompanies.find(o => o === e.company) === undefined) {
-          listCompanies.push(e.company);
+  async ngOnInit() {
+
+    this.allLabels = ['option', 'company', 'country', 'city', 'job', 'campus'];
+    this.allValue = ['wage', 'graduation'];
+
+    this.dataService.getCharTypeObservable(this.label, this.y).forEach(
+      el => this.chartTypeData = el)
+      .then(() => {
+          new CanvasJS.Chart('chartContainer', {
+            animationEnabled: true,
+            exportEnabled: true,
+            title: {
+              text: 'Average ' + this.y + ' by ' + this.label
+            },
+            data: [{
+              type: 'column',
+              dataPoints: this.chartTypeData,
+            }]
+          }).render();
         }
-      }
-    );
-    listCompanies.map(entr => res.push({y: (this.countEntreprise(entr) / allAlumnus.length) * 100, label: entr}));
-    return res;
+      );
   }
 
-  private countEntreprise(entr: string) {
-    return this.alumnusService.getAlumnus().reduce((acc: number, val) => (acc + ((val.company === entr) ? 1 : 0)), 0);
-  }
+  requestLabel($event: any) {
+    this.label = $event;
 
-  createDataSalaryByOption(allAlumnus: Alumnus[]) {
-    const res: chartType = [];
+    this.dataService.getCharTypeObservable(this.label, this.y).forEach(
+      el => this.chartTypeData = el)
+      .then(() => {
+        new CanvasJS.Chart('chartContainer', {
+          animationEnabled: true,
+          exportEnabled: true,
+          title: {
+            text: 'Average ' + this.y + ' by ' + this.label
+          },
+          data: [{
+            type: 'column',
+            dataPoints: this.chartTypeData,
+          }]
+        }).render();
+      });
 
-    const listOptions: string[] = [];
-    // We fill the list option with all option
-    allAlumnus.map(e => {
-        if (listOptions.find(o => o === e.option) === undefined) {
-          listOptions.push(e.option);
-        }
-      }
-    );
-
-    listOptions.map(opt => res.push({y: this.countSalary(opt) / this.countOption(opt), label: opt}));
-    return res;
-  }
-
-  countOption(option: string): number {
-    return this.alumnusService.getAlumnus().reduce((acc: number, val) => (acc + ((val.option === option) ? 1 : 0)), 0);
-  }
-
-  countSalary(option: string): number {
-    return this.alumnusService.getAlumnus().reduce((acc: number, val) => (acc + ((val.option === option) ? +val.wage : 0)), 0);
   }
 
 
+  requestY($event: any) {
+    this.y = $event;
+
+    this.dataService.getCharTypeObservable(this.label, this.y).forEach(
+      el => this.chartTypeData = el)
+      .then(() => {
+        new CanvasJS.Chart('chartContainer', {
+          animationEnabled: true,
+          exportEnabled: true,
+          title: {
+            text: 'Average ' + this.y + ' by ' + this.label
+          },
+          data: [{
+            type: 'column',
+            dataPoints: this.chartTypeData,
+          }]
+        }).render();
+      });
+
+  }
 }
