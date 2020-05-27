@@ -12,7 +12,7 @@ if(! process.env.JWT_ACCESS_TOKEN_SECRET || ! process.env.JWT_REFRESH_TOKEN_SECR
 // App
 const PORT = 3000;
 const app = express();
-const ACCESS_TOKEN_EXPIRATION = 1;
+const ACCESS_TOKEN_EXPIRATION = 20;
 app.use(bodyParser.json());
 
 

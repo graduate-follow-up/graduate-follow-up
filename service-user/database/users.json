@@ -1,42 +1,46 @@
 [
   {
-    "_id": {"$oid":"5eba6861b0b374d1e825fa68"},
-    "login": "excepteur",
-    "mdp": "ullamco",
-    "statut": "respo-option",
+    "_id": {"$oid":"5ece710dd6714e0f30c38c4b"},
+    "login": "administrateur",
+    "role": "administrateur",
     "name": {
-      "first": "Lindsay",
-      "last": "Chandler"
+      "first": "Admin",
+      "last": "admin"
     },
-    "email": "lindsay.chandler@undefined.biz"
+    "email": "admin@admin.com",
+    "salt": "528fcc6eb4c153ea2f0b2ac2accb5c7fbf36c0a0b3cf32930543993df21b35d150357e888c9749180dfaf193e78e1edf2c2079036ba2fbe82153080aa84b3f0bd14871fd69bb4e210ad5581807a7e52c0aea655872589d44d6d121277565b3671e96fe7cf38e6c1157f1f312117bef01129466991121bebdb91481e9e4a19d5b1d0fc14b62d2b7d37bdcb3547dfa4ed1267e77a1786ea8b7fe61332e73fecf22ec3e7b076f997a9282f1c3b2519d24a5184d9ab446d52027e7587bfce11626fe2acdb1fc53dcf05de2cd28f84122048118da3174307c397a8bda28edffee1f8774fa54941a66d89d6e04071bedffbf15b2d6816741db1cbf245549d098047460",
+    "hashed": "$2b$10$QegJ3YZDJnsolq1KOom01.9PIlvn3RpJtR7tSUt3gr2lnPS.Vhxu."
   },
   {
-    "_id": {"$oid":"5eba686123cbdbf4c4b0278b"},
-    "login": "dolor",
-    "mdp": "mollit",
-    "statut": "administrateur",
+    "_id": {"$oid":"5ece71dbd6714e5903c38c4c"},
+    "login": "respo",
+    "role": "respo-option",
     "name": {
-      "first": "Waters",
-      "last": "Jones"
+      "first": "respo",
+      "last": "respo"
     },
-    "email": "waters.jones@undefined.org"
+    "email": "respo@respo.com",
+    "salt": "391fc7ac630ac3f0abfb8d12129d05fef1eb2f0c8cc68a0ee69783be270db352e97aac875effc4c62eccb20f4e2887da1f7830ddad824cdcb4895ef2b0f82304199c338e6a2da422cd841d32a9b9158df17da6f5ec3ea55c688b5fa8e93aeafa953b6f1c34dd79c7bb64855ad07ba9d944ea014cb0d7975ff752de670bff7f85238810136178cda71739638623a64c7de513fe4cd224aa5a0f00a1405dce327812b3ed527b17c8c39db0cc776c3f7d22bc4248ab69752f71b1e0b0038d3a03f5ba22bf18a613d1c43d07a603719db3b30455b2fc3d840dcacd9f19415aba56a774d033c0c365b8dfccd24accc1a4dd8852111af946b9591b27e635b640a4ef38",
+    "hashed": "$2b$10$Qm3sOhS6oUwpGx4z1CGbbOG663Bl3Bk4.rT7z9UqJs0SCD5CaP6N2"
   },
   {
-    "_id": {"$oid":"5eba686112a0f23d187f620d"},
-    "login": "anim",
-    "mdp": "dolor",
-    "statut": "prof",
+    "_id": {"$oid":"5ece7267d6714e2bd8c38c4d"},
+    "login": "user",
+    "role": "prof",
     "name": {
-      "first": "Frost",
-      "last": "Ayers"
+      "first": "user",
+      "last": "user"
     },
-    "email": "frost.ayers@undefined.info"
+    "email": "user@user.com",
+    "salt": "b773ec866537e4757bf90d6b31a5791aab8abfd80682c2c24f5ea25a54e1f2b8664b0560c2f946b5efa072337a96c8df0da4bc6651259b9c20f7909b3ce89bad4ac4da199860b365766c44615d45cdfbee5022e8c734bc0f3214941118a31435fe291850a1a90c4e9c7be3b9fb752a899f2e2c4b0ab59ac814b6c310d8a4cf4d28aabaf9d441e7253268dcc66ccc80f303910d84f16a2fb8473db8a6944329a6e8890e431962bc47b832c4e88656ebf9811ededc40673644ec965ca08fe7f89182b72b666a36bcb5ce32b74c1344e92a0966ab36ddec43fedd9e29a01db43061416a2c0f95fe85ae975d10df55ec3795e0f475f3d7216bd9d2b955a855d48a03",
+    "hashed": "$2b$10$yypONYDrgqpRwhXLB.MhZOQnuWhmSfAb7VHOPboT5YstHB9yHnNEa"
   },
   {
     "_id": {"$oid":"5eba68610b7162b230e84819"},
     "login": "proident",
-    "mdp": "ipsum",
-    "statut": "administrateur",
+     "salt": "b773ec866537e4757bf90d6b31a5791aab8abfd80682c2c24f5ea25a54e1f2b8664b0560c2f946b5efa072337a96c8df0da4bc6651259b9c20f7909b3ce89bad4ac4da199860b365766c44615d45cdfbee5022e8c734bc0f3214941118a31435fe291850a1a90c4e9c7be3b9fb752a899f2e2c4b0ab59ac814b6c310d8a4cf4d28aabaf9d441e7253268dcc66ccc80f303910d84f16a2fb8473db8a6944329a6e8890e431962bc47b832c4e88656ebf9811ededc40673644ec965ca08fe7f89182b72b666a36bcb5ce32b74c1344e92a0966ab36ddec43fedd9e29a01db43061416a2c0f95fe85ae975d10df55ec3795e0f475f3d7216bd9d2b955a855d48a03",
+    "hashed": "$2b$10$yypONYDrgqpRwhXLB.MhZOQnuWhmSfAb7VHOPboT5YstHB9yHnNEa",
+      "role": "administrateur",
     "name": {
       "first": "Clara",
       "last": "Cherry"
@@ -46,8 +50,9 @@
   {
     "_id": {"$oid":"5eba68617da5ce7606518ebc"},
     "login": "sint",
-    "mdp": "aute",
-    "statut": "administrateur",
+     "salt": "b773ec866537e4757bf90d6b31a5791aab8abfd80682c2c24f5ea25a54e1f2b8664b0560c2f946b5efa072337a96c8df0da4bc6651259b9c20f7909b3ce89bad4ac4da199860b365766c44615d45cdfbee5022e8c734bc0f3214941118a31435fe291850a1a90c4e9c7be3b9fb752a899f2e2c4b0ab59ac814b6c310d8a4cf4d28aabaf9d441e7253268dcc66ccc80f303910d84f16a2fb8473db8a6944329a6e8890e431962bc47b832c4e88656ebf9811ededc40673644ec965ca08fe7f89182b72b666a36bcb5ce32b74c1344e92a0966ab36ddec43fedd9e29a01db43061416a2c0f95fe85ae975d10df55ec3795e0f475f3d7216bd9d2b955a855d48a03",
+    "hashed": "$2b$10$yypONYDrgqpRwhXLB.MhZOQnuWhmSfAb7VHOPboT5YstHB9yHnNEa",
+     "role": "administrateur",
     "name": {
       "first": "Malinda",
       "last": "Glass"
@@ -57,8 +62,9 @@
   {
     "_id": {"$oid":"5eba6861db2aab5e99fee440"},
     "login": "exercitation",
-    "mdp": "excepteur",
-    "statut": "prof",
+     "salt": "b773ec866537e4757bf90d6b31a5791aab8abfd80682c2c24f5ea25a54e1f2b8664b0560c2f946b5efa072337a96c8df0da4bc6651259b9c20f7909b3ce89bad4ac4da199860b365766c44615d45cdfbee5022e8c734bc0f3214941118a31435fe291850a1a90c4e9c7be3b9fb752a899f2e2c4b0ab59ac814b6c310d8a4cf4d28aabaf9d441e7253268dcc66ccc80f303910d84f16a2fb8473db8a6944329a6e8890e431962bc47b832c4e88656ebf9811ededc40673644ec965ca08fe7f89182b72b666a36bcb5ce32b74c1344e92a0966ab36ddec43fedd9e29a01db43061416a2c0f95fe85ae975d10df55ec3795e0f475f3d7216bd9d2b955a855d48a03",
+    "hashed": "$2b$10$yypONYDrgqpRwhXLB.MhZOQnuWhmSfAb7VHOPboT5YstHB9yHnNEa",
+    "role": "prof",
     "name": {
       "first": "Lang",
       "last": "Blair"
@@ -68,8 +74,9 @@
   {
     "_id": {"$oid":"5eba68613b6d1a9069756982"},
     "login": "magna",
-    "mdp": "eiusmod",
-    "statut": "prof",
+     "salt": "b773ec866537e4757bf90d6b31a5791aab8abfd80682c2c24f5ea25a54e1f2b8664b0560c2f946b5efa072337a96c8df0da4bc6651259b9c20f7909b3ce89bad4ac4da199860b365766c44615d45cdfbee5022e8c734bc0f3214941118a31435fe291850a1a90c4e9c7be3b9fb752a899f2e2c4b0ab59ac814b6c310d8a4cf4d28aabaf9d441e7253268dcc66ccc80f303910d84f16a2fb8473db8a6944329a6e8890e431962bc47b832c4e88656ebf9811ededc40673644ec965ca08fe7f89182b72b666a36bcb5ce32b74c1344e92a0966ab36ddec43fedd9e29a01db43061416a2c0f95fe85ae975d10df55ec3795e0f475f3d7216bd9d2b955a855d48a03",
+    "hashed": "$2b$10$yypONYDrgqpRwhXLB.MhZOQnuWhmSfAb7VHOPboT5YstHB9yHnNEa",
+        "role": "prof",
     "name": {
       "first": "Dodson",
       "last": "Byers"
@@ -79,8 +86,9 @@
   {
     "_id": {"$oid":"5eba6861c652474a0f832243"},
     "login": "anim",
-    "mdp": "aute",
-    "statut": "respo-option",
+     "salt": "b773ec866537e4757bf90d6b31a5791aab8abfd80682c2c24f5ea25a54e1f2b8664b0560c2f946b5efa072337a96c8df0da4bc6651259b9c20f7909b3ce89bad4ac4da199860b365766c44615d45cdfbee5022e8c734bc0f3214941118a31435fe291850a1a90c4e9c7be3b9fb752a899f2e2c4b0ab59ac814b6c310d8a4cf4d28aabaf9d441e7253268dcc66ccc80f303910d84f16a2fb8473db8a6944329a6e8890e431962bc47b832c4e88656ebf9811ededc40673644ec965ca08fe7f89182b72b666a36bcb5ce32b74c1344e92a0966ab36ddec43fedd9e29a01db43061416a2c0f95fe85ae975d10df55ec3795e0f475f3d7216bd9d2b955a855d48a03",
+    "hashed": "$2b$10$yypONYDrgqpRwhXLB.MhZOQnuWhmSfAb7VHOPboT5YstHB9yHnNEa",
+     "role": "respo-option",
     "name": {
       "first": "Ruthie",
       "last": "Parsons"
@@ -90,8 +98,9 @@
   {
     "_id": {"$oid":"5eba686116acf84189e2186a"},
     "login": "labore",
-    "mdp": "in",
-    "statut": "administrateur",
+    "salt": "b773ec866537e4757bf90d6b31a5791aab8abfd80682c2c24f5ea25a54e1f2b8664b0560c2f946b5efa072337a96c8df0da4bc6651259b9c20f7909b3ce89bad4ac4da199860b365766c44615d45cdfbee5022e8c734bc0f3214941118a31435fe291850a1a90c4e9c7be3b9fb752a899f2e2c4b0ab59ac814b6c310d8a4cf4d28aabaf9d441e7253268dcc66ccc80f303910d84f16a2fb8473db8a6944329a6e8890e431962bc47b832c4e88656ebf9811ededc40673644ec965ca08fe7f89182b72b666a36bcb5ce32b74c1344e92a0966ab36ddec43fedd9e29a01db43061416a2c0f95fe85ae975d10df55ec3795e0f475f3d7216bd9d2b955a855d48a03",
+    "hashed": "$2b$10$yypONYDrgqpRwhXLB.MhZOQnuWhmSfAb7VHOPboT5YstHB9yHnNEa",
+    "role": "administrateur",
     "name": {
       "first": "Schroeder",
       "last": "Mcknight"
@@ -101,8 +110,9 @@
   {
     "_id": {"$oid":"5eba6861d0734f87ff801d81"},
     "login": "officia",
-    "mdp": "mollit",
-    "statut": "prof",
+     "salt": "b773ec866537e4757bf90d6b31a5791aab8abfd80682c2c24f5ea25a54e1f2b8664b0560c2f946b5efa072337a96c8df0da4bc6651259b9c20f7909b3ce89bad4ac4da199860b365766c44615d45cdfbee5022e8c734bc0f3214941118a31435fe291850a1a90c4e9c7be3b9fb752a899f2e2c4b0ab59ac814b6c310d8a4cf4d28aabaf9d441e7253268dcc66ccc80f303910d84f16a2fb8473db8a6944329a6e8890e431962bc47b832c4e88656ebf9811ededc40673644ec965ca08fe7f89182b72b666a36bcb5ce32b74c1344e92a0966ab36ddec43fedd9e29a01db43061416a2c0f95fe85ae975d10df55ec3795e0f475f3d7216bd9d2b955a855d48a03",
+    "hashed": "$2b$10$yypONYDrgqpRwhXLB.MhZOQnuWhmSfAb7VHOPboT5YstHB9yHnNEa",
+       "role": "prof",
     "name": {
       "first": "Williams",
       "last": "Gilbert"
@@ -112,8 +122,9 @@
   {
     "_id": {"$oid":"5eba6861bb5e3b3f8626d7fd"},
     "login": "dolore",
-    "mdp": "consequat",
-    "statut": "administrateur",
+     "salt": "b773ec866537e4757bf90d6b31a5791aab8abfd80682c2c24f5ea25a54e1f2b8664b0560c2f946b5efa072337a96c8df0da4bc6651259b9c20f7909b3ce89bad4ac4da199860b365766c44615d45cdfbee5022e8c734bc0f3214941118a31435fe291850a1a90c4e9c7be3b9fb752a899f2e2c4b0ab59ac814b6c310d8a4cf4d28aabaf9d441e7253268dcc66ccc80f303910d84f16a2fb8473db8a6944329a6e8890e431962bc47b832c4e88656ebf9811ededc40673644ec965ca08fe7f89182b72b666a36bcb5ce32b74c1344e92a0966ab36ddec43fedd9e29a01db43061416a2c0f95fe85ae975d10df55ec3795e0f475f3d7216bd9d2b955a855d48a03",
+    "hashed": "$2b$10$yypONYDrgqpRwhXLB.MhZOQnuWhmSfAb7VHOPboT5YstHB9yHnNEa",
+    "role": "administrateur",
     "name": {
       "first": "Anthony",
       "last": "Duffy"
@@ -123,8 +134,9 @@
   {
     "_id": {"$oid":"5eba68615818674071550d97"},
     "login": "sunt",
-    "mdp": "anim",
-    "statut": "administrateur",
+     "salt": "b773ec866537e4757bf90d6b31a5791aab8abfd80682c2c24f5ea25a54e1f2b8664b0560c2f946b5efa072337a96c8df0da4bc6651259b9c20f7909b3ce89bad4ac4da199860b365766c44615d45cdfbee5022e8c734bc0f3214941118a31435fe291850a1a90c4e9c7be3b9fb752a899f2e2c4b0ab59ac814b6c310d8a4cf4d28aabaf9d441e7253268dcc66ccc80f303910d84f16a2fb8473db8a6944329a6e8890e431962bc47b832c4e88656ebf9811ededc40673644ec965ca08fe7f89182b72b666a36bcb5ce32b74c1344e92a0966ab36ddec43fedd9e29a01db43061416a2c0f95fe85ae975d10df55ec3795e0f475f3d7216bd9d2b955a855d48a03",
+    "hashed": "$2b$10$yypONYDrgqpRwhXLB.MhZOQnuWhmSfAb7VHOPboT5YstHB9yHnNEa",
+     "role": "administrateur",
     "name": {
       "first": "Mclaughlin",
       "last": "Leach"
@@ -134,8 +146,9 @@
   {
     "_id": {"$oid":"5eba68617f82f4b2216ee52f"},
     "login": "quis",
-    "mdp": "ullamco",
-    "statut": "prof",
+     "salt": "b773ec866537e4757bf90d6b31a5791aab8abfd80682c2c24f5ea25a54e1f2b8664b0560c2f946b5efa072337a96c8df0da4bc6651259b9c20f7909b3ce89bad4ac4da199860b365766c44615d45cdfbee5022e8c734bc0f3214941118a31435fe291850a1a90c4e9c7be3b9fb752a899f2e2c4b0ab59ac814b6c310d8a4cf4d28aabaf9d441e7253268dcc66ccc80f303910d84f16a2fb8473db8a6944329a6e8890e431962bc47b832c4e88656ebf9811ededc40673644ec965ca08fe7f89182b72b666a36bcb5ce32b74c1344e92a0966ab36ddec43fedd9e29a01db43061416a2c0f95fe85ae975d10df55ec3795e0f475f3d7216bd9d2b955a855d48a03",
+    "hashed": "$2b$10$yypONYDrgqpRwhXLB.MhZOQnuWhmSfAb7VHOPboT5YstHB9yHnNEa",
+        "role": "prof",
     "name": {
       "first": "Padilla",
       "last": "Oneal"
@@ -145,8 +158,9 @@
   {
     "_id": {"$oid":"5eba686166660ca5af8616de"},
     "login": "tempor",
-    "mdp": "laboris",
-    "statut": "administrateur",
+     "salt": "b773ec866537e4757bf90d6b31a5791aab8abfd80682c2c24f5ea25a54e1f2b8664b0560c2f946b5efa072337a96c8df0da4bc6651259b9c20f7909b3ce89bad4ac4da199860b365766c44615d45cdfbee5022e8c734bc0f3214941118a31435fe291850a1a90c4e9c7be3b9fb752a899f2e2c4b0ab59ac814b6c310d8a4cf4d28aabaf9d441e7253268dcc66ccc80f303910d84f16a2fb8473db8a6944329a6e8890e431962bc47b832c4e88656ebf9811ededc40673644ec965ca08fe7f89182b72b666a36bcb5ce32b74c1344e92a0966ab36ddec43fedd9e29a01db43061416a2c0f95fe85ae975d10df55ec3795e0f475f3d7216bd9d2b955a855d48a03",
+    "hashed": "$2b$10$yypONYDrgqpRwhXLB.MhZOQnuWhmSfAb7VHOPboT5YstHB9yHnNEa",
+        "role": "administrateur",
     "name": {
       "first": "Bentley",
       "last": "Roberson"
@@ -156,8 +170,9 @@
   {
     "_id": {"$oid":"5eba6861f75715bb20017f19"},
     "login": "eu",
-    "mdp": "ipsum",
-    "statut": "prof",
+     "salt": "b773ec866537e4757bf90d6b31a5791aab8abfd80682c2c24f5ea25a54e1f2b8664b0560c2f946b5efa072337a96c8df0da4bc6651259b9c20f7909b3ce89bad4ac4da199860b365766c44615d45cdfbee5022e8c734bc0f3214941118a31435fe291850a1a90c4e9c7be3b9fb752a899f2e2c4b0ab59ac814b6c310d8a4cf4d28aabaf9d441e7253268dcc66ccc80f303910d84f16a2fb8473db8a6944329a6e8890e431962bc47b832c4e88656ebf9811ededc40673644ec965ca08fe7f89182b72b666a36bcb5ce32b74c1344e92a0966ab36ddec43fedd9e29a01db43061416a2c0f95fe85ae975d10df55ec3795e0f475f3d7216bd9d2b955a855d48a03",
+    "hashed": "$2b$10$yypONYDrgqpRwhXLB.MhZOQnuWhmSfAb7VHOPboT5YstHB9yHnNEa",
+      "role": "prof",
     "name": {
       "first": "Sanford",
       "last": "Larsen"
@@ -167,8 +182,9 @@
   {
     "_id": {"$oid":"5eba68618507c47b8f98d248"},
     "login": "amet",
-    "mdp": "incididunt",
-    "statut": "respo-option",
+     "salt": "b773ec866537e4757bf90d6b31a5791aab8abfd80682c2c24f5ea25a54e1f2b8664b0560c2f946b5efa072337a96c8df0da4bc6651259b9c20f7909b3ce89bad4ac4da199860b365766c44615d45cdfbee5022e8c734bc0f3214941118a31435fe291850a1a90c4e9c7be3b9fb752a899f2e2c4b0ab59ac814b6c310d8a4cf4d28aabaf9d441e7253268dcc66ccc80f303910d84f16a2fb8473db8a6944329a6e8890e431962bc47b832c4e88656ebf9811ededc40673644ec965ca08fe7f89182b72b666a36bcb5ce32b74c1344e92a0966ab36ddec43fedd9e29a01db43061416a2c0f95fe85ae975d10df55ec3795e0f475f3d7216bd9d2b955a855d48a03",
+    "hashed": "$2b$10$yypONYDrgqpRwhXLB.MhZOQnuWhmSfAb7VHOPboT5YstHB9yHnNEa",
+    "role": "respo-option",
     "name": {
       "first": "Selma",
       "last": "Mcgowan"
@@ -178,8 +194,9 @@
   {
     "_id": {"$oid":"5eba68617a2bbe93aafd3638"},
     "login": "consequat",
-    "mdp": "anim",
-    "statut": "prof",
+     "salt": "b773ec866537e4757bf90d6b31a5791aab8abfd80682c2c24f5ea25a54e1f2b8664b0560c2f946b5efa072337a96c8df0da4bc6651259b9c20f7909b3ce89bad4ac4da199860b365766c44615d45cdfbee5022e8c734bc0f3214941118a31435fe291850a1a90c4e9c7be3b9fb752a899f2e2c4b0ab59ac814b6c310d8a4cf4d28aabaf9d441e7253268dcc66ccc80f303910d84f16a2fb8473db8a6944329a6e8890e431962bc47b832c4e88656ebf9811ededc40673644ec965ca08fe7f89182b72b666a36bcb5ce32b74c1344e92a0966ab36ddec43fedd9e29a01db43061416a2c0f95fe85ae975d10df55ec3795e0f475f3d7216bd9d2b955a855d48a03",
+    "hashed": "$2b$10$yypONYDrgqpRwhXLB.MhZOQnuWhmSfAb7VHOPboT5YstHB9yHnNEa",
+     "role": "prof",
     "name": {
       "first": "Osborn",
       "last": "Montoya"
@@ -189,8 +206,9 @@
   {
     "_id": {"$oid":"5eba6861429fb652bdeffce9"},
     "login": "ea",
-    "mdp": "dolore",
-    "statut": "prof",
+     "salt": "b773ec866537e4757bf90d6b31a5791aab8abfd80682c2c24f5ea25a54e1f2b8664b0560c2f946b5efa072337a96c8df0da4bc6651259b9c20f7909b3ce89bad4ac4da199860b365766c44615d45cdfbee5022e8c734bc0f3214941118a31435fe291850a1a90c4e9c7be3b9fb752a899f2e2c4b0ab59ac814b6c310d8a4cf4d28aabaf9d441e7253268dcc66ccc80f303910d84f16a2fb8473db8a6944329a6e8890e431962bc47b832c4e88656ebf9811ededc40673644ec965ca08fe7f89182b72b666a36bcb5ce32b74c1344e92a0966ab36ddec43fedd9e29a01db43061416a2c0f95fe85ae975d10df55ec3795e0f475f3d7216bd9d2b955a855d48a03",
+    "hashed": "$2b$10$yypONYDrgqpRwhXLB.MhZOQnuWhmSfAb7VHOPboT5YstHB9yHnNEa",
+       "role": "prof",
     "name": {
       "first": "Therese",
       "last": "Flores"
@@ -200,8 +218,9 @@
   {
     "_id": {"$oid":"5eba68613f53c033fb0d15eb"},
     "login": "anim",
-    "mdp": "nisi",
-    "statut": "respo-option",
+     "salt": "b773ec866537e4757bf90d6b31a5791aab8abfd80682c2c24f5ea25a54e1f2b8664b0560c2f946b5efa072337a96c8df0da4bc6651259b9c20f7909b3ce89bad4ac4da199860b365766c44615d45cdfbee5022e8c734bc0f3214941118a31435fe291850a1a90c4e9c7be3b9fb752a899f2e2c4b0ab59ac814b6c310d8a4cf4d28aabaf9d441e7253268dcc66ccc80f303910d84f16a2fb8473db8a6944329a6e8890e431962bc47b832c4e88656ebf9811ededc40673644ec965ca08fe7f89182b72b666a36bcb5ce32b74c1344e92a0966ab36ddec43fedd9e29a01db43061416a2c0f95fe85ae975d10df55ec3795e0f475f3d7216bd9d2b955a855d48a03",
+    "hashed": "$2b$10$yypONYDrgqpRwhXLB.MhZOQnuWhmSfAb7VHOPboT5YstHB9yHnNEa",
+     "role": "respo-option",
     "name": {
       "first": "Schneider",
       "last": "Chaney"
@@ -211,8 +230,9 @@
   {
     "_id": {"$oid":"5eba68616bb880cfc7569c82"},
     "login": "exercitation",
-    "mdp": "laborum",
-    "statut": "prof",
+     "salt": "b773ec866537e4757bf90d6b31a5791aab8abfd80682c2c24f5ea25a54e1f2b8664b0560c2f946b5efa072337a96c8df0da4bc6651259b9c20f7909b3ce89bad4ac4da199860b365766c44615d45cdfbee5022e8c734bc0f3214941118a31435fe291850a1a90c4e9c7be3b9fb752a899f2e2c4b0ab59ac814b6c310d8a4cf4d28aabaf9d441e7253268dcc66ccc80f303910d84f16a2fb8473db8a6944329a6e8890e431962bc47b832c4e88656ebf9811ededc40673644ec965ca08fe7f89182b72b666a36bcb5ce32b74c1344e92a0966ab36ddec43fedd9e29a01db43061416a2c0f95fe85ae975d10df55ec3795e0f475f3d7216bd9d2b955a855d48a03",
+    "hashed": "$2b$10$yypONYDrgqpRwhXLB.MhZOQnuWhmSfAb7VHOPboT5YstHB9yHnNEa",
+        "role": "prof",
     "name": {
       "first": "Bridgette",
       "last": "Clemons"
@@ -222,8 +242,9 @@
   {
     "_id": {"$oid":"5eba68610743d89bd95603d4"},
     "login": "amet",
-    "mdp": "laboris",
-    "statut": "prof",
+     "salt": "b773ec866537e4757bf90d6b31a5791aab8abfd80682c2c24f5ea25a54e1f2b8664b0560c2f946b5efa072337a96c8df0da4bc6651259b9c20f7909b3ce89bad4ac4da199860b365766c44615d45cdfbee5022e8c734bc0f3214941118a31435fe291850a1a90c4e9c7be3b9fb752a899f2e2c4b0ab59ac814b6c310d8a4cf4d28aabaf9d441e7253268dcc66ccc80f303910d84f16a2fb8473db8a6944329a6e8890e431962bc47b832c4e88656ebf9811ededc40673644ec965ca08fe7f89182b72b666a36bcb5ce32b74c1344e92a0966ab36ddec43fedd9e29a01db43061416a2c0f95fe85ae975d10df55ec3795e0f475f3d7216bd9d2b955a855d48a03",
+    "hashed": "$2b$10$yypONYDrgqpRwhXLB.MhZOQnuWhmSfAb7VHOPboT5YstHB9yHnNEa",
+        "role": "prof",
     "name": {
       "first": "Adams",
       "last": "Brennan"
@@ -233,8 +254,9 @@
   {
     "_id": {"$oid":"5eba6861a305072fa260dd52"},
     "login": "consectetur",
-    "mdp": "exercitation",
-    "statut": "respo-option",
+     "salt": "b773ec866537e4757bf90d6b31a5791aab8abfd80682c2c24f5ea25a54e1f2b8664b0560c2f946b5efa072337a96c8df0da4bc6651259b9c20f7909b3ce89bad4ac4da199860b365766c44615d45cdfbee5022e8c734bc0f3214941118a31435fe291850a1a90c4e9c7be3b9fb752a899f2e2c4b0ab59ac814b6c310d8a4cf4d28aabaf9d441e7253268dcc66ccc80f303910d84f16a2fb8473db8a6944329a6e8890e431962bc47b832c4e88656ebf9811ededc40673644ec965ca08fe7f89182b72b666a36bcb5ce32b74c1344e92a0966ab36ddec43fedd9e29a01db43061416a2c0f95fe85ae975d10df55ec3795e0f475f3d7216bd9d2b955a855d48a03",
+    "hashed": "$2b$10$yypONYDrgqpRwhXLB.MhZOQnuWhmSfAb7VHOPboT5YstHB9yHnNEa",
+    "role": "respo-option",
     "name": {
       "first": "Kristen",
       "last": "Avery"
@@ -244,8 +266,9 @@
   {
     "_id": {"$oid":"5eba686162247596370f5331"},
     "login": "cillum",
-    "mdp": "Lorem",
-    "statut": "administrateur",
+     "salt": "b773ec866537e4757bf90d6b31a5791aab8abfd80682c2c24f5ea25a54e1f2b8664b0560c2f946b5efa072337a96c8df0da4bc6651259b9c20f7909b3ce89bad4ac4da199860b365766c44615d45cdfbee5022e8c734bc0f3214941118a31435fe291850a1a90c4e9c7be3b9fb752a899f2e2c4b0ab59ac814b6c310d8a4cf4d28aabaf9d441e7253268dcc66ccc80f303910d84f16a2fb8473db8a6944329a6e8890e431962bc47b832c4e88656ebf9811ededc40673644ec965ca08fe7f89182b72b666a36bcb5ce32b74c1344e92a0966ab36ddec43fedd9e29a01db43061416a2c0f95fe85ae975d10df55ec3795e0f475f3d7216bd9d2b955a855d48a03",
+    "hashed": "$2b$10$yypONYDrgqpRwhXLB.MhZOQnuWhmSfAb7VHOPboT5YstHB9yHnNEa",
+      "role": "administrateur",
     "name": {
       "first": "Avila",
       "last": "Rosa"
@@ -255,8 +278,9 @@
   {
     "_id": {"$oid":"5eba686186c15b6102001e00"},
     "login": "Lorem",
-    "mdp": "consequat",
-    "statut": "administrateur",
+     "salt": "b773ec866537e4757bf90d6b31a5791aab8abfd80682c2c24f5ea25a54e1f2b8664b0560c2f946b5efa072337a96c8df0da4bc6651259b9c20f7909b3ce89bad4ac4da199860b365766c44615d45cdfbee5022e8c734bc0f3214941118a31435fe291850a1a90c4e9c7be3b9fb752a899f2e2c4b0ab59ac814b6c310d8a4cf4d28aabaf9d441e7253268dcc66ccc80f303910d84f16a2fb8473db8a6944329a6e8890e431962bc47b832c4e88656ebf9811ededc40673644ec965ca08fe7f89182b72b666a36bcb5ce32b74c1344e92a0966ab36ddec43fedd9e29a01db43061416a2c0f95fe85ae975d10df55ec3795e0f475f3d7216bd9d2b955a855d48a03",
+    "hashed": "$2b$10$yypONYDrgqpRwhXLB.MhZOQnuWhmSfAb7VHOPboT5YstHB9yHnNEa",
+    "role": "administrateur",
     "name": {
       "first": "Maynard",
       "last": "Olsen"
@@ -266,8 +290,9 @@
   {
     "_id": {"$oid":"5eba6861ebe9f8a581085083"},
     "login": "eiusmod",
-    "mdp": "eu",
-    "statut": "prof",
+     "salt": "b773ec866537e4757bf90d6b31a5791aab8abfd80682c2c24f5ea25a54e1f2b8664b0560c2f946b5efa072337a96c8df0da4bc6651259b9c20f7909b3ce89bad4ac4da199860b365766c44615d45cdfbee5022e8c734bc0f3214941118a31435fe291850a1a90c4e9c7be3b9fb752a899f2e2c4b0ab59ac814b6c310d8a4cf4d28aabaf9d441e7253268dcc66ccc80f303910d84f16a2fb8473db8a6944329a6e8890e431962bc47b832c4e88656ebf9811ededc40673644ec965ca08fe7f89182b72b666a36bcb5ce32b74c1344e92a0966ab36ddec43fedd9e29a01db43061416a2c0f95fe85ae975d10df55ec3795e0f475f3d7216bd9d2b955a855d48a03",
+    "hashed": "$2b$10$yypONYDrgqpRwhXLB.MhZOQnuWhmSfAb7VHOPboT5YstHB9yHnNEa",
+    "role": "prof",
     "name": {
       "first": "Brewer",
       "last": "Pearson"
@@ -277,8 +302,9 @@
   {
     "_id": {"$oid":"5eba6861b5770e4afd7e0a3b"},
     "login": "consectetur",
-    "mdp": "anim",
-    "statut": "prof",
+    "salt": "b773ec866537e4757bf90d6b31a5791aab8abfd80682c2c24f5ea25a54e1f2b8664b0560c2f946b5efa072337a96c8df0da4bc6651259b9c20f7909b3ce89bad4ac4da199860b365766c44615d45cdfbee5022e8c734bc0f3214941118a31435fe291850a1a90c4e9c7be3b9fb752a899f2e2c4b0ab59ac814b6c310d8a4cf4d28aabaf9d441e7253268dcc66ccc80f303910d84f16a2fb8473db8a6944329a6e8890e431962bc47b832c4e88656ebf9811ededc40673644ec965ca08fe7f89182b72b666a36bcb5ce32b74c1344e92a0966ab36ddec43fedd9e29a01db43061416a2c0f95fe85ae975d10df55ec3795e0f475f3d7216bd9d2b955a855d48a03",
+    "hashed": "$2b$10$yypONYDrgqpRwhXLB.MhZOQnuWhmSfAb7VHOPboT5YstHB9yHnNEa",
+    "role": "prof",
     "name": {
       "first": "Pope",
       "last": "Marquez"
@@ -288,8 +314,9 @@
   {
     "_id": {"$oid":"5eba68614e953ae72dc96047"},
     "login": "culpa",
-    "mdp": "tempor",
-    "statut": "respo-option",
+    "salt": "b773ec866537e4757bf90d6b31a5791aab8abfd80682c2c24f5ea25a54e1f2b8664b0560c2f946b5efa072337a96c8df0da4bc6651259b9c20f7909b3ce89bad4ac4da199860b365766c44615d45cdfbee5022e8c734bc0f3214941118a31435fe291850a1a90c4e9c7be3b9fb752a899f2e2c4b0ab59ac814b6c310d8a4cf4d28aabaf9d441e7253268dcc66ccc80f303910d84f16a2fb8473db8a6944329a6e8890e431962bc47b832c4e88656ebf9811ededc40673644ec965ca08fe7f89182b72b666a36bcb5ce32b74c1344e92a0966ab36ddec43fedd9e29a01db43061416a2c0f95fe85ae975d10df55ec3795e0f475f3d7216bd9d2b955a855d48a03",
+    "hashed": "$2b$10$yypONYDrgqpRwhXLB.MhZOQnuWhmSfAb7VHOPboT5YstHB9yHnNEa",
+       "role": "respo-option",
     "name": {
       "first": "Alicia",
       "last": "Graves"
@@ -299,8 +326,9 @@
   {
     "_id": {"$oid":"5eba68613627f82b6f1fa9f4"},
     "login": "irure",
-    "mdp": "adipisicing",
-    "statut": "administrateur",
+     "salt": "b773ec866537e4757bf90d6b31a5791aab8abfd80682c2c24f5ea25a54e1f2b8664b0560c2f946b5efa072337a96c8df0da4bc6651259b9c20f7909b3ce89bad4ac4da199860b365766c44615d45cdfbee5022e8c734bc0f3214941118a31435fe291850a1a90c4e9c7be3b9fb752a899f2e2c4b0ab59ac814b6c310d8a4cf4d28aabaf9d441e7253268dcc66ccc80f303910d84f16a2fb8473db8a6944329a6e8890e431962bc47b832c4e88656ebf9811ededc40673644ec965ca08fe7f89182b72b666a36bcb5ce32b74c1344e92a0966ab36ddec43fedd9e29a01db43061416a2c0f95fe85ae975d10df55ec3795e0f475f3d7216bd9d2b955a855d48a03",
+    "hashed": "$2b$10$yypONYDrgqpRwhXLB.MhZOQnuWhmSfAb7VHOPboT5YstHB9yHnNEa",
+    "role": "administrateur",
     "name": {
       "first": "Rosalie",
       "last": "Macdonald"
@@ -310,8 +338,9 @@
   {
     "_id": {"$oid":"5eba6861b52077035180e643"},
     "login": "nulla",
-    "mdp": "ullamco",
-    "statut": "administrateur",
+     "salt": "b773ec866537e4757bf90d6b31a5791aab8abfd80682c2c24f5ea25a54e1f2b8664b0560c2f946b5efa072337a96c8df0da4bc6651259b9c20f7909b3ce89bad4ac4da199860b365766c44615d45cdfbee5022e8c734bc0f3214941118a31435fe291850a1a90c4e9c7be3b9fb752a899f2e2c4b0ab59ac814b6c310d8a4cf4d28aabaf9d441e7253268dcc66ccc80f303910d84f16a2fb8473db8a6944329a6e8890e431962bc47b832c4e88656ebf9811ededc40673644ec965ca08fe7f89182b72b666a36bcb5ce32b74c1344e92a0966ab36ddec43fedd9e29a01db43061416a2c0f95fe85ae975d10df55ec3795e0f475f3d7216bd9d2b955a855d48a03",
+    "hashed": "$2b$10$yypONYDrgqpRwhXLB.MhZOQnuWhmSfAb7VHOPboT5YstHB9yHnNEa",
+        "role": "administrateur",
     "name": {
       "first": "Sandoval",
       "last": "Saunders"
@@ -321,8 +350,9 @@
   {
     "_id": {"$oid":"5eba6861c059539a89aff0f1"},
     "login": "amet",
-    "mdp": "est",
-    "statut": "prof",
+     "salt": "b773ec866537e4757bf90d6b31a5791aab8abfd80682c2c24f5ea25a54e1f2b8664b0560c2f946b5efa072337a96c8df0da4bc6651259b9c20f7909b3ce89bad4ac4da199860b365766c44615d45cdfbee5022e8c734bc0f3214941118a31435fe291850a1a90c4e9c7be3b9fb752a899f2e2c4b0ab59ac814b6c310d8a4cf4d28aabaf9d441e7253268dcc66ccc80f303910d84f16a2fb8473db8a6944329a6e8890e431962bc47b832c4e88656ebf9811ededc40673644ec965ca08fe7f89182b72b666a36bcb5ce32b74c1344e92a0966ab36ddec43fedd9e29a01db43061416a2c0f95fe85ae975d10df55ec3795e0f475f3d7216bd9d2b955a855d48a03",
+    "hashed": "$2b$10$yypONYDrgqpRwhXLB.MhZOQnuWhmSfAb7VHOPboT5YstHB9yHnNEa",
+    "role": "prof",
     "name": {
       "first": "Doyle",
       "last": "Nielsen"
@@ -332,8 +362,9 @@
   {
     "_id": {"$oid":"5eba68618e777f4871c13b04"},
     "login": "velit",
-    "mdp": "reprehenderit",
-    "statut": "administrateur",
+    "salt": "b773ec866537e4757bf90d6b31a5791aab8abfd80682c2c24f5ea25a54e1f2b8664b0560c2f946b5efa072337a96c8df0da4bc6651259b9c20f7909b3ce89bad4ac4da199860b365766c44615d45cdfbee5022e8c734bc0f3214941118a31435fe291850a1a90c4e9c7be3b9fb752a899f2e2c4b0ab59ac814b6c310d8a4cf4d28aabaf9d441e7253268dcc66ccc80f303910d84f16a2fb8473db8a6944329a6e8890e431962bc47b832c4e88656ebf9811ededc40673644ec965ca08fe7f89182b72b666a36bcb5ce32b74c1344e92a0966ab36ddec43fedd9e29a01db43061416a2c0f95fe85ae975d10df55ec3795e0f475f3d7216bd9d2b955a855d48a03",
+    "hashed": "$2b$10$yypONYDrgqpRwhXLB.MhZOQnuWhmSfAb7VHOPboT5YstHB9yHnNEa",
+    "role": "administrateur",
     "name": {
       "first": "Harvey",
       "last": "Burris"
@@ -343,8 +374,9 @@
   {
     "_id": {"$oid":"5eba686135bd60f75e6d1203"},
     "login": "eiusmod",
-    "mdp": "culpa",
-    "statut": "prof",
+     "salt": "b773ec866537e4757bf90d6b31a5791aab8abfd80682c2c24f5ea25a54e1f2b8664b0560c2f946b5efa072337a96c8df0da4bc6651259b9c20f7909b3ce89bad4ac4da199860b365766c44615d45cdfbee5022e8c734bc0f3214941118a31435fe291850a1a90c4e9c7be3b9fb752a899f2e2c4b0ab59ac814b6c310d8a4cf4d28aabaf9d441e7253268dcc66ccc80f303910d84f16a2fb8473db8a6944329a6e8890e431962bc47b832c4e88656ebf9811ededc40673644ec965ca08fe7f89182b72b666a36bcb5ce32b74c1344e92a0966ab36ddec43fedd9e29a01db43061416a2c0f95fe85ae975d10df55ec3795e0f475f3d7216bd9d2b955a855d48a03",
+    "hashed": "$2b$10$yypONYDrgqpRwhXLB.MhZOQnuWhmSfAb7VHOPboT5YstHB9yHnNEa",
+      "role": "prof",
     "name": {
       "first": "Effie",
       "last": "Barr"
@@ -354,8 +386,9 @@
   {
     "_id": {"$oid":"5eba6861c36d173945f556a6"},
     "login": "consequat",
-    "mdp": "sunt",
-    "statut": "administrateur",
+     "salt": "b773ec866537e4757bf90d6b31a5791aab8abfd80682c2c24f5ea25a54e1f2b8664b0560c2f946b5efa072337a96c8df0da4bc6651259b9c20f7909b3ce89bad4ac4da199860b365766c44615d45cdfbee5022e8c734bc0f3214941118a31435fe291850a1a90c4e9c7be3b9fb752a899f2e2c4b0ab59ac814b6c310d8a4cf4d28aabaf9d441e7253268dcc66ccc80f303910d84f16a2fb8473db8a6944329a6e8890e431962bc47b832c4e88656ebf9811ededc40673644ec965ca08fe7f89182b72b666a36bcb5ce32b74c1344e92a0966ab36ddec43fedd9e29a01db43061416a2c0f95fe85ae975d10df55ec3795e0f475f3d7216bd9d2b955a855d48a03",
+    "hashed": "$2b$10$yypONYDrgqpRwhXLB.MhZOQnuWhmSfAb7VHOPboT5YstHB9yHnNEa",
+     "role": "administrateur",
     "name": {
       "first": "Stanley",
       "last": "Diaz"
@@ -365,8 +398,9 @@
   {
     "_id": {"$oid":"5eba68614f2c08bd51062933"},
     "login": "non",
-    "mdp": "aliquip",
-    "statut": "respo-option",
+     "salt": "b773ec866537e4757bf90d6b31a5791aab8abfd80682c2c24f5ea25a54e1f2b8664b0560c2f946b5efa072337a96c8df0da4bc6651259b9c20f7909b3ce89bad4ac4da199860b365766c44615d45cdfbee5022e8c734bc0f3214941118a31435fe291850a1a90c4e9c7be3b9fb752a899f2e2c4b0ab59ac814b6c310d8a4cf4d28aabaf9d441e7253268dcc66ccc80f303910d84f16a2fb8473db8a6944329a6e8890e431962bc47b832c4e88656ebf9811ededc40673644ec965ca08fe7f89182b72b666a36bcb5ce32b74c1344e92a0966ab36ddec43fedd9e29a01db43061416a2c0f95fe85ae975d10df55ec3795e0f475f3d7216bd9d2b955a855d48a03",
+    "hashed": "$2b$10$yypONYDrgqpRwhXLB.MhZOQnuWhmSfAb7VHOPboT5YstHB9yHnNEa",
+        "role": "respo-option",
     "name": {
       "first": "Bonner",
       "last": "Austin"
@@ -376,8 +410,9 @@
   {
     "_id": {"$oid":"5eba6861b15875e0eef4fa3f"},
     "login": "irure",
-    "mdp": "nulla",
-    "statut": "administrateur",
+     "salt": "b773ec866537e4757bf90d6b31a5791aab8abfd80682c2c24f5ea25a54e1f2b8664b0560c2f946b5efa072337a96c8df0da4bc6651259b9c20f7909b3ce89bad4ac4da199860b365766c44615d45cdfbee5022e8c734bc0f3214941118a31435fe291850a1a90c4e9c7be3b9fb752a899f2e2c4b0ab59ac814b6c310d8a4cf4d28aabaf9d441e7253268dcc66ccc80f303910d84f16a2fb8473db8a6944329a6e8890e431962bc47b832c4e88656ebf9811ededc40673644ec965ca08fe7f89182b72b666a36bcb5ce32b74c1344e92a0966ab36ddec43fedd9e29a01db43061416a2c0f95fe85ae975d10df55ec3795e0f475f3d7216bd9d2b955a855d48a03",
+    "hashed": "$2b$10$yypONYDrgqpRwhXLB.MhZOQnuWhmSfAb7VHOPboT5YstHB9yHnNEa",
+      "role": "administrateur",
     "name": {
       "first": "Ericka",
       "last": "Tyson"
@@ -387,8 +422,9 @@
   {
     "_id": {"$oid":"5eba6861f227b0717e9ad444"},
     "login": "aliquip",
-    "mdp": "duis",
-    "statut": "administrateur",
+     "salt": "b773ec866537e4757bf90d6b31a5791aab8abfd80682c2c24f5ea25a54e1f2b8664b0560c2f946b5efa072337a96c8df0da4bc6651259b9c20f7909b3ce89bad4ac4da199860b365766c44615d45cdfbee5022e8c734bc0f3214941118a31435fe291850a1a90c4e9c7be3b9fb752a899f2e2c4b0ab59ac814b6c310d8a4cf4d28aabaf9d441e7253268dcc66ccc80f303910d84f16a2fb8473db8a6944329a6e8890e431962bc47b832c4e88656ebf9811ededc40673644ec965ca08fe7f89182b72b666a36bcb5ce32b74c1344e92a0966ab36ddec43fedd9e29a01db43061416a2c0f95fe85ae975d10df55ec3795e0f475f3d7216bd9d2b955a855d48a03",
+    "hashed": "$2b$10$yypONYDrgqpRwhXLB.MhZOQnuWhmSfAb7VHOPboT5YstHB9yHnNEa",
+     "role": "administrateur",
     "name": {
       "first": "Jenna",
       "last": "Hayden"
@@ -398,8 +434,9 @@
   {
     "_id": {"$oid":"5eba6861279115a96faa62b5"},
     "login": "nisi",
-    "mdp": "voluptate",
-    "statut": "administrateur",
+    "salt": "b773ec866537e4757bf90d6b31a5791aab8abfd80682c2c24f5ea25a54e1f2b8664b0560c2f946b5efa072337a96c8df0da4bc6651259b9c20f7909b3ce89bad4ac4da199860b365766c44615d45cdfbee5022e8c734bc0f3214941118a31435fe291850a1a90c4e9c7be3b9fb752a899f2e2c4b0ab59ac814b6c310d8a4cf4d28aabaf9d441e7253268dcc66ccc80f303910d84f16a2fb8473db8a6944329a6e8890e431962bc47b832c4e88656ebf9811ededc40673644ec965ca08fe7f89182b72b666a36bcb5ce32b74c1344e92a0966ab36ddec43fedd9e29a01db43061416a2c0f95fe85ae975d10df55ec3795e0f475f3d7216bd9d2b955a855d48a03",
+    "hashed": "$2b$10$yypONYDrgqpRwhXLB.MhZOQnuWhmSfAb7VHOPboT5YstHB9yHnNEa",
+    "role": "administrateur",
     "name": {
       "first": "Kitty",
       "last": "Bishop"

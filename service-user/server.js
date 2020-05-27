@@ -76,6 +76,7 @@ app.get('/check-user',(req, res) => {
 });
 
 app.get('/:userId', (req, res) => {
+
   collection.find({_id: ObjectId(req.params.userId)}).project({salt:0, hashed: 0}).toArray(function (err, docs) {
     if(err) {
       res.status(500).send(err);
@@ -91,8 +92,6 @@ app.get('/:userId', (req, res) => {
 
 
 app.post('/', (req, res) => {
-  // TODO check permissions
-  // TODO verify document format
   let document = req.body;
   let password = req.body.password;
   delete document['password'];
@@ -120,8 +119,6 @@ app.post('/', (req, res) => {
 
 
 app.put('/:userId', (req, res) => {
-  // TODO check permissions
-  // TODO verify update content
 
   let update = req.body;
 

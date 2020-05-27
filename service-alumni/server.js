@@ -16,7 +16,7 @@ const PORT = 3000;
 const app = express();
 app.use(bodyParser.json());
 
-var collection;
+let collection;
 
 MongoClient.connect(MONGODB_URI, {useUnifiedTopology: true}, function(err, client) {
   if(err) throw err;
@@ -40,7 +40,6 @@ MongoClient.connect(MONGODB_URI, {useUnifiedTopology: true}, function(err, clien
 
 
 app.get('/', (_req, res) => {
-  // TODO check permissions
   collection.find({}).toArray(function(err, docs) {
     if(err) {
       res.status(500).send(err);
@@ -65,8 +64,6 @@ app.get('/:alumniId', (req, res) => {
 });
 
 app.post('/', (req, res) => {
-  // TODO check permissions
-  // TODO verify document format
   let document = req.body;
 
   collection.insertOne(document, (err, resMongo) => {
@@ -79,7 +76,6 @@ app.post('/', (req, res) => {
 })
 
 app.put('/:alumniId', (req, res) => {
-  // TODO check permissions
 
   let update = {$set : req.body};
 
