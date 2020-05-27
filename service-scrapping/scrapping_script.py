@@ -40,7 +40,7 @@ def get_profile(name, surname, driver):
     list_profiles = driver.find_elements_by_class_name("search-result__wrapper")
     profile = None
     i = 0
-    # In search results, look for the first 
+    # In search results, look for the first
     print(not profile)
     while not profile and (i < len(list_profiles)):
         useless = list_profiles[i].find_element_by_xpath('.//div[@class="search-result__image-wrapper"]')
@@ -55,17 +55,40 @@ def get_profile(name, surname, driver):
 
     driver.get(profile)
     sleep(5)
+
     try:
         exp_section = driver.find_element_by_id('experience-section')
         list_exp_elt = exp_section.find_element_by_tag_name('ul')
-        list_exp = []
+        found = True
+    except NoSuchElementException:
+        res = "Aucune experience trouvée."
+        found = False
+
+
+    if found:
+        res = []
         # For each experience
         for il in list_exp_elt.find_elements_by_tag_name('li'):
             dict_experience = None
-            poste = il.find_element_by_xpath('.//h3[@class = "t-16 t-black t-bold"]').text
-            entreprise = il.find_element_by_xpath('.//p[@class = "pv-entity__secondary-title t-14 t-black t-normal"]').text
-            periode = il.find_element_by_xpath('.//h4[@class = "pv-entity__date-range t-14 t-black--light t-normal"]/span[2]').text
-            location = il.find_element_by_xpath('.//h4[@class = "pv-entity__location t-14 t-black--light t-normal block"]/span[2]').text
+            try:
+                poste = il.find_element_by_xpath('.//h3[@class = "t-16 t-black t-bold"]').text
+            except NoSuchElementException:
+                poste = "Poste inconnu."
+
+            try:
+                entreprise = il.find_element_by_xpath('.//p[@class = "pv-entity__secondary-title t-14 t-black t-normal"]').text
+            except NoSuchElementException:
+                entreprise = "Entreprise inconnue."
+
+            try:
+                periode = il.find_element_by_xpath('.//h4[@class = "pv-entity__date-range t-14 t-black--light t-normal"]/span[2]').text
+            except NoSuchElementException:
+                periode = "Periode inconnue."
+
+            try:
+                location = il.find_element_by_xpath('.//h4[@class = "pv-entity__location t-14 t-black--light t-normal block"]/span[2]').text
+            except NoSuchElementException:
+                location = "Localisation inconnue."
 
             dict_experience =  {
                     "poste": poste,
@@ -73,16 +96,14 @@ def get_profile(name, surname, driver):
                     "periode": periode,
                     "localisation": location
                     }
-            list_exp.append(dict_experience)
-        list_exp = list_exp
-        return list_exp
-    except NoSuchElementException:
-        return "Aucune experience trouvée."
+            res.append(dict_experience)
+
+    return res
 
 
 @app.route("/<alumni>", methods = ["GET"])
 def main(alumni):
-    
+
     driver = connection('linkedin.projetentreprise@gmail.com', 'projetentreprise123*')
     if driver == "Captcha":
         return(json.dumps({'error': 'Captcha'} , sort_keys=True, indent=4, ensure_ascii=False))
@@ -96,4 +117,3 @@ def main(alumni):
 
 if __name__ == "__main__":
     app.run(debug=True, host="0.0.0.0", port=80)
-
