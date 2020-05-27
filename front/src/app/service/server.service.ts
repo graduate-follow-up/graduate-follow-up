@@ -4,6 +4,7 @@ import {Observable} from 'rxjs';
 import {Token} from '../model/Token';
 import {catchError} from 'rxjs/operators';
 import {ErrorService} from './error.service';
+import {AccessToken} from "../model/AccessToken";
 
 @Injectable({
   providedIn: 'root'
@@ -26,8 +27,8 @@ export class ServerService {
       user: login ,
       password: pswd
     };
-    return this.http.post<Token>( this.urlConnect, JSON.stringify(body), this.httpOptions)
-      .pipe(catchError(ErrorService.handleError));
+    return this.http.post<Token>( this.urlConnect, JSON.stringify(body), this.httpOptions);
+      // .pipe(catchError(ErrorService.handleError));
   }
 
   disconnect(refreshToken: string): Observable<string> {
@@ -38,11 +39,11 @@ export class ServerService {
       .pipe(catchError(ErrorService.handleError));
   }
 
-  refresh(token: string): Observable<string> {
+  refresh(token: string): Observable<AccessToken> {
     const body3 = {
       "token": token
     };
-    return this.http.post<string>(this.urlRefresh, JSON.stringify(body3), this.httpOptions)
+    return this.http.post<AccessToken>(this.urlRefresh, JSON.stringify(body3), this.httpOptions)
       .pipe(catchError(ErrorService.handleError));
   }
 

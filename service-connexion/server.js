@@ -12,6 +12,7 @@ if(! process.env.JWT_ACCESS_TOKEN_SECRET || ! process.env.JWT_REFRESH_TOKEN_SECR
 // App
 const PORT = 3000;
 const app = express();
+const ACCESS_TOKEN_EXPIRATION = 1;
 app.use(bodyParser.json());
 
 
@@ -28,9 +29,6 @@ app.listen(PORT, () => {
 app.post('/login', (req, res) => {
     const username = req.body.user;
     const pwd = req.body.password;
-    console.log(username);
-    console.log(pwd);
-    console.log("Trying to login!");
     const body_to_send = JSON.stringify({user : username, password: pwd})
 
     const options = {
@@ -59,10 +57,10 @@ app.post('/login', (req, res) => {
                         username: username,
                         role: responseString.statut,
                         id: responseString._id,
-                        expiresIn: 20
+                        expiresIn: ACCESS_TOKEN_EXPIRATION
                     },
                     process.env.JWT_ACCESS_TOKEN_SECRET,
-                    {expiresIn: '20m'}
+                    {expiresIn: ACCESS_TOKEN_EXPIRATION+'m'}
                 );
 
                 const refreshToken = jwt.sign(
@@ -87,7 +85,6 @@ app.post('/login', (req, res) => {
         });
     });
 
-
     request.on('error', error => {
         console.error(error);
     });
@@ -103,7 +100,7 @@ app.post('/active-refresh', (req,res) => {
 
 
 app.post('/token', (req, res) => {
-    const {refreshToken} = req.body;
+    const refreshToken = req.body.token;
 
     if (!refreshToken) {
         return res.sendStatus(401);
@@ -123,10 +120,10 @@ app.post('/token', (req, res) => {
                 username: payload.username,
                 role: payload.role,
                 id: payload.id,
-                expiresIn: 20
+                expiresIn: ACCESS_TOKEN_EXPIRATION
             },
             process.env.JWT_ACCESS_TOKEN_SECRET,
-            {expiresIn: '20m'}
+            {expiresIn: ACCESS_TOKEN_EXPIRATION+'m'}
         );
 
         res.json({

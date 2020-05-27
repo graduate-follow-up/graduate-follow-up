@@ -18,6 +18,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {NgbAlertModule} from '@ng-bootstrap/ng-bootstrap';
 import {HTTP_INTERCEPTORS} from '@angular/common/http';
 import {TokenInterceptor} from './login/token.interceptor';
+import { ToastrModule } from 'ngx-toastr';
 
 const Routes = [
   {path: 'RGPD', component: RGPDComponent},
@@ -44,7 +45,8 @@ const Routes = [
     AdminModule,
     MatMenuModule,
     MatCommonModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    ToastrModule.forRoot()
   ],
   providers: [AuthGuardGuard, DeviceDetectorService, {
     provide: HTTP_INTERCEPTORS,

@@ -20,7 +20,7 @@ export class ConnectionService {
     const refreshToken = this.getRefreshToken();
     this.serverService.refresh(refreshToken).subscribe(
       accessToken => {
-        this.stockConnection(new Token(refreshToken, accessToken));
+        this.stockConnection(new Token(refreshToken, accessToken.accessToken));
       },
       error => {
         console.log('connection.service error: ' + error);
@@ -29,8 +29,7 @@ export class ConnectionService {
   }
 
   getExpiration() {
-    const expiration = localStorage.getItem('expires_at');
-    const expiresAt = JSON.parse(expiration);
+    const expiresAt = JSON.parse(localStorage.getItem('expires_at'));
     return moment(expiresAt);
   }
 
@@ -39,8 +38,7 @@ export class ConnectionService {
   }
 
   isLoggedIn() {
-    console.log(`isLoggedIn = ${(localStorage.getItem('refreshToken') !== null) && moment().isBefore(this.getExpiration())}`);
-    return ((localStorage.getItem('refreshToken') !== null) && moment().isBefore(this.getExpiration()));
+    return (localStorage.getItem('refreshToken') !== null && this.isConnected);
   }
 
   stockConnection(token: Token) {
