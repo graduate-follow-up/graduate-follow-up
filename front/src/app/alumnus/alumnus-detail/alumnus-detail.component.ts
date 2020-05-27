@@ -52,6 +52,10 @@ export class AlumnusDetailComponent implements OnInit {
     );
   }
 
+  goToInformation(alumnus: Alumnus) {
+    this.actionPerformed.enabledModificationMode(alumnus);
+    this.router.navigate(['alumnus/information']).catch(err => this.errorMsg = err);
+
   /*deleteProcess(al: Alumnus) {
     this.alumnusToDelete = true;
   }*/
