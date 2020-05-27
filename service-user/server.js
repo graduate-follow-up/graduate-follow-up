@@ -33,6 +33,14 @@ app.use((err, _req, res, _next) => {
   }
 });
 
+function log(logType, {id: actorId, role: actorRole}) {
+    axios.post('http://service_logs/', {
+        "logType": logType,
+        "actorId": actorId,
+        "actorRole":  actorRole
+    }).catch(error => console.error(error.message));
+}
+
 MongoClient.connect(MONGODB_URI, {useUnifiedTopology: true}, function(err, client) {
   if(err) throw err;
 
@@ -110,6 +118,7 @@ app.post('/', (req, res) => {
     if(err) {
       res.status(500).send(err);
     } else {
+      log("UserCreated", payload);
       res.status(200).send(resMongo.insertedId);
     }
   });
@@ -122,7 +131,7 @@ app.put('/:userId', (req, res) => {
 
   // TODO verify update content -> make sure front is also bloquing some actions
   let illegalOperation = (req.user.role !== ROLE.ADMIN && req.body.role);
-  
+
   if(illegalOperation) return res.sendStatus(403);
 
   let update = {$set : req.body};
@@ -132,6 +141,7 @@ app.put('/:userId', (req, res) => {
     } else if(resMongo.matchedCount == 0) {
       res.status(404).send('No matching element found.');
     } else {
+      log("UserModified", payload);
       res.status(204).send('Element successfully updated');
     }
   });
@@ -140,12 +150,13 @@ app.put('/:userId', (req, res) => {
 
 app.delete('/:userId',(req, res) => {
   if (req.user.role != ROLE.ADMIN) return res.sendStatus(401);
-  
+
   collection.deleteOne({_id: ObjectId(req.params.userId)}, (err, resMongo) => {
     if(err) {
       res.status(500).send(err);
     } else {
       // Send a 404 if no document were deleted
+      log("UserDeleted", payload);
       res.sendStatus(resMongo.deletedCount > 0 ? 204 : 404);
     }
   });

@@ -37,6 +37,14 @@ app.use((err, _req, res, _next) => {
 
 var collection;
 
+function log(logType, {id: actorId, role: actorRole}) {
+    axios.post('http://service_logs/', {
+        "logType": logType,
+        "actorId": actorId,
+        "actorRole":  actorRole
+    }).catch(error => console.error(error.message));
+}
+
 function checkIfMyself(alumniId, userId) {
   return new Promise((resolve, reject) => {
     axios.get(`http://service_user/${userId}`).then(res => {
@@ -58,7 +66,7 @@ function checkIfMyself(alumniId, userId) {
 
 MongoClient.connect(MONGODB_URI, {useUnifiedTopology: true}, function(err, client) {
   if(err) throw err;
- 
+
   let db = client.db(DATABASE_NAME);
   collection = db.collection(COLLECTION_NAME);
 
@@ -116,6 +124,7 @@ app.post('/', (req, res) => {
     if(err) {
       res.status(500).send(err);
     } else {
+      log("AlumniCreated", payload);
       res.status(200).send(resMongo.insertedId);
     }
   });
@@ -134,6 +143,7 @@ app.put('/:alumniId', (req, res) => {
       } else if(resMongo.matchedCount == 0) {
         res.status(404).send('No matching element found.');
       } else {
+        log("AlumniModified", payload);
         res.status(204).send('Element successfully updated');
       }
     });
@@ -150,6 +160,7 @@ app.delete('/:alumniId', (req, res) => {
       res.status(500).send(err);
     } else {
       // Send a 404 if no document were deleted
+      log("AlumniDeleted", payload);
       res.sendStatus(resMongo.deletedCount > 0 ? 204 : 404);
     }
   });
