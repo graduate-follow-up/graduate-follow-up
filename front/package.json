@@ -26,6 +26,7 @@
     "gulp-print": "^5.0.2",
     "jquery": "^3.4.1",
     "jwt-decode": "^2.2.0",
+    "moment": "^2.26.0",
     "ngx-device-detector": "^1.4.0",
     "rxjs": "~6.4.0",
     "tslib": "^1.10.0",

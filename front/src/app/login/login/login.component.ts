@@ -20,7 +20,7 @@ export class LoginComponent implements OnInit {
     private formBuilder: FormBuilder,
     private serverService: ServerService) {
 
-    if (connectionService.getConnection()) { // already connected
+    if (connectionService.isLoggedIn()) { // already connected
       router.navigate(['']);
     }
 
@@ -39,7 +39,7 @@ export class LoginComponent implements OnInit {
     this.serverService.connect(data.login, data.password).subscribe(
       response => {
         this.connectionService.stockConnection(response);
-        this.router.navigate(['']);
+        this.router.navigate(['/alumnus']);
         this.msg = 'Successfull login';
       },
       error => {

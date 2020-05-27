@@ -58,7 +58,8 @@ app.post('/login', (req, res) => {
                     {
                         username: username,
                         role: responseString.statut,
-                        id: responseString._id
+                        id: responseString._id,
+                        expiresIn: 20
                     },
                     process.env.JWT_ACCESS_TOKEN_SECRET,
                     {expiresIn: '20m'}
@@ -102,17 +103,17 @@ app.post('/active-refresh', (req,res) => {
 
 
 app.post('/token', (req, res) => {
-    const {token} = req.body;
+    const {refreshToken} = req.body;
 
-    if (!token) {
+    if (!refreshToken) {
         return res.sendStatus(401);
     }
 
-    if (!refreshTokens.includes(token)) {
+    if (!refreshTokens.includes(refreshToken)) {
         return res.sendStatus(403);
     }
 
-    jwt.verify(token, process.env.JWT_REFRESH_TOKEN_SECRET, (err, payload) => {
+    jwt.verify(refreshToken, process.env.JWT_REFRESH_TOKEN_SECRET, (err, payload) => {
         if (err) {
             return res.sendStatus(403);
         }
@@ -121,7 +122,8 @@ app.post('/token', (req, res) => {
             {
                 username: payload.username,
                 role: payload.role,
-                id: payload.id
+                id: payload.id,
+                expiresIn: 20
             },
             process.env.JWT_ACCESS_TOKEN_SECRET,
             {expiresIn: '20m'}

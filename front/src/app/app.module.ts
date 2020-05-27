@@ -10,12 +10,14 @@ import {AlumnusModule} from './alumnus/alumnus.module';
 import {HeaderComponent} from './header/header.component';
 import {RGPDComponent} from './rgpd/rgpd.component';
 import {StatsComponent} from './stats/stats.component';
-import { AdminModule } from './admin/admin.module';
+import {AdminModule} from './admin/admin.module';
 import {DeviceDetectorService} from 'ngx-device-detector';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatCommonModule} from '@angular/material/core';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {NgbAlertModule} from '@ng-bootstrap/ng-bootstrap';
+import {HTTP_INTERCEPTORS} from '@angular/common/http';
+import {TokenInterceptor} from './login/token.interceptor';
 
 const Routes = [
   {path: 'RGPD', component: RGPDComponent},
@@ -44,7 +46,11 @@ const Routes = [
     MatCommonModule,
     BrowserAnimationsModule
   ],
-  providers: [AuthGuardGuard, DeviceDetectorService, ],
+  providers: [AuthGuardGuard, DeviceDetectorService, {
+    provide: HTTP_INTERCEPTORS,
+    useClass: TokenInterceptor,
+    multi: true
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule {

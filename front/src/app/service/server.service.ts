@@ -14,6 +14,7 @@ export class ServerService {
 
   private urlConnect = 'http://proxy/connexion/login/';
   private urlDeconnect = 'http://proxy/connexion/logout/';
+  private urlRefresh = 'http://proxy/connexion/token/';
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json'})
@@ -34,6 +35,14 @@ export class ServerService {
       "token" : refreshToken
     };
     return this.http.post<string>(this.urlDeconnect, JSON.stringify(body2), this.httpOptions)
+      .pipe(catchError(ErrorService.handleError));
+  }
+
+  refresh(token: string): Observable<string> {
+    const body3 = {
+      "token": token
+    };
+    return this.http.post<string>(this.urlRefresh, JSON.stringify(body3), this.httpOptions)
       .pipe(catchError(ErrorService.handleError));
   }
 
