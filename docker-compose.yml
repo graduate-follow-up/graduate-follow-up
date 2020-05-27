@@ -65,6 +65,11 @@ services:
     networks:
       - internal_alumni
 
+  service-scrapping:
+    build: ./service-scrapping/
+    ports:
+      - "2222:2222"
+
   # Service Front   
   front:
     build:
