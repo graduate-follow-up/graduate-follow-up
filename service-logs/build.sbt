@@ -8,7 +8,8 @@ lazy val root = (project in file("."))
     libraryDependencies ++= Seq(
       guice,
       "com.typesafe.play" %% "play-slick" % "5.0.0",
-      "mysql" % "mysql-connector-java" % "5.1.34"
+      "mysql" % "mysql-connector-java" % "5.1.34",
+      "com.pauldijou"     %% "jwt-play" % "4.3.0"
     ),
     scalacOptions ++= Seq(
       "-feature",
