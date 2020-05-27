@@ -10,7 +10,7 @@ const MONGODB_URI = 'mongodb://database_alumni:27017/alumnis';
 const DATABASE_NAME = 'alumnis';
 const COLLECTION_NAME = 'alumnis';
 
-const PORT = 3000;
+const PORT = 80;
 
 // App
 const app = express();
@@ -24,7 +24,6 @@ MongoClient.connect(MONGODB_URI, {useUnifiedTopology: true}, function(err, clien
   let db = client.db(DATABASE_NAME);
   collection = db.collection(COLLECTION_NAME);
 
-  //TODO : getTodayYear for graduation max
   db.command( { collMod: COLLECTION_NAME,
     validator: {
       $jsonSchema : databaseSchema
@@ -46,6 +45,28 @@ app.get('/', (_req, res) => {
       res.status(500).send(err);
     } else {
       res.send(docs);
+    }
+  });
+});
+
+const idsListRegex = /^([a-f\d]{24}(,[a-f\d]{24})*)$/i;
+// /infos/5ebbfc19fc13ae528a000065,5ebbfc19fc13ae528a000066
+app.get('/infos/:ids', (req,res) => {
+  if(!req.params.ids.match(idsListRegex)) {
+    res.status(400).send('Ids list required');
+    return;
+  }
+  const objectIdsArray = req.params.ids.split(',').map(id => ObjectId(id));
+
+  collection.find({_id: {$in: objectIdsArray}}).project({first_name: 1, last_name: 1, email: 1}).toArray(function (err,docs){
+    if(err) {
+      res.status(500).send(err);
+    } else {
+      if (docs.length != objectIdsArray.length){
+        res.status(404).send("Not found.");
+      } else{
+        res.status(200).send(docs);
+      }
     }
   });
 });
