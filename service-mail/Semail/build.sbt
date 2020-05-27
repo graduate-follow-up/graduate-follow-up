@@ -18,3 +18,7 @@ libraryDependencies ++= Seq( jdbc , ws , specs2 % Test,
 libraryDependencies += "com.typesafe.play" %% "play-mailer" % "6.0.1"
 libraryDependencies += "com.typesafe.play" %% "play-mailer-guice" % "6.0.1"
 
+PlayKeys.devSettings := Seq("play.server.http.port" -> "80")
+
+
+

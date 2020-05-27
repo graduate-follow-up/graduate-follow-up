@@ -29,4 +29,4 @@ RUN sbt stage
 EXPOSE 80
 
 # TODO change key
-CMD ["/app/target/universal/stage/bin/semail", "-Dplay.http.secret.key=jrqmPXf8cWo2kQToLGiEtfnQjXarKTUF"]
+ENTRYPOINT ["/app/target/universal/stage/bin/semail", "-Dplay.http.secret.key=jrqmPXf8cWo2kQToLGiEtfnQjXarKTUF"]
