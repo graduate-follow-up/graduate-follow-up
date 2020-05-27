@@ -1,5 +1,9 @@
 import { Injectable } from '@angular/core';
-import {Router} from '@angular/router';
+import {Token} from '../../model/Token';
+import * as jwt_decode from 'jwt-decode';
+import * as moment from 'moment';
+import {HttpRequest} from '@angular/common/http';
+import { ServerService } from '../../service/server.service';
 
 @Injectable({
   providedIn: 'root'
@@ -8,26 +12,78 @@ export class ConnectionService {
 
   isConnected = false;
 
-  constructor(private router: Router) {
-    this.isConnected = this.getConnection();
+  constructor(private serverService: ServerService) {
+    this.isConnected = this.isLoggedIn();
   }
 
+  refreshToken() {
+    const refreshToken = this.getRefreshToken();
+    this.serverService.refresh(refreshToken).subscribe(
+      accessToken => {
+        this.stockConnection(new Token(refreshToken, accessToken.accessToken));
+      },
+      error => {
+        console.log('connection.service error: ' + error);
+      }
+    );
+  }
 
-  getConnection() {
-    return (sessionStorage.getItem('connection') !== null); }
+  getExpiration() {
+    const expiresAt = JSON.parse(localStorage.getItem('expires_at'));
+    return moment(expiresAt);
+  }
 
-  stockConnection(login: string) {
+  isTokenExpired() {
+    return moment().isAfter(this.getExpiration()) ;
+  }
+
+  isLoggedIn() {
+    return (localStorage.getItem('refreshToken') !== null && this.isConnected);
+  }
+
+  stockConnection(token: Token) {
+    localStorage.setItem('accessToken', token.accessToken);
+    localStorage.setItem('refreshToken', token.refreshToken);
+    const decoded = this.getDecodedAccessToken(token.accessToken);
+    const expiresAt = moment().add(decoded.expiresIn, 'minutes');
+    localStorage.setItem('role', decoded.role);
+    localStorage.setItem('id', decoded.id);
+    localStorage.setItem('username', decoded.username);
+    localStorage.setItem('expires_at', JSON.stringify(expiresAt.valueOf()) );
     this.isConnected = true;
-    sessionStorage.setItem('connection', login);
   }
 
   logout() {
-    sessionStorage.removeItem('connection');
+    localStorage.removeItem('refreshToken');
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('role');
+    localStorage.removeItem('id');
+    localStorage.removeItem('username');
+    localStorage.removeItem('expires_at');
     this.isConnected = false;
-    this.router.navigate(['login']);
   }
 
-  getToken() {
-    return sessionStorage.getItem('connection');
+  getUserRole() {
+    return localStorage.getItem('role');
+  }
+
+  getRefreshToken() {
+    return localStorage.getItem('refreshToken');
+  }
+
+  getAccessToken() {
+    return localStorage.getItem('accessToken');
+  }
+
+  getDecodedAccessToken(token: string): any {
+    try {
+      return jwt_decode(token);
+    } catch (Error) {
+      return null;
+    }
+  }
+
+  isLoggedOut() {
+    return !this.isLoggedIn();
   }
 }

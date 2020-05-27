@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {AuthenticationService} from '../services/authentication.service';
 import {ConnectionService} from '../services/connection.service';
 import {FormBuilder} from '@angular/forms';
 import {Router} from '@angular/router';
+import {ServerService} from '../../service/server.service';
 
 @Component({
   selector: 'app-login',
@@ -16,11 +16,11 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private authenticationService: AuthenticationService,
     private connectionService: ConnectionService,
-    private formBuilder: FormBuilder) {
+    private formBuilder: FormBuilder,
+    private serverService: ServerService) {
 
-    if (connectionService.getConnection()) { // already connected
+    if (connectionService.isLoggedIn()) { // already connected
       router.navigate(['']);
     }
 
@@ -36,15 +36,14 @@ export class LoginComponent implements OnInit {
   }
 
   login(data) {
-
-    this.authenticationService.auth(data.login, data.password);
-
-    if (!this.connectionService.isConnected) {
-      this.msg = 'Connection failed: Identifier or password incorrect';
-    } else {
-      this.router.navigate(['']);
-    }
-
+    this.serverService.connect(data.login, data.password).subscribe(
+      response => {
+        this.connectionService.stockConnection(response);
+        this.router.navigate(['/alumnus']);
+        this.msg = 'Successfull login';
+      },
+      error => {
+        this.msg = 'Connection failed: Identifier or password incorrect';
+      });
   }
-
 }

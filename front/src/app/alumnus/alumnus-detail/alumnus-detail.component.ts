@@ -31,13 +31,18 @@ export class AlumnusDetailComponent implements OnInit {
   ngOnInit() {
   }
 
-  isAuthorized(al: Alumnus) {
-    // User is allowed to see alumnus only if token equals to option or 'admin'
-    return ((al.option === this.connectionService.getToken()) || (this.connectionService.getToken() === 'admin'));
+  isAuthorized() {
+    // User is allowed to delete alumnus only if role is respo-option or administrateur
+    return (this.connectionService.getUserRole() === 'respo-option' || this.connectionService.getUserRole() === 'administrateur');
   }
 
-  checkAuthorize(alumnus: Alumnus) {
-    return ((alumnus.first_name === this.connectionService.getToken()) || this.isAuthorized(alumnus));
+  /* checkAuthorize(alumnus: Alumnus) {
+    return ((alumnus._id === this.connectionService.getUserId()) || this.isAuthorized(alumnus));
+  }*/
+
+  // TODO : check if user == alumni -> ajouter nom et prénom au token ou ajouter endpoint au service alumni/user ?
+  checkAuthorize() {
+    return true;
   }
 
   modifyAlumnus(alumnus: Alumnus) {
@@ -50,6 +55,11 @@ export class AlumnusDetailComponent implements OnInit {
       data => this.refresh(),
       error => this.errorMsg = this.errorService.getErrorMessage()
     );
+  }
+
+  goToInformation(alumnus: Alumnus) {
+    this.actionPerformed.enabledModificationMode(alumnus);
+    this.router.navigate(['alumnus/information']).catch(err => this.errorMsg = err);
   }
 
   /*deleteProcess(al: Alumnus) {

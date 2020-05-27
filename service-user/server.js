@@ -4,6 +4,8 @@ const bodyParser = require('body-parser');
 const { MongoClient, ObjectId } = require('mongodb');
 const jwt = require('jsonwebtoken');
 const expressJwt = require('express-jwt');
+const crypto = require('crypto');
+const bcrypt = require('bcrypt');
 
 const databaseSchema = require('./database/schema.json');
 
@@ -11,6 +13,8 @@ const databaseSchema = require('./database/schema.json');
 const MONGODB_URI = 'mongodb://database_user:27017/users';
 const DATABASE_NAME = 'users';
 const COLLECTION_NAME = 'users';
+const SALT_ROUND = 0 ; // otherwise execution is too long
+
 const PORT = 80;
 const ROLE = {
   USER: 'prof',
@@ -23,7 +27,7 @@ const ROLE = {
 const app = express();
 app.use(bodyParser.json());
 
-var collection;
+let collection;
 
 // Token verification
 app.use(expressJwt({ secret: process.env.JWT_ACCESS_TOKEN_SECRET }))
@@ -75,13 +79,22 @@ app.post('/check-user', (req, res) => {
   const usr = req.body.user;
   const pwd = req.body.password;
 
-  collection.find({login: usr, password: pwd }).project({ role: 1 }).toArray(function (err, docs) {
+  collection.find({login: usr}).project({ role: 1, salt : 1, hashed: 1 }).toArray(function (err, docs) {
     if(err) {
       res.status(500).send(err);
     } else if(docs.length === 0){
       res.status(404).send();
-    } else{
-      res.status(200).send(docs[0]);
+    } else {
+      bcrypt.compare( pwd + docs[0].salt , docs[0].hashed, function(err, response) {
+        if(response) {
+          delete docs[0]['salt'];
+          delete docs[0]['hashed'];
+          res.status(200).send(docs[0]);
+        } else {
+          // hash don't match
+          res.status(404).send();
+        }
+      });
     }
   });
 });
@@ -90,7 +103,7 @@ app.post('/check-user', (req, res) => {
 app.get('/:userId', (req, res) => {
   if(req.user.role != ROLE.ADMIN && req.user.id != req.params.userId) return res.sendStatus(401);
 
-  collection.find({_id: ObjectId(req.params.userId)}).project({mdp: 0}).toArray(function (err, docs) {
+  collection.find({_id: ObjectId(req.params.userId)}).project({salt:0, hashed: 0}).toArray(function (err, docs) {
     if(err) {
       res.status(500).send(err);
     } else if(docs.length === 0 ){
@@ -106,24 +119,44 @@ app.post('/', (req, res) => {
   if (req.user.role != ROLE.ADMIN) return res.sendStatus(401);
 
   let document = req.body;
-  collection.insertOne(document, (err, resMongo) => {
-    if(err) {
-      res.status(500).send(err);
-    } else {
-      res.status(200).send(resMongo.insertedId);
-    }
+  let password = req.body.password;
+  delete document['password'];
+
+  crypto.randomBytes(256, (err, buf) => {
+    if (err) return res.status(500).send(err);
+
+    let salt = buf.toString('hex');
+    document["salt"] = salt;
+    bcrypt.hash(password + salt, SALT_ROUND, function(err, hash) {
+      if (err) res.status(500).send(err);
+      document["hashed"] = hash;
+      collection.insertOne(document, (err, resMongo) => {
+        if(err) {
+          res.status(500).send(err);
+        } else {
+          res.status(200).send(resMongo.insertedId);
+        }
+      });
+    });
   });
 });
+
 
 // Un respo d'option ou un utilisateur peut modifier son propre profil user SAUF le champ statut (role) et _id.
 // Admin peut tout changer
 app.put('/:userId', (req, res) => {
   if(req.user.role != ROLE.ADMIN && req.user.id != req.params.userId) return res.sendStatus(401);
 
-  // TODO verify update content -> make sure front is also bloquing some actions
   let illegalOperation = (req.user.role !== ROLE.ADMIN && req.body.role);
-  
   if(illegalOperation) return res.sendStatus(403);
+
+  let update = req.body;
+  if (req.body.salt) delete update['salt'] ;
+  if (req.body.hashed) delete update['hashed'];
+  if (req.body.password) delete update['password'] ;
+  // if (req.body.role) delete update['statut'] ;
+
+  update = {$set : update};
 
   let update = {$set : req.body};
   collection.updateOne({_id: ObjectId(req.params.userId)}, update, (err,resMongo) => {

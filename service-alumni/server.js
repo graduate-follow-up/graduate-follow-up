@@ -35,7 +35,7 @@ app.use((err, _req, res, _next) => {
   }
 });
 
-var collection;
+let collection;
 
 function checkIfMyself(alumniId, userId) {
   return new Promise((resolve, reject) => {

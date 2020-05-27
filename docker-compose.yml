@@ -74,6 +74,19 @@ services:
     networks:
       - internal_alumni
 
+  service_scrapping:
+    build: ./service-scrapping/
+    networks: 
+      - proxy
+
+  # Service Front   
+
+  service_stats:
+    build:  ./service-stats/
+    networks:
+      - proxy
+
+  # Service Front   
   service_logs:
     build:  ./service-logs/
     networks:
