@@ -26,7 +26,7 @@ COPY ./Semail .
 # Compile
 RUN sbt stage
 
-EXPOSE 9000
+EXPOSE 80
 
 # TODO change key
 CMD ["/app/target/universal/stage/bin/semail", "-Dplay.http.secret.key=jrqmPXf8cWo2kQToLGiEtfnQjXarKTUF"]

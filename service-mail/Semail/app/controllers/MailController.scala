@@ -5,8 +5,8 @@ import models.Alumni
 import javax.inject.Inject
 import play.api.libs.json._
 import play.api.mvc._
-
 import scala.util._
+
 
 
 
@@ -15,6 +15,7 @@ class MailController @Inject() (mailerClient: MailerClient) extends Controller  
   def home() = Action{
     Ok(s"Welcome Home")
   }
+
 
   def sendEmailMaj() =Action(parse.json){
     implicit request: Request[JsValue] => {
@@ -26,7 +27,7 @@ class MailController @Inject() (mailerClient: MailerClient) extends Controller  
           l.map(x => Emailmaj(x.email.toString,x.last_name.toString,x.first_name.toString,x.url.toString))
           Ok(s"Mail envoyé")
         case Failure(f) =>
-          Ok(s"Erreur dans la requete")
+          BadRequest(s"Erreur de syntaxe la requete")
       }
     }
   }
@@ -67,7 +68,7 @@ class MailController @Inject() (mailerClient: MailerClient) extends Controller  
           l.map(x => Emailmdp(x.email.toString,x.last_name.toString,x.first_name.toString,x.url.toString))
           Ok(s"Mail envoyé")
         case Failure(f) =>
-          Ok(s"Erreur dans la requete")
+          BadRequest(s"Erreur dans la requete")
       }
     }
   }
