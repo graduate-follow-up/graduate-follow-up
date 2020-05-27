@@ -72,10 +72,10 @@ services:
     networks:
       - internal_alumni
 
-  service-scrapping:
+  service_scrapping:
     build: ./service-scrapping/
-    ports:
-      - "2222:2222"
+    networks: 
+      - proxy
 
   # Service Front   
 

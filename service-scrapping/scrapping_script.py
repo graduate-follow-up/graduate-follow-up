@@ -95,5 +95,5 @@ def main(alumni):
         return(json.dumps(dict_alumni, sort_keys=True, indent=4, ensure_ascii=False))
 
 if __name__ == "__main__":
-    app.run(debug=True, host="0.0.0.0", port=2222)
+    app.run(debug=True, host="0.0.0.0", port=80)
 
