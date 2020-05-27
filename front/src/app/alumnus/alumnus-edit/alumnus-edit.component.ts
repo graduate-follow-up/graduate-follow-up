@@ -5,7 +5,6 @@ import {AlumnusService} from '../service/alumnus.service';
 import {FormBuilder} from '@angular/forms';
 import {ActionPerformedService} from '../service/actionPerformed.service';
 import {DataOptionService} from '../../service/dataOption.service';
-import {Observable} from 'rxjs';
 import {ErrorService} from '../../service/error.service';
 
 @Component({

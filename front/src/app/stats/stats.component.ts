@@ -18,7 +18,7 @@ function creataeRender() {
   styleUrls: ['./stats.component.css']
 })
 export class StatsComponent implements OnInit {
-  private errorMsg: string;
+  errorMsg: string;
   private chartTypeData: chartType;
   public label = 'option';
   public y = 'wage';
@@ -58,7 +58,7 @@ export class StatsComponent implements OnInit {
       );
   }
 
-  private requestLabel($event: any) {
+  requestLabel($event: any) {
     this.label = $event;
 
     this.dataService.getCharTypeObservable(this.label, this.y).forEach(
@@ -80,7 +80,7 @@ export class StatsComponent implements OnInit {
   }
 
 
-  private requestY($event: any) {
+  requestY($event: any) {
     this.y = $event;
 
     this.dataService.getCharTypeObservable(this.label, this.y).forEach(

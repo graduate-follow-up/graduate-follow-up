@@ -5,13 +5,13 @@
   <p>{{errorMsg}}</p></div>
 
 <!-- Stats-->
-<div class="ui grid" style="  align-items: center;">
-  <h5 class="ui header"> Label :</h5>
+<div class="ui grid" style="  align-items: center; ">
+  <h5 class="ui header" style="!important margin:0;"> Label :</h5>
   <select class="ui dropdown selection margin" [(ngModel)]="labelValue" (ngModelChange)="this.requestLabel($event)">
     <option *ngFor="let l of allLabels" >{{l}}</option>
   </select>
 
-  <h5 class="ui header"> Value :</h5>
+  <h5 class="ui header" style="!important margin:0;"> Value :</h5>
   <select class="ui dropdown selection margin" [(ngModel)]="valueValue" (ngModelChange)="this.requestY($event)">
     <option *ngFor="let l of allValue" >{{l}}</option>
   </select>

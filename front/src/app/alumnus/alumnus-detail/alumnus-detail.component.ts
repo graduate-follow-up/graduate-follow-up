@@ -50,4 +50,9 @@ export class AlumnusDetailComponent implements OnInit {
       error => this.errorMsg = this.errorService.getErrorMessage()
     );
   }
+
+  goToInformation(alumnus: Alumnus) {
+    this.actionPerformed.enabledModificationMode(alumnus);
+    this.router.navigate(['alumnus/information']).catch(err => this.errorMsg = err);
+  }
 }
