@@ -85,6 +85,8 @@ services:
     build:  ./service-stats/
     networks:
       - proxy
+    env_file:
+      - ./.env/api.env
 
   # Service Front   
   service_logs:
