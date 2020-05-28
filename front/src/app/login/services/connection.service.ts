@@ -4,6 +4,7 @@ import * as jwt_decode from 'jwt-decode';
 import * as moment from 'moment';
 import {HttpRequest} from '@angular/common/http';
 import { ServerService } from '../../service/server.service';
+import {AccessToken} from '../../model/AccessToken';
 
 @Injectable({
   providedIn: 'root'
@@ -47,16 +48,8 @@ export class ConnectionService {
   }
 
   stockConnection(token: Token) {
-    localStorage.setItem('accessToken', token.accessToken);
     localStorage.setItem('refreshToken', token.refreshToken);
-    const decoded = this.getDecodedAccessToken(token.accessToken);
-    const expiresAt = moment().add(decoded.expiresIn, 'minutes');
-    localStorage.setItem('role', decoded.role);
-    localStorage.setItem('id', decoded.id);
-    localStorage.setItem('username', decoded.username);
-    localStorage.setItem('expires_at', JSON.stringify(expiresAt.valueOf()) );
-    this.isConnected = true;
-    this.isAdministrator = (decoded.role === 'administrateur');
+    this.useToken(token);
   }
 
   logout() {
@@ -92,5 +85,16 @@ export class ConnectionService {
 
   isLoggedOut() {
     return !this.isLoggedIn();
+  }
+
+  useToken(token: AccessToken) {
+    const decoded = this.getDecodedAccessToken(token.accessToken);
+    const expiresAt = moment().add(decoded.expiresIn, 'minutes');
+    localStorage.setItem('role', decoded.role);
+    localStorage.setItem('id', decoded.id);
+    localStorage.setItem('username', decoded.username);
+    localStorage.setItem('expires_at', JSON.stringify(expiresAt.valueOf()) );
+    this.isConnected = true;
+    this.isAdministrator = (decoded.role === 'administrateur');
   }
 }

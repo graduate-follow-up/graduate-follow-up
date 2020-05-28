@@ -23,7 +23,13 @@ export class AlumnusService {
   getAlumnusObservable(): Observable<Alumnus[]> {
     return this.http.get<Alumnus[]>(this.ulrAlumnus)
       .pipe(catchError(ErrorService.handleError)
-      );
+      )
+      ;
+  }
+
+  getOneAlumnus(id: string) {
+    return this.http.get<Alumnus>(this.ulrAlumnus + id)
+      .pipe(catchError(ErrorService.handleError));
   }
 
   getAlumnusScrappingObservable(s: string): Observable<any> {
@@ -45,6 +51,11 @@ export class AlumnusService {
 
   delete(id: string) {
     return this.http.delete(this.ulrAlumnus + id, this.httpOptions)
+      .pipe(catchError(ErrorService.handleError));
+  }
+
+  updateMail(id: string) {
+    return this.http.post('http://proxy/link/send-update-mail', [id])
       .pipe(catchError(ErrorService.handleError));
   }
 }

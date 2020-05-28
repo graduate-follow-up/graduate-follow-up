@@ -13,8 +13,8 @@ type chartType = Array<{ y: number, label: string }>;
   providedIn: 'root'
 })
 export class DataService {
-  //private ulrStats = 'http://proxy/stats';
-  private ulrStats = 'http://localhost/stats/chartType';
+  private ulrStats = 'http://proxy/stats/chartType';
+  // private ulrStats = 'http://localhost/stats/chartType';
 
   constructor(private http: HttpClient) {
   }
