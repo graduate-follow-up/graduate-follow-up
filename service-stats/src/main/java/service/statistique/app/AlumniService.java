@@ -25,7 +25,7 @@ public class AlumniService {
         HttpResponse<String> response = getAlumniResponse();
 
         if(response.statusCode() != 200) {
-            throw new ServerException("Request failed");
+            throw new ServerException("Request failed: " + response.body());
         }
 
         JSONArray alumniArray = (JSONArray) jsonParser.parse(response.body());
