@@ -88,6 +88,8 @@ export class ConnectionService {
   }
 
   useToken(token: AccessToken) {
+    localStorage.setItem('accessToken', token.accessToken);
+
     const decoded = this.getDecodedAccessToken(token.accessToken);
     const expiresAt = moment().add(decoded.expiration.expiresIn, 'minutes');
     localStorage.setItem('role', decoded.role);
