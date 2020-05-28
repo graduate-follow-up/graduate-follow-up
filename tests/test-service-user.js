@@ -33,14 +33,14 @@ describe('service_user', () => {
       let res = await axios.asAdmin.get('/users');
       res.status.should.equal(200);
       res.data.should.be.an('array')
-      res.data.every(alumni => alumni.should.have.all.keys("_id","email","login","name","password","role"));
+      res.data.every(alumni => alumni.should.have.all.keys("_id","email","login","name","role"));
     });
   });
 
   describe('POST /check-user', () => {
     const userToCheck = {
-      "user" : "excepteur",
-      "password" : "ullamco"
+      "user" : "user",
+      "password" : "user"
     };
 
     it('should return user infos when using connexion service\'s token', async () => {
@@ -69,14 +69,14 @@ describe('service_user', () => {
       let res = await axios.asAdmin.get(`/users/${userId}`);
       res.status.should.equal(200);
       res.data.should.be.an('object');
-      res.data.should.have.all.keys("_id","email","login","name","password","role")
+      res.data.should.have.all.keys("_id","email","login","name","role")
     });
 
     it('should return an user when using self token', async () => {
       let res = await axios.asUser.get(`/users/${userId}`);
       res.status.should.equal(200);
       res.data.should.be.an('object');
-      res.data.should.have.all.keys("_id","email","login","name","password","role")
+      res.data.should.have.all.keys("_id","email","login","name","role")
     });
 
     it('should not work when using a lambda user token', async () => {

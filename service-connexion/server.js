@@ -90,7 +90,7 @@ app.get('/alumni-token/:ids', (req,res) => {
 
     let signedTokens = {};
     req.params.ids.split(',').forEach(id => {
-        signedTokens[id] = jwt.sign({role: "alumni", id}, process.env.JWT_ACCESS_TOKEN_SECRET, {expiresIn: '120m'});
+        signedTokens[id] = jwt.sign({username: "", role: "alumni", id}, process.env.JWT_ACCESS_TOKEN_SECRET, {expiresIn: '120m'});
     });
 
     res.status(200).send(signedTokens);
