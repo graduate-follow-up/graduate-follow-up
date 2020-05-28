@@ -43,7 +43,7 @@ function log(logType, {id: actorId, role: actorRole}, subjectId) {
 }
 
 function buildUpdateLink(token) {
-    return [process.env.PROXY_URL, 'login', token].join('/');
+    return [process.env.PROXY_URL, 'loginToken', token].join('/');
 }
 
 const idsListRegex = /^([a-f\d]{24}(,[a-f\d]{24})*)$/i;
