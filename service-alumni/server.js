@@ -17,10 +17,11 @@ const ROLE = {
   USER: 'prof',
   RESPO: 'respo-option',
   ADMIN: 'administrateur',
+  ALUMNI: 'alumni',
   SERVICE: 'service'
 };
 
-const SERVICE_ACCESS_TOKEN = jwt.sign({username: 'alumni',role: 'service', id: 'alumni'},process.env.JWT_ACCESS_TOKEN_SECRET,{});
+const SERVICE_ACCESS_TOKEN = jwt.sign({username: 'alumni',role: 'service', id: 'alumni'}, process.env.JWT_ACCESS_TOKEN_SECRET,{});
 axios.defaults.headers.common['Authorization'] = 'Bearer ' + SERVICE_ACCESS_TOKEN;
 
 // App
@@ -85,8 +86,7 @@ MongoClient.connect(MONGODB_URI, {useUnifiedTopology: true}, function(err, clien
 
 
 app.get('/', (req, res) => {
-  if (![ROLE.USER, ROLE.RESPO, ROLE.ADMIN, ROLE.ALUMNI].includes(req.user.role)) return res.sendStatus(401);
-  if(req.user.role == ROLE.ALUMNI && req.user.id != req.params.id) return res.sendStatus(401);
+  if (![ROLE.USER, ROLE.RESPO, ROLE.ADMIN].includes(req.user.role)) return res.sendStatus(401);
 
   let projection = (req.user.role === ROLE.USER) ? { first_name: 0, last_name:0, email: 0, phone: 0 } : '';
 
@@ -177,7 +177,8 @@ app.get('/schema', (_req, res) => {
 });
 
 app.get('/:alumniId', (req, res) => {
-  if (![ROLE.USER, ROLE.RESPO, ROLE.ADMIN].includes(req.user.role)) return res.sendStatus(401);
+  if (![ROLE.USER, ROLE.RESPO, ROLE.ADMIN, ROLE.ALUMNI].includes(req.user.role)) return res.sendStatus(401);
+  if(req.user.role == ROLE.ALUMNI && req.user.id != req.params.id) return res.sendStatus(401);
 
   let projection = (req.user.role === ROLE.USER) ? { first_name: 0, last_name:0, email: 0, phone: 0 } : '';
   collection.find({_id: ObjectId(req.params.alumniId)}).project(projection).toArray(function (err, docs) {
