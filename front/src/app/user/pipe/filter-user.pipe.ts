@@ -14,8 +14,8 @@ export class FilterUserPipe implements PipeTransform {
 
     if (searchValue) {
       searchValue = searchValue.toLowerCase();
-      usersArray = usersArray.filter(e => e.name[1].toLowerCase().includes(searchValue)
-        || e.name[2].toLowerCase().includes(searchValue)); }
+      usersArray = usersArray.filter(e => e.name.firstName.toLowerCase().includes(searchValue)
+        || e.name.lastName.toLowerCase().includes(searchValue) || e.login.toLowerCase().includes(searchValue.toLowerCase())); }
 
     return usersArray;
   }

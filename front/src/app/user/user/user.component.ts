@@ -33,7 +33,7 @@ export class UserComponent implements OnInit {
 
   ngOnInit() {
     this.userService.getUserObservable().subscribe(
-      res => {this.users = res ; console.log(res); },
+      res => {this.users = res ; },
       error => this.errorMsg = this.errorService.getErrorMessage());
     this.options = this.roleOption.getRoles();
   }

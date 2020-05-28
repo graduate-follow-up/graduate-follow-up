@@ -15,12 +15,15 @@
   <input id="email" type="text" formControlName="email" >
   <label for="login">Username</label>
   <input id="login" type="text" formControlName="login" >
+  <label *ngIf="isCreating" for="password">Password</label>
+  <input *ngIf="isCreating" id="password" type="password" formControlName="password">
+
   <label for="role">Role</label>
     <select id="role" class="ui dropdown" formControlName="role">
       <option *ngFor="let opt of options" [value]="opt">{{opt}}</option>
     </select>
 
   <br><br>
-  <button  class="ui button" type="submit">{{action}}</button>
+  <button class="ui button" type="submit">{{action}}</button>
 </form>
 

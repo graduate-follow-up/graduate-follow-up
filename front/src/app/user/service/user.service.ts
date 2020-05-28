@@ -25,7 +25,6 @@ export class UserService {
       .pipe(
           map(res => {
             return res.map( user => {
-              console.log(user);
               const newUser = new User();
               newUser.name = new Name(user.name.first, user.name.last);
               newUser._id = user._id;
@@ -36,29 +35,38 @@ export class UserService {
               }
             );
           }),
-        /*map(res => {
-          console.log(res[1].login);
-          return res.map(item => {
-          const newUser = new User();
-          const newName = new Name(item.last_name, item.first_name);
-          newUser._id = item._id;
-          newUser.login = item.login;
-          newUser.name = newName;
-          newUser.email = item.email;
-          return newUser;
-        });
-      }),*/
       catchError(ErrorService.handleError));
   }
 
   getUser(): User[] { return this.userData; }
 
   add(newUser: UserWithoutId) { // Insert in Database
-    return this.http.post(this.ulrUsers, newUser, this.httpOptions).pipe(catchError(ErrorService.handleError));
+    const tmpUser = newUser as any ;
+    const userToAdd = `{
+    "name": {
+      "first": "${tmpUser.first_name}",
+      "last" : "${tmpUser.last_name}"
+     },
+     "email": "${tmpUser.email}",
+      "role": "${tmpUser.role}",
+      "login": "${tmpUser.login}",
+      "password": "${tmpUser.password}"
+      }`;
+    return this.http.post(this.ulrUsers, userToAdd, this.httpOptions).pipe(catchError(ErrorService.handleError));
   }
 
   update(id: string, user: UserWithoutId) {
-    return this.http.put(this.ulrUsers + id, user, this.httpOptions).pipe(catchError(ErrorService.handleError));
+    const tmpUser = user as any ;
+    const update = `{
+    "name": {
+      "first": "${tmpUser.first_name}",
+      "last" : "${tmpUser.last_name}"
+     },
+     "email": "${tmpUser.email}",
+      "role": "${tmpUser.role}",
+      "login": "${tmpUser.login}"
+      }`;
+    return this.http.put(this.ulrUsers + id, update, this.httpOptions).pipe(catchError(ErrorService.handleError));
   }
 
   delete(id: string) {

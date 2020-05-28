@@ -32,7 +32,7 @@ export class UserDetailComponent implements OnInit {
   }
 
   checkAuthorize() {
-    return (this.connectionService.getUserRole() === 'administrateur')
+    return (this.connectionService.getUserRole() === 'administrateur');
   }
 
   modifyUser(user: User) {
@@ -45,6 +45,8 @@ export class UserDetailComponent implements OnInit {
       data => this.refresh(),
       error => this.errorMsg = this.errorService.getErrorMessage()
     );
+    this.refresh();
+    this.router.navigate(['users/information']).catch(err => this.errorMsg = err);
   }
 
   goToInformation(user: User) {
@@ -55,6 +57,6 @@ export class UserDetailComponent implements OnInit {
 
   refresh() {
     // tslint:disable-next-line:max-line-length
-    this.router.navigateByUrl('/users/edit', { skipLocationChange: true }).then(() => {this.router.navigate(['']).catch(err => this.errorMsg = err); });
+    this.router.navigateByUrl('/users/edit', { skipLocationChange: true }).then(() => {this.router.navigate(['/user']).catch(err => this.errorMsg = err); });
   }
 }

@@ -19,31 +19,33 @@ export class UserEditComponent implements OnInit {
   checkoutForm;
   idUser: string;
   errorMsg: string;
+  isCreating: boolean;
 
   ngOnInit() {
     this.options = this.roleOptionService.getRoles();
     this.action = this.actionPerformed.getAction();
-
+    this.isCreating = this.action !== 'Modify';
     if (this.action === 'Modify') {
-
       const userToModify: User = this.actionPerformed.getUser();
       this.idUser = userToModify._id;
       const tmpName = userToModify.name;
 
       this.checkoutForm = this.formBuilder.group({
-        first_name: tmpName.firstName,
+        first_name : tmpName.firstName,
         last_name : tmpName.lastName,
         email: userToModify.email,
         login: userToModify.login,
-        role : userToModify.role
+        role : userToModify.role,
+        password : ''
       });
     } else {
       this.checkoutForm = this.formBuilder.group({
         first_name: '',
-        last_name : '',
+        last_name: '' ,
         email: '',
         login: '',
-        role: ''
+        role: '',
+        password: '',
       });
     }
   }
@@ -57,8 +59,8 @@ export class UserEditComponent implements OnInit {
     private roleOptionService: RoleOptionService,
     private errorService: ErrorService
   ) {
+    this.isCreating = this.action !== 'Modify';
   }
-
 
   onclickSubmit(formData) {
 
