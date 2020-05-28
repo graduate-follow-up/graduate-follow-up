@@ -22,23 +22,18 @@
   <p>{{errorMsg}}</p></div>
 
 <!--Card View-->
-<div class="ui cards">
+<div class="ui cards" *ngIf="checkAuthorize()">
   <div class="card" style="margin-bottom: 20px">
     <div class="content">
-      <a class="header" (click)="this.goToInformation(alumnus)">{{alumnus.first_name}} {{alumnus.last_name}}</a>
-      <div class="meta"> Option : {{alumnus.option}} </div>
-      <div class="description"> Entreprise : {{alumnus.company}}</div>
-      <div class="description"> Salaire : {{alumnus.wage}}</div>
-      <div class="description"> Pays : {{alumnus.country}}</div>
-      <div class="description"> Promotion : {{alumnus.graduation}}</div>
-      <div class="description"> Ville : {{alumnus.city}}</div>
-      <div class="description"> Job : {{alumnus.job}}</div>
-
+      <a class="header" (click)="this.goToInformation(user)">{{(user.name).firstName}} {{(user.name).lastName}}</a>
+      <div class="meta"> Role : {{user.role}} </div>
+      <div class="description"> Email : {{user.email}}</div>
+      <div class="description"> Username : {{user.login}}</div>
     </div>
     <div class="extra content" >
-      <div class="ui two buttons" *ngIf="isAuthorized()">
-        <div class="ui basic grey button" (click)="modifyAlumnus(alumnus)">Modifier</div>
-        <div class="ui basic red button" (click)="this.delete(alumnus._id)">Delete</div>
+      <div class="ui two buttons">
+        <div class="ui basic grey button" (click)="modifyUser(user)">Modifier</div>
+        <div class="ui basic red button" (click)="this.delete(user._id)" *ngIf="isAuthorized()">Delete</div>
       </div>
     </div>
   </div>

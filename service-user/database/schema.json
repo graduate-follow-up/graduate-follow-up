@@ -1,6 +1,6 @@
 {
   "bsonType": "object",
-  "required": [ "login","password", "role", "email"],
+  "required": [ "login", "role", "email"],
   "properties": {
     "_id": {
       "bsonType": "objectId"

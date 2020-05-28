@@ -7,16 +7,15 @@ import {User} from '../model/User';
 })
 export class DataUserService {
 
-  constructor() {
-  }
+  constructor() {}
 
-  getAllUser(): User[] {
+  /*getAllUser(): User[] {
     return MockUser;
   }
 
-  getUser(login: string): User {
+  /*getUser(login: string): User {
     return this.getAllUser().find(e => e.login === login); }
-
+*/
  /* checkAdminLogged() {
     return (localStorage.getItem('login') === 'admin');
   }

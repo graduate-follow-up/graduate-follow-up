@@ -82,13 +82,13 @@ export class AlumnusEditComponent implements OnInit {
     // Test if it is Modify or Add Mode
     if (this.action === 'Modify') {
       this.alumnusService.update(this.idAlumnus, formData).subscribe(
-        data => {this.router.navigate(['']).catch(e => this.errorMsg = e); console.log('Update :' + data); },
+        data => {this.router.navigate(['']).catch(e => this.errorMsg = e); },
         error => this.errorMsg = error + ' | ' + this.errorService.getErrorMessage()
       );
 
     } else {
       this.alumnusService.add(formData).subscribe(
-        data => {this.router.navigate(['']).catch(e => this.errorMsg = e); console.log('Adding :' + data); },
+        data => {this.router.navigate(['']).catch(e => this.errorMsg = e); },
         error => this.errorMsg = error + ' | ' + this.errorService.getErrorMessage()
       );
     }

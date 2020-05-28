@@ -11,9 +11,14 @@ import { ServerService } from '../../service/server.service';
 export class ConnectionService {
 
   isConnected = false;
+  isAdministrator = false;
 
   constructor(private serverService: ServerService) {
     this.isConnected = this.isLoggedIn();
+    this.isAdministrator = this.isAdmin();
+  }
+  isAdmin() {
+    return localStorage.getItem('role') === 'administrateur';
   }
 
   refreshToken() {
@@ -51,6 +56,7 @@ export class ConnectionService {
     localStorage.setItem('username', decoded.username);
     localStorage.setItem('expires_at', JSON.stringify(expiresAt.valueOf()) );
     this.isConnected = true;
+    this.isAdministrator = (decoded.role === 'administrateur');
   }
 
   logout() {
@@ -61,6 +67,7 @@ export class ConnectionService {
     localStorage.removeItem('username');
     localStorage.removeItem('expires_at');
     this.isConnected = false;
+    this.isAdministrator = false;
   }
 
   getUserRole() {

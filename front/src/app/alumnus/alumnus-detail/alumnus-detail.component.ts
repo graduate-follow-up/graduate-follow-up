@@ -16,7 +16,7 @@ export class AlumnusDetailComponent implements OnInit {
 
   @Input() alumnus: Alumnus;
   errorMsg: string;
-  //alumnusToDelete = false;
+  // alumnusToDelete = false;
 
   constructor(
     public alumnusService: AlumnusService,
