@@ -22,7 +22,7 @@
   <p>{{errorMsg}}</p></div>
 
 <!--Card View-->
-<div class="ui cards" *ngIf="checkAuthorize()">
+<div class="ui cards">
   <div class="card" style="margin-bottom: 20px">
     <div class="content">
       <a class="header" (click)="this.goToInformation(alumnus)">{{alumnus.first_name}} {{alumnus.last_name}}</a>
@@ -36,9 +36,9 @@
 
     </div>
     <div class="extra content" >
-      <div class="ui two buttons">
+      <div class="ui two buttons" *ngIf="isAuthorized()">
         <div class="ui basic grey button" (click)="modifyAlumnus(alumnus)">Modifier</div>
-        <div class="ui basic red button" (click)="this.delete(alumnus._id)" *ngIf="isAuthorized()">Delete</div>
+        <div class="ui basic red button" (click)="this.delete(alumnus._id)">Delete</div>
       </div>
     </div>
   </div>
