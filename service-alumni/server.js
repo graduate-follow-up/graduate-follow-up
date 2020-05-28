@@ -86,9 +86,9 @@ MongoClient.connect(MONGODB_URI, {useUnifiedTopology: true}, function(err, clien
 
 
 app.get('/', (req, res) => {
-  if (![ROLE.USER, ROLE.RESPO, ROLE.ADMIN].includes(req.user.role)) return res.sendStatus(401);
+  if (![ROLE.USER, ROLE.RESPO, ROLE.ADMIN, ROLE.SERVICE].includes(req.user.role)) return res.sendStatus(401);
 
-  let projection = (req.user.role === ROLE.USER) ? { first_name: 0, last_name:0, email: 0, phone: 0 } : '';
+  let projection = (req.user.role === ROLE.USER || req.user.role === ROLE.SERVICE) ? { first_name: 0, last_name:0, email: 0, phone: 0 } : '';
 
   collection.find({}).project(projection).toArray(function(err, docs) {
     if(err) {
