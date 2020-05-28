@@ -1,0 +1,9 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Home page
+GET     /                           controllers.MailController.home
+POST     /mailmaj                    controllers.MailController.sendEmailMaj()
+POST     /mailmdp                    controllers.MailController.sendEmailMdp()
+
