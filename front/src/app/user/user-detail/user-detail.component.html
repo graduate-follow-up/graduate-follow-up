@@ -1,0 +1,41 @@
+<!--div-- class="ui tiny modal visible active" *ngIf="alumnusToDelete">
+  <div class="ui icon header">
+    <i class="delete icon"></i>
+    Delete {{alumnus.first_name}} {{alumnus.last_name}} ?
+  </div>
+  <div class="actions">
+    <div class="ui red basic cancel inverted button">
+      <i class="remove icon" (click)="this.alumnusToDelete = false; this.refresh()"></i>
+      No
+    </div>
+    <div class="ui green ok inverted button">
+      <i class="checkmark icon" (click)="this.delete(alumnus._id)"></i>
+      Yes
+    </div>
+  </div>
+</div-->
+
+
+<div class="ui negative message" *ngIf="errorMsg">
+  <div class="header">
+  </div>
+  <p>{{errorMsg}}</p></div>
+
+<!--Card View-->
+<div class="ui cards" *ngIf="checkAuthorize()">
+  <div class="card" style="margin-bottom: 20px">
+    <div class="content">
+      <a class="header" (click)="this.goToInformation(user)">{{(user.name).firstName}} {{(user.name).lastName}}</a>
+      <div class="meta"> Role : {{user.role}} </div>
+      <div class="description"> Email : {{user.email}}</div>
+      <div class="description"> Username : {{user.login}}</div>
+    </div>
+    <div class="extra content" >
+      <div class="ui two buttons">
+        <div class="ui basic grey button" (click)="modifyUser(user)">Modifier</div>
+        <div class="ui basic red button" (click)="this.delete(user._id)" *ngIf="isAuthorized()">Delete</div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Line View -->

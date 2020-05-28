@@ -4,7 +4,7 @@ import {Observable} from 'rxjs';
 import {Token} from '../model/Token';
 import {catchError} from 'rxjs/operators';
 import {ErrorService} from './error.service';
-import {AccessToken} from "../model/AccessToken";
+import {AccessToken} from '../model/AccessToken';
 
 @Injectable({
   providedIn: 'root'

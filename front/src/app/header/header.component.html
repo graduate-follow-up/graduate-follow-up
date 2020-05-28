@@ -3,6 +3,7 @@
  <a class="item" routerLink="" style="padding:0; margin:0;"><img src="assets/logo.png" style="width:110px; height:70px" alt="logo"></a>
   <a *ngIf="this.connectionService.isConnected" class="item" routerLink="">Home</a>
   <a *ngIf="this.connectionService.isConnected" class="item" routerLink="stats">Stats</a>
+  <a *ngIf="this.connectionService.isAdmin() && this.connectionService.isConnected" class="item" routerLink="user">Moderation</a>
   <a class="item" routerLink="RGPD">RGPD</a>
 
   <!-- Manage connection -->

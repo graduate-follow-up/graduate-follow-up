@@ -7,6 +7,7 @@ import {AuthGuardGuard} from './login/services/auth-guard.guard';
 import {LoginModule} from './login/login.module';
 import {HttpClientModule} from '@angular/common/http';
 import {AlumnusModule} from './alumnus/alumnus.module';
+import {UsersModule} from './user/users.module';
 import {HeaderComponent} from './header/header.component';
 import {RGPDComponent} from './rgpd/rgpd.component';
 import {StatsComponent} from './stats/stats.component';
@@ -19,10 +20,12 @@ import {NgbAlertModule} from '@ng-bootstrap/ng-bootstrap';
 import {HTTP_INTERCEPTORS} from '@angular/common/http';
 import {TokenInterceptor} from './login/token.interceptor';
 import { ToastrModule } from 'ngx-toastr';
+import {UserComponent} from './user/user/user.component';
 
 const Routes = [
   {path: 'RGPD', component: RGPDComponent},
   {path: 'stats', component: StatsComponent, canActivate: [AuthGuardGuard]},
+  {path: 'user', component: UserComponent, canActivate: [AuthGuardGuard]},
   {path: '', redirectTo: '/alumnus', pathMatch: 'full', canActivate: [AuthGuardGuard]}
 ];
 
@@ -41,6 +44,7 @@ const Routes = [
     LoginModule,
     HttpClientModule,
     AlumnusModule,
+    UsersModule,
     ReactiveFormsModule,
     AdminModule,
     MatMenuModule,
