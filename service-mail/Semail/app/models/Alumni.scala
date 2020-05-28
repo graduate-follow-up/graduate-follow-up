@@ -3,7 +3,7 @@ package models
 import play.api.libs.json._
 
 case class Alumni (
-  id_ : String,
+  _id : String,
   first_name : String,
   last_name : String,
   email : String,

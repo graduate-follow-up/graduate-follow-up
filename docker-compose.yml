@@ -116,8 +116,6 @@ services:
     build: ./service-mail/
     networks:
       - proxy
-    environment:
-      - PROXY_URL= ${PROXY_URL:-http://localhost}
 
 volumes:
   database_user_db:

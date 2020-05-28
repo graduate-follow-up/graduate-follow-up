@@ -36,7 +36,7 @@ app.post('/send-update-mail', (req, res) => {
                     throw new Error('Alumni token not found');
                 }
                 
-                alumni['link'] = buildUpdateLink(tokens[alumni._id]);
+                alumni['url'] = buildUpdateLink(tokens[alumni._id]);
                 return alumni;
             });
 
