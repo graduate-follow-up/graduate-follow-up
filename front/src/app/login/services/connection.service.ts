@@ -21,7 +21,7 @@ export class ConnectionService {
     return localStorage.getItem('role') === 'administrateur';
   }
 
-  refreshToken() {
+  async refreshToken() {
     const refreshToken = this.getRefreshToken();
     this.serverService.refresh(refreshToken).subscribe(
       accessToken => {
@@ -50,7 +50,7 @@ export class ConnectionService {
     localStorage.setItem('accessToken', token.accessToken);
     localStorage.setItem('refreshToken', token.refreshToken);
     const decoded = this.getDecodedAccessToken(token.accessToken);
-    const expiresAt = moment().add(decoded.expiresIn, 'minutes');
+    const expiresAt = moment().add(decoded.expiration.expiresIn, 'minutes');
     localStorage.setItem('role', decoded.role);
     localStorage.setItem('id', decoded.id);
     localStorage.setItem('username', decoded.username);

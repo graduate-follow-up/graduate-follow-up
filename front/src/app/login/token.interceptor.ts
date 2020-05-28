@@ -8,36 +8,35 @@ import {
   HttpErrorResponse
 } from '@angular/common/http';
 import { ConnectionService } from './services/connection.service';
-import {Observable, of} from 'rxjs';
+import {from, Observable, of} from 'rxjs';
 import {catchError, map, tap} from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
-
+import {ServerService} from '../service/server.service';
 
 
 @Injectable()
 
 export class TokenInterceptor implements HttpInterceptor {
-  constructor(public toasterService: ToastrService, public connection: ConnectionService) {}
+  constructor(public toasterService: ToastrService, public connection: ConnectionService, public serverService: ServerService) {}
 
-  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    // if (this.connection.isConnected && this.connection.isTokenExpired()) { this.connection.refreshToken(); }
-    request = request.clone({
+  async handleRequestHeader(request: HttpRequest<any>, next: HttpHandler) {
+     if (this.connection.isConnected && this.connection.isTokenExpired() && request.url !== this.serverService.urlRefresh ) {
+       await this.connection.refreshToken();
+     }
+     request = request.clone({
       setHeaders: {
         Authorization: `Bearer ${this.connection.getAccessToken()}`
       }
     });
-    return next.handle(request).pipe(
+     return next.handle(request).pipe(
       tap(event => {}),
       catchError((err: any) => {
-        // let msg = err.error;
-        // if (err.error === 'invalid token') { msg = 'Token has been refreshed, please retry'; }
         this.toasterService.error(err.error, err.error.title, { positionClass: 'toast-top-center' });
-        if (this.connection.isTokenExpired()) {
-          this.connection.refreshToken();
-        }
         return of(err);
-      }
-  ));
+      })).toPromise();
   }
 
+   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    return from(this.handleRequestHeader(request, next));
+  }
 }
