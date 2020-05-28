@@ -61,7 +61,7 @@
 */.next
 
 # intellij settings
-*/.idea/
+**/.idea/
 */target/
 
 
@@ -131,4 +131,4 @@ speed-measure-plugin*.json
 # Other
 .DS_Store
 .idea/
-.env/
+.env
