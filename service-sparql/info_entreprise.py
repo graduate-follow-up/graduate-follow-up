@@ -72,9 +72,9 @@ def get_json_result(dict1,dict2):
 
     return json.dumps(res_dict, sort_keys=True, indent=4, ensure_ascii=False)
 
-@app.route("/<nom-entreprise>", methods = ["GET"])
-def main(nom_entreprise):
-    return get_json_result(send_sarpql_dbpedia(nom_entreprise),send_sarpql_wiki(nom_entreprise))
+@app.route("/<nomEntreprise>", methods = ["GET"])
+def main(nomEntreprise):
+    return get_json_result(send_sarpql_dbpedia(nomEntreprise),send_sarpql_wiki(nomEntreprise))
 
 
 if __name__ == "__main__":
