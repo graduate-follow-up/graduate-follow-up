@@ -19,7 +19,7 @@ export class AlumnusInformationsComponent implements OnInit {
   ngOnInit() {
     this.alumnus =  this.actionPerformed.getAlumnus();
 
-    this.alumniService.getAlumnusScrappingObservable(this.alumnus.first_name + '_' + this.alumnus.last_name).subscribe(
+    this.alumniService.getAlumnusScrappingObservable(this.alumnus.first_name + ' ' + this.alumnus.last_name).subscribe(
       object => {
         object.forEach(obj => {
         if (obj.entreprise) {
@@ -30,6 +30,10 @@ export class AlumnusInformationsComponent implements OnInit {
           this.scrappingResult = 'Location : ' + obj.location + ', ';
         }
 
+        if (obj.periode) {
+            this.scrappingResult = 'Periode : ' + obj.periode + ', ';
+          }
+
         if (obj.poste) {
           this.scrappingResult = 'Poste : ' + obj.poste;
         }
@@ -39,6 +43,7 @@ export class AlumnusInformationsComponent implements OnInit {
   }
 
   sendUpdateMailToAlumnus(id: string) {
+    console.log('Sending mail...');
     this.alumniService.updateMail(id);
   }
 }
