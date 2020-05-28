@@ -55,7 +55,7 @@ export class AlumnusService {
   }
 
   updateMail(id: string) {
-    return this.http.post('http://proxy/link/send-update-mail', '[' + id + ']')
+    return this.http.post('http://proxy/link/send-update-mail', [id])
       .pipe(catchError(ErrorService.handleError));
   }
 }

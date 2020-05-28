@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {ActionPerformedService} from '../service/actionPerformed.service';
 import {Alumnus} from '../../model/Alumnus';
 import {AlumnusService} from '../service/alumnus.service';
+import {error} from 'util';
 
 @Component({
   selector: 'app-alumnus-informations',
@@ -44,6 +45,9 @@ export class AlumnusInformationsComponent implements OnInit {
 
   sendUpdateMailToAlumnus(id: string) {
     console.log('Sending mail...');
-    this.alumniService.updateMail(id);
+    this.alumniService.updateMail(id).subscribe(
+      data => alert('mail envoyé'),
+       err => console.error(err)
+    );
   }
 }
