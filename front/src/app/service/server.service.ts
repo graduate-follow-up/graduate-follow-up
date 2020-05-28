@@ -13,9 +13,9 @@ export class ServerService {
 
   constructor( private http: HttpClient) { }
 
-  private urlConnect = 'http://proxy/connexion/login/';
-  private urlDeconnect = 'http://proxy/connexion/logout/';
-  private urlRefresh = 'http://proxy/connexion/token/';
+  private urlConnect = 'http://proxy/connexion/login';
+  private urlDeconnect = 'http://proxy/connexion/logout';
+  private urlRefresh = 'http://proxy/connexion/token';
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json'})
