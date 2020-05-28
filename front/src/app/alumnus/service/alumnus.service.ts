@@ -26,6 +26,10 @@ export class AlumnusService {
       );
   }
 
+  getAlumnusScrappingObservable(s: string): Observable<any> {
+    return this.http.get<any>('http://proxy/scrapping/' + s);
+  }
+
   getAlumnus(): Alumnus[] {
     return this.alumnusData; }
 
