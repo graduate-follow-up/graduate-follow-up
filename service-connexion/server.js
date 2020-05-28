@@ -2,6 +2,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
+const expressJwt = require('express-jwt');
 const axios = require('axios');
 
 
@@ -14,8 +15,23 @@ if(! process.env.JWT_ACCESS_TOKEN_SECRET || ! process.env.JWT_REFRESH_TOKEN_SECR
 const PORT = 80;
 const app = express();
 const ACCESS_TOKEN_EXPIRATION = 20;
+const SERVICE_ACCESS_TOKEN = jwt.sign({username: 'connexion',role: 'service',id: 'connexion'}, process.env.JWT_ACCESS_TOKEN_SECRET, {});
+axios.defaults.headers.common['Authorization'] = 'Bearer ' + SERVICE_ACCESS_TOKEN;
+
+// App
 app.use(bodyParser.json());
 
+// jwt
+app.use(expressJwt({ secret: process.env.JWT_ACCESS_TOKEN_SECRET }).unless({path: ['/login', '/token', '/logout']}))
+app.use((err, _req, res, _next) => {
+  if (err.name === 'UnauthorizedError') {
+    res.status(401).send('invalid token');
+  }
+});
+
+const ROLE = {
+    SERVICE: 'service'
+};
 
 let refreshTokens = [];
 
@@ -41,7 +57,7 @@ app.post('/login', (req, res) => {
     axios.post('http://service_user/check-user', {
         user : username,
         password: pwd
-    }).then(result => {
+    }).then(result => { 
         const {username, role: role, _id: id} = result.data;
         const payload = {username, role, id, expiration};
 
@@ -61,14 +77,11 @@ app.post('/login', (req, res) => {
     });
 });
 
-// A SUPPRIMER QUAND DEV FINI
-app.post('/active-refresh', (req,res) => {
-   res.status(200).send(JSON.stringify(refreshTokens))
-});
-
 const idsListRegex = /^([a-f\d]{24}(,[a-f\d]{24})*)$/i;
 // /login-token/5ebbfc19fc13ae528a000065,5ebbfc19fc13ae528a000066
 app.get('/alumni-token/:ids', (req,res) => {
+    if (!(req.user.role == ROLE.SERVICE && req.user.id == 'link')) return res.sendStatus(401);
+
     if(!req.params.ids.match(idsListRegex)) {
         res.status(400).send('Ids list required');
         return;
@@ -115,7 +128,7 @@ app.post('/logout', (req, res) => {
     const token = req.body.token;
     const success = { success_message: "Logout successful" }
 
-    if(refreshTokens.indexOf(token) > -1){
+    if(refreshTokens.includes(token)){
         refreshTokens = refreshTokens.filter(t => t !== token);
         jwt.verify(token, process.env.JWT_REFRESH_TOKEN_SECRET, (err, payload) => {
             if (err) {

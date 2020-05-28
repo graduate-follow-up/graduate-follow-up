@@ -2,7 +2,7 @@ package models
 
 case object LogType {
   val mailTypes : List[String] = List(
-    "FillMailSent",
+    "UpdateMailSent",
   )
 
   val alumniTypes : List[String] = List(

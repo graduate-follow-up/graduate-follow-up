@@ -4,6 +4,8 @@ const bodyParser = require('body-parser');
 const { MongoClient, ObjectId } = require('mongodb');
 const crypto = require('crypto');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const expressJwt = require('express-jwt');
 
 const databaseSchema = require('./database/schema.json');
 
@@ -14,12 +16,35 @@ const COLLECTION_NAME = 'users';
 const SALT_ROUND = 0 ; // otherwise execution is too long
 
 const PORT = 80;
+const ROLE = {
+  USER: 'prof',
+  RESPO: 'respo-option',
+  ADMIN: 'administrateur',
+  SERVICE: 'service'
+}
 
 // App
 const app = express();
 app.use(bodyParser.json());
 
 let collection;
+
+// Token verification
+app.use(expressJwt({ secret: process.env.JWT_ACCESS_TOKEN_SECRET }))
+app.use((err, _req, res, _next) => {
+  if (err.name === 'UnauthorizedError') {
+    res.status(401).send('invalid token');
+  }
+});
+
+function log(logType, {id: actorId, role: actorRole}, subjectId) {
+    axios.post('http://service_logs/', {
+        "logType": logType,
+        "actorId": actorId,
+        "actorRole":  actorRole,
+        "subjectId": subjectId
+    }).catch(error => console.error(error.message));
+}
 
 MongoClient.connect(MONGODB_URI, {useUnifiedTopology: true}, function(err, client) {
   if(err) throw err;
@@ -43,11 +68,13 @@ MongoClient.connect(MONGODB_URI, {useUnifiedTopology: true}, function(err, clien
 
 
 app.get('/', (req, res) => {
+  if (req.user.role !== ROLE.ADMIN) return res.sendStatus(401);
+
   collection.find({}).toArray(function(err, docs) {
     if(err) {
       res.status(500).send(err);
     } else {
-      res.send(docs);
+      res.status(200).send(docs);
     }
   });
 });
@@ -55,7 +82,8 @@ app.get('/', (req, res) => {
 // On login -> service connexion asks service user to check user & pwd :
 //       - If user & pwd correct : sends user role
 //       - If user or pwd incorrect : sends status code 404 .
-app.post('/check-user',(req, res) => {
+app.post('/check-user', (req, res) => {
+  if(!(req.user.role == ROLE.SERVICE && req.user.id == 'connexion')) return res.sendStatus(401);
 
   const usr = req.body.user;
   const pwd = req.body.password;
@@ -77,30 +105,30 @@ app.post('/check-user',(req, res) => {
             res.status(404).send();
           }
         });
-
       }
     }
   });
-
-
 });
 
+
 app.get('/:userId', (req, res) => {
+  if(req.user.role != ROLE.ADMIN && req.user.id != req.params.userId) return res.sendStatus(401);
+
   collection.find({_id: ObjectId(req.params.userId)}).project({salt:0, hashed: 0}).toArray(function (err, docs) {
     if(err) {
       res.status(500).send(err);
-    } else {
-      if(docs.length === 0 ){
-        res.status(404).send("Not found.");
-      }else{
-        res.status(200).send(docs[0]);
-      }
+    } else if(docs.length === 0 ){
+      res.status(404).send('Not found.');
+    } else{
+      res.status(200).send(docs[0]);
     }
   });
 });
 
 
 app.post('/', (req, res) => {
+  if (req.user.role != ROLE.ADMIN) return res.sendStatus(401);
+
   let document = req.body;
   let password = req.body.password;
   delete document['password'];
@@ -117,6 +145,7 @@ app.post('/', (req, res) => {
         if(err) {
           res.status(500).send(err);
         } else {
+          log("UserCreated", req.user, resMongo.insertedId);
           res.status(200).send(resMongo.insertedId);
         }
       });
@@ -125,7 +154,15 @@ app.post('/', (req, res) => {
 })
 
 
+// Un respo d'option ou un utilisateur peut modifier son propre profil user SAUF le champ statut (role) et _id.
+// Admin peut tout changer
 app.put('/:userId', (req, res) => {
+  if(req.user.role != ROLE.ADMIN && req.user.id != req.params.userId) return res.sendStatus(401);
+
+  let illegalOperation = (req.user.role !== ROLE.ADMIN && req.body.role);
+
+  if(illegalOperation) return res.sendStatus(403);
+
   let update = req.body;
   if (req.body.salt) delete update['salt'] ;
   if (req.body.hashed) delete update['hashed'];
@@ -133,30 +170,28 @@ app.put('/:userId', (req, res) => {
   // if (req.body.role) delete update['statut'] ;
 
   update = {$set : update};
-
   collection.updateOne({_id: ObjectId(req.params.userId)}, update, (err,resMongo) => {
     if(err) {
       res.status(400).send(err);
+    } else if(resMongo.matchedCount == 0) {
+      res.status(404).send('No matching element found.');
     } else {
-      switch (resMongo.matchedCount) {
-        case 0:
-          res.status(404).send("No matching element found.");
-          break;
-        case 1:
-          res.status(204).send('Element successfully updated');
-          break;
-      }
+      log("UserModified", req.user, req.params.userId);
+      res.status(204).send('Element successfully updated');
     }
   });
 });
 
 
-  app.delete('/:userId', (req, res) => {
-  collection.deleteOne({"_id": ObjectId(req.params.userId)}, (err, resMongo) => {
+app.delete('/:userId',(req, res) => {
+  if (req.user.role != ROLE.ADMIN) return res.sendStatus(401);
+
+  collection.deleteOne({_id: ObjectId(req.params.userId)}, (err, resMongo) => {
     if(err) {
       res.status(500).send(err);
     } else {
       // Send a 404 if no document were deleted
+      log("UserDeleted", req.user, req.params.userId);
       res.sendStatus(resMongo.deletedCount > 0 ? 204 : 404);
     }
   });
