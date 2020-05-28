@@ -6,6 +6,7 @@ const crypto = require('crypto');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const expressJwt = require('express-jwt');
+const axios = require('axios');
 
 const databaseSchema = require('./database/schema.json');
 
