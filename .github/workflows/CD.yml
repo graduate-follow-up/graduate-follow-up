@@ -19,7 +19,7 @@ jobs:
         ref: ${{ github.ref }}
 
     - name: Build docker-compose
-      run: docker-compose build
+      run: ./install.sh && docker-compose build
 
     - name: Run deploy script
       uses: maddox/actions/ssh@064c408

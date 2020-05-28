@@ -14,11 +14,12 @@ if(! process.env.JWT_ACCESS_TOKEN_SECRET || ! process.env.JWT_REFRESH_TOKEN_SECR
 // App
 const PORT = 80;
 const app = express();
-const ACCESS_TOKEN_EXPIRATION = 20;
+
 const SERVICE_ACCESS_TOKEN = jwt.sign({username: 'connexion',role: 'service',id: 'connexion'}, process.env.JWT_ACCESS_TOKEN_SECRET, {});
 axios.defaults.headers.common['Authorization'] = 'Bearer ' + SERVICE_ACCESS_TOKEN;
 
 // App
+const ACCESS_TOKEN_EXPIRATION = 20;
 app.use(bodyParser.json());
 
 // jwt
@@ -99,8 +100,9 @@ app.get('/alumni-token/:ids', (req,res) => {
 app.post('/token', (req, res) => {
     const refreshToken = req.body.token;
     const expiration =  {expiresIn: ACCESS_TOKEN_EXPIRATION };
+
     if (!refreshToken) {
-        return res.sendStatus(401);
+        return res.sendStatus(400);
     }
 
     if (!refreshTokens.includes(refreshToken)) {
@@ -135,9 +137,9 @@ app.post('/logout', (req, res) => {
                 return res.sendStatus(400);
             }
             log('LoggedOut', payload);
-            res.status(200).send(JSON.stringify(success));
+            res.status(200).send(success);
         });
-    }else{
+    } else {
         return res.sendStatus(400);
     }
 });

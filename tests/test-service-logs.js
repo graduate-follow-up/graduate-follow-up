@@ -39,7 +39,7 @@ describe('service_logs', () => {
       assert.fail('did not failed');
     });
 
-    it.skip('should not work when using an admin token', async () => {
+    it('should not work when using an admin token', async () => {
       try {
         await axios.asAdmin.post('/logs/', createLog('AlumniModified'));
       } catch (error) {
@@ -52,7 +52,7 @@ describe('service_logs', () => {
   });
   
   describe('GET /', () => {
-    it.skip('should not return anything as user', async () => {
+    it('should not return anything as user', async () => {
       try {
         await axios.asUser.get('/logs');
       } catch(error) {
@@ -72,19 +72,19 @@ describe('service_logs', () => {
       });
     });
 
-    it.skip('should return only alumnis events when querying as respo', async () => {
+    it('should return only alumnis events when querying as respo', async () => {
       let res = await axios.asRespo.get('/logs');
       res.status.should.equal(200);
       res.data.should.be.an('array')
       res.data.every(log => {
-        log.should.have.keys('id','date','logType','actorRole','actorId');
+        log.should.include.all.keys('id','date','logType','actorRole','actorId');
         log.logType.should.satisfy(type => alumniLogTypes.includes(type));
       });
     });
   });
 
   describe('GET /page/:pageId', () => {
-    it.skip('should not return anything as user', async () => {
+    it('should not return anything as user', async () => {
       try {
         await axios.asUser.get('/logs');
       } catch(error) {
@@ -127,12 +127,12 @@ describe('service_logs', () => {
       });
     });
 
-    it.skip('should return only alumnis events when querying as respo', async () => {
+    it('should return only alumnis events when querying as respo', async () => {
       let res = await axios.asRespo.get('/logs/page/1');
       res.status.should.equal(200);
       res.data.should.be.an('array')
       res.data.every(log => {
-        log.should.have.keys('id','date','logType','actorRole','actorId');
+        log.should.include.all.keys('id','date','logType','actorRole','actorId');
         log.logType.should.satisfy(type => alumniLogTypes.includes(type));
       });
     });

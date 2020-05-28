@@ -6,6 +6,9 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.http.HttpResponse;
+import java.rmi.ServerException;
 import java.util.stream.Stream;
 
 import static service.statistique.app.HttpService.getAlumniResponse;
@@ -17,10 +20,15 @@ public class AlumniService {
 
     /*Method*/
     // Transform response to stream
-    public static Stream<JSONObject> getAlumniStream() throws IOException, InterruptedException, ParseException {
+    public static Stream<JSONObject> getAlumniStream() throws IOException, InterruptedException, ParseException, URISyntaxException {
 
-        JSONArray alumniArray = (JSONArray) jsonParser.parse(getAlumniResponse().body());
+        HttpResponse<String> response = getAlumniResponse();
 
+        if(response.statusCode() != 200) {
+            throw new ServerException("Request failed");
+        }
+
+        JSONArray alumniArray = (JSONArray) jsonParser.parse(response.body());
         return alumniArray.stream();
     }
 

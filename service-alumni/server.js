@@ -35,7 +35,7 @@ app.use((err, _req, res, _next) => {
   }
 });
 
-var collection;
+let collection;
 
 function log(logType, {id: actorId, role: actorRole}, subjectId) {
     axios.post('http://service_logs/', {

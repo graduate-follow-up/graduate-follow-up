@@ -13,7 +13,6 @@ COPY . .
 # Compile
 RUN sbt stage
 
-EXPOSE 9000
+EXPOSE 80
 
-# TODO change key
-CMD ["/server/target/universal/stage/bin/service-logs", "-Dplay.http.secret.key=jrqmPXf8cWo2kQToLGiEtfnQjXarKTUF"]
+CMD /server/target/universal/stage/bin/service-logs -Dplay.http.secret.key=$JWT_ACCESS_TOKEN_SECRET

@@ -14,6 +14,7 @@ public  class HttpService {
     /* Variable */
     // Url of service Alumni
     private final static String url = "http://proxy/alumnis/";
+    private final static String serviceToken = "Bearer " + JwtTokenUtil.createServiceJWT();
     // Initialize client
     private final static HttpClient client = HttpClient.newBuilder()
             .version(HttpClient.Version.HTTP_2)
@@ -27,6 +28,7 @@ public  class HttpService {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(url))
                 .header("Content-Type", "application/json")
+                .header("Authorization", serviceToken)
                 .GET()
                 .build();
 

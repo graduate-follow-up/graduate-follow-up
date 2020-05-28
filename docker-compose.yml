@@ -85,6 +85,8 @@ services:
     build:  ./service-stats/
     networks:
       - proxy
+    env_file:
+      - ./.env/api.env
 
   # Service Front   
   service_logs:
@@ -94,6 +96,8 @@ services:
       - internal_logs
     depends_on:
       - database_logs
+    env_file:
+      - ./.env/api.env
 
   database_logs:
     image: mysql:5.7

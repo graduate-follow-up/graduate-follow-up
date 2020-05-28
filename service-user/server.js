@@ -91,21 +91,19 @@ app.post('/check-user', (req, res) => {
   collection.find({login: usr}).project({ role: 1, salt : 1, hashed: 1 }).toArray(function (err, docs) {
     if(err) {
       res.status(500).send(err);
+    } else if(docs.length === 0){
+      res.status(404).send();
     } else {
-      if(docs.length === 0){
-        res.status(404).send();
-      }else{
-        bcrypt.compare( pwd + docs[0].salt , docs[0].hashed, function(err, response) {
-          if(response) {
-            delete docs[0]['salt'];
-            delete docs[0]['hashed'];
-            res.status(200).send(docs[0]);
-          } else {
-            // hash don't match
-            res.status(404).send();
-          }
-        });
-      }
+      bcrypt.compare( pwd + docs[0].salt , docs[0].hashed, function(err, response) {
+        if(response) {
+          delete docs[0]['salt'];
+          delete docs[0]['hashed'];
+          res.status(200).send(docs[0]);
+        } else {
+          // hash don't match
+          res.status(404).send();
+        }
+      });
     }
   });
 });
@@ -134,7 +132,7 @@ app.post('/', (req, res) => {
   delete document['password'];
 
   crypto.randomBytes(256, (err, buf) => {
-    if (err) res.status(500).send(err);
+    if (err) return res.status(500).send(err);
 
     let salt = buf.toString('hex');
     document["salt"] = salt;
@@ -150,8 +148,8 @@ app.post('/', (req, res) => {
         }
       });
     });
-  })
-})
+  });
+});
 
 
 // Un respo d'option ou un utilisateur peut modifier son propre profil user SAUF le champ statut (role) et _id.
@@ -160,7 +158,6 @@ app.put('/:userId', (req, res) => {
   if(req.user.role != ROLE.ADMIN && req.user.id != req.params.userId) return res.sendStatus(401);
 
   let illegalOperation = (req.user.role !== ROLE.ADMIN && req.body.role);
-
   if(illegalOperation) return res.sendStatus(403);
 
   let update = req.body;

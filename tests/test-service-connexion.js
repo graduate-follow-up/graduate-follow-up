@@ -72,6 +72,7 @@ describe('service_connexion', () => {
 
   describe('POST /logout', () => {
     it('should logout', async () => {
+      assert.isNotNull(tokens.respo);
       let res = await axios.withoutToken.post('/connexion/logout', { token : tokens.respo.refreshToken });
       res.status.should.equal(200);
       res.data.should.equal('Logout successful');
@@ -80,12 +81,14 @@ describe('service_connexion', () => {
 
   describe('POST /token', () => {
     it('should refresh the token', async () => {
+      assert.isNotNull(tokens.admin);
       let res = await axios.withoutToken.post('/connexion/token', { token : tokens.admin.refreshToken });
       res.status.should.equal(200);
       res.data.should.have.property('accessToken');
     });
 
     it('should not refresh the disconnected token', async () => {
+      assert.isNotNull(tokens.respo);
       try {
         await axios.withoutToken.post('/connexion/token', { token : tokens.respo.refreshToken });
       } catch(error) {
