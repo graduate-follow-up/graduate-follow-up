@@ -33,6 +33,14 @@ app.listen(PORT, () => {
     console.log(`Listening to port ${PORT}`);
 });
 
+function log(logType, {id: actorId, role: actorRole}) {
+    axios.post('http://service_logs/', {
+        "logType": logType,
+        "actorId": actorId,
+        "actorRole":  actorRole
+    }).catch(error => console.error(error.message));
+}
+
 function buildUpdateLink(token) {
     return [process.env.PROXY_URL, 'login', token].join('/');
 }
@@ -57,18 +65,19 @@ app.post('/send-update-mail', (req, res) => {
                 if(!(alumni._id in tokens)) {
                     throw new Error('Alumni token not found');
                 }
-                
+
                 alumni['link'] = buildUpdateLink(tokens[alumni._id]);
                 return alumni;
             });
 
         // We use the original sender's auth token
-        axios.post('http://service_mail/mailmaj', alumnisWithLinks, { 
+        axios.post('http://service_mail/mailmaj', alumnisWithLinks, {
             headers: {
                 'Authorization': req.headers['authorization']
             }
         }).then(() => {
             res.sendStatus(200);
+            log("UpdateMailSent", payload);
         }).catch(error => res.status(error.status | 500).send(error.message));
     }).catch(error => res.status(error.status | 500).send(error.message))
 });
