@@ -137,9 +137,9 @@ app.post('/', (req, res) => {
 
 app.put('/:alumniId', (req, res) => {
   if (![ROLE.USER, ROLE.RESPO, ROLE.ADMIN, ROLE.ALUMNI].includes(req.user.role)) return res.sendStatus(401);
-  if(req.user.role == ROLE.ALUMNI && req.user.id != req.params.id) return res.sendStatus(401);
+  if(req.user.role == ROLE.ALUMNI && req.user.id != req.params.alumniId) return res.sendStatus(401);
 
-  const accessVerification = (req.user.role == ROLE.ADMIN || req.user.role == ROLE.RESPO) ? Promise.resolve() : checkIfMyself(req.params.alumniId, req.user.id);
+  const accessVerification = [ROLE.RESPO, ROLE.ADMIN, ROLE.ALUMNI].includes(req.user.role) ? Promise.resolve() : checkIfMyself(req.params.alumniId, req.user.id);
 
   accessVerification.then(() => {
     let update = {$set : req.body};
@@ -178,7 +178,7 @@ app.get('/schema', (_req, res) => {
 
 app.get('/:alumniId', (req, res) => {
   if (![ROLE.USER, ROLE.RESPO, ROLE.ADMIN, ROLE.ALUMNI].includes(req.user.role)) return res.sendStatus(401);
-  if(req.user.role == ROLE.ALUMNI && req.user.id != req.params.id) return res.sendStatus(401);
+  if(req.user.role == ROLE.ALUMNI && req.user.id != req.params.alumniId) return res.sendStatus(401);
 
   let projection = (req.user.role === ROLE.USER) ? { first_name: 0, last_name:0, email: 0, phone: 0 } : '';
   collection.find({_id: ObjectId(req.params.alumniId)}).project(projection).toArray(function (err, docs) {

@@ -5,6 +5,7 @@ import {AlumnusService} from '../service/alumnus.service';
 import {DataOptionService} from '../../service/dataOption.service';
 import {FormBuilder} from '@angular/forms';
 import {ErrorService} from '../../service/error.service';
+import {ConnectionService} from '../../login/services/connection.service';
 
 
 @Component({
@@ -24,6 +25,7 @@ export class AlumnusEditByUrlComponent implements OnInit {
   constructor(private route: ActivatedRoute,
               private alumniService: AlumnusService,
               private dataOptionService: DataOptionService,
+              private connectionService: ConnectionService,
               private router: Router,
               private formBuilder: FormBuilder,
               private errorService: ErrorService
@@ -84,7 +86,10 @@ export class AlumnusEditByUrlComponent implements OnInit {
 
   onclickSubmit(formData) {
     this.alumniService.update(this.alumnusId, formData).subscribe(
-        data => this.router.navigate(['']),
+        data => {
+          this.connectionService.logout();
+          this.router.navigate(['']);
+        },
         error => this.errorMsg = this.errorService.getErrorMessage()
       );
     }

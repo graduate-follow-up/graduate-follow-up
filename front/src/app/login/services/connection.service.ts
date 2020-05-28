@@ -44,7 +44,7 @@ export class ConnectionService {
   }
 
   isLoggedIn() {
-    return (localStorage.getItem('refreshToken') !== null && this.isConnected);
+    return (localStorage.getItem('accessToken') !== null && this.isConnected);
   }
 
   stockConnection(token: Token) {

@@ -18,7 +18,8 @@ export class LoginTokenComponent implements OnInit {
     this.route.params.subscribe(
       obj => {
         this.connexionService.useToken(new AccessToken(obj.token));
-        this.router.navigate(['/alumnus/modify/' + obj.token]);
+        let id = localStorage.getItem('id');
+        this.router.navigate(['/alumnus/modify/' + id]);
       }
   );
   }
