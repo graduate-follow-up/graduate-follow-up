@@ -97,8 +97,9 @@ app.get('/alumni-token/:ids', (req,res) => {
             expiration: {
                 expiresIn: 24*60
             }
-        }
-        signedTokens[id] = jwt.sign(, process.env.JWT_ACCESS_TOKEN_SECRET, {expiresIn: '120m'});
+        };
+        
+        signedTokens[id] = jwt.sign(payload, process.env.JWT_ACCESS_TOKEN_SECRET, {expiresIn: '120m'});
     });
 
     res.status(200).send(signedTokens);
