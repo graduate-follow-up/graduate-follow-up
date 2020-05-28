@@ -85,7 +85,11 @@ MongoClient.connect(MONGODB_URI, {useUnifiedTopology: true}, function(err, clien
 
 
 app.get('/', (req, res) => {
+  if (![ROLE.USER, ROLE.RESPO, ROLE.ADMIN, ROLE.ALUMNI].includes(req.user.role)) return res.sendStatus(401);
+  if(req.user.role == ROLE.ALUMNI && req.user.id != req.params.id) return res.sendStatus(401);
+
   let projection = (req.user.role === ROLE.USER) ? { first_name: 0, last_name:0, email: 0, phone: 0 } : '';
+
   collection.find({}).project(projection).toArray(function(err, docs) {
     if(err) {
       res.status(500).send(err);
@@ -132,7 +136,8 @@ app.post('/', (req, res) => {
 })
 
 app.put('/:alumniId', (req, res) => {
-  if (![ROLE.USER, ROLE.RESPO, ROLE.ADMIN].includes(req.user.role)) return res.sendStatus(401);
+  if (![ROLE.USER, ROLE.RESPO, ROLE.ADMIN, ROLE.ALUMNI].includes(req.user.role)) return res.sendStatus(401);
+  if(req.user.role == ROLE.ALUMNI && req.user.id != req.params.id) return res.sendStatus(401);
 
   const accessVerification = (req.user.role == ROLE.ADMIN || req.user.role == ROLE.RESPO) ? Promise.resolve() : checkIfMyself(req.params.alumniId, req.user.id);
 

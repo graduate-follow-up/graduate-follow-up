@@ -36,7 +36,9 @@ export class AlumnusInformationsComponent implements OnInit {
 
         console.log(obj); }); }
     );
-
   }
 
+  sendUpdateMailToAlumnus(id: string) {
+    this.alumniService.updateMail(id);
+  }
 }

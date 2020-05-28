@@ -1,9 +1,9 @@
-export class Token {
+import {AccessToken} from './AccessToken';
+
+export class Token extends AccessToken {
   constructor(receivedRefreshToken: string, receivedAccessToken: string) {
-    this.accessToken = receivedAccessToken;
+    super(receivedRefreshToken);
     this.refreshToken = receivedRefreshToken;
   }
-
-  accessToken: string;
   refreshToken: string;
 }

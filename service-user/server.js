@@ -70,7 +70,7 @@ MongoClient.connect(MONGODB_URI, {useUnifiedTopology: true}, function(err, clien
 app.get('/', (req, res) => {
   if (req.user.role !== ROLE.ADMIN) return res.sendStatus(401);
 
-  collection.find({}).toArray(function(err, docs) {
+  collection.find({}).project({salt:0, hashed: 0}).toArray(function(err, docs) {
     if(err) {
       res.status(500).send(err);
     } else {

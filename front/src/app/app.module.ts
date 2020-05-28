@@ -21,8 +21,10 @@ import {HTTP_INTERCEPTORS} from '@angular/common/http';
 import {TokenInterceptor} from './login/token.interceptor';
 import { ToastrModule } from 'ngx-toastr';
 import {UserComponent} from './user/user/user.component';
+import { LoginTokenComponent } from './login-token/login-token.component';
 
 const Routes = [
+  {path: 'loginToken/:token', component: LoginTokenComponent},
   {path: 'RGPD', component: RGPDComponent},
   {path: 'stats', component: StatsComponent, canActivate: [AuthGuardGuard]},
   {path: 'user', component: UserComponent, canActivate: [AuthGuardGuard]},
@@ -34,7 +36,8 @@ const Routes = [
     AppComponent,
     HeaderComponent,
     RGPDComponent,
-    StatsComponent
+    StatsComponent,
+    LoginTokenComponent
   ],
   imports: [
     NgbAlertModule,

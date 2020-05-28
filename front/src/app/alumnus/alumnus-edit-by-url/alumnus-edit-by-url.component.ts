@@ -39,11 +39,9 @@ export class AlumnusEditByUrlComponent implements OnInit {
     this.route.params.subscribe(
       obj => {
         this.alumnusId = obj.id;
-        this.alumniService.getAlumnusObservable().forEach(
-          al => this.allAlumnus = al
-        ).then(() => {
-          this.alumnus = this.allAlumnus.find(al => (al._id === this.alumnusId));
-          this.checkoutForm = this.formBuilder.group({
+        this.alumniService.getOneAlumnus(obj.id).subscribe(
+          al => {this.alumnus = al;
+                 this.checkoutForm = this.formBuilder.group({
             first_name: this.alumnus.first_name,
             last_name : this.alumnus.last_name,
             email: this.alumnus.email,
@@ -56,9 +54,7 @@ export class AlumnusEditByUrlComponent implements OnInit {
             graduation: this.alumnus.graduation,
             wage: this.alumnus.wage,
             phone: this.alumnus.phone
-          });
-        });
-
+          }); });
       }
     ); // .then( () => console.log('waaaaaaaaaaa' )
       /*this.alumniService.getAlumnusObservable().subscribe(
