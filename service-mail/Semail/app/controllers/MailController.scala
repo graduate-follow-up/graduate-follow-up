@@ -9,8 +9,8 @@ import scala.util._
 
 
 
-
 class MailController @Inject() (mailerClient: MailerClient) extends Controller  {
+
 
   def home() = Action{
     Ok(s"Welcome Home")
