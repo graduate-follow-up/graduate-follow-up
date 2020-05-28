@@ -1,9 +1,9 @@
 import {Name} from './Name';
 
-export class User {
-  _id: string;
+export class UserWithoutId {
+  id: number;
   login: string;
   role: string;
-  name: Name ;
+  name: Name;
   email: string;
 }

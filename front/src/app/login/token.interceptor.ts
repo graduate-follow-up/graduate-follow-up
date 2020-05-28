@@ -20,7 +20,7 @@ export class TokenInterceptor implements HttpInterceptor {
   constructor(public toasterService: ToastrService, public connection: ConnectionService) {}
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-
+    // if (this.connection.isConnected && this.connection.isTokenExpired()) { this.connection.refreshToken(); }
     request = request.clone({
       setHeaders: {
         Authorization: `Bearer ${this.connection.getAccessToken()}`
@@ -29,9 +29,9 @@ export class TokenInterceptor implements HttpInterceptor {
     return next.handle(request).pipe(
       tap(event => {}),
       catchError((err: any) => {
-        let msg = err.error;
-        if (err.error === 'invalid token') { msg = 'Token has been refreshed, please retry'; }
-        this.toasterService.error(msg, err.error.title, { positionClass: 'toast-top-center' });
+        // let msg = err.error;
+        // if (err.error === 'invalid token') { msg = 'Token has been refreshed, please retry'; }
+        this.toasterService.error(err.error, err.error.title, { positionClass: 'toast-top-center' });
         if (this.connection.isTokenExpired()) {
           this.connection.refreshToken();
         }
