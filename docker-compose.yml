@@ -119,6 +119,12 @@ services:
     networks:
       - proxy
 
+  # Service sparql    
+  service_sparql:
+    build: ./service-sparql/
+    networks: 
+      - proxy
+
 volumes:
   database_user_db:
   database_user_configdb:
